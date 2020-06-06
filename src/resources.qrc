@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/PointItem.qml</file>
+        <file>qml/LineItem.qml</file>
+        <file>qml/MenuDelegate.qml</file>
+        <file>qml/WorkZone.qml</file>
+        <file>qml/ControlsBar.qml</file>
+        <file>qml/ResultsZone.qml</file>
+        <file>qml/CustomMenuSeparator.qml</file>
+        <file>qml/ControlBackground.qml</file>
+        <file>qml/CustomButton.qml</file>
+        <file>qml/ParametersWindow.qml</file>
+        <file>QtLanguage_ru.qm</file>
+    </qresource>
+</RCC>
