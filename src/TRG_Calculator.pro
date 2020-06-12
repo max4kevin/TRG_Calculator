@@ -49,6 +49,7 @@ DISTFILES += \
     qml/PointItem.qml \
     qml/LineItem.qml \
     qml/MenuDelegate.qml \
+    qml/PointsZone.qml \
     qml/ResultsZone.qml \
     qml/RightPanel.qml \
     qml/WorkZone.qml \

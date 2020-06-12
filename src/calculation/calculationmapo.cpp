@@ -5,32 +5,28 @@ CalculationMAPO::CalculationMAPO(IFrontendConnector& frontendConnector)
 : CalculationBase (frontendConnector)
 {
     Point tempPoint = {QPoint(0, 0), false, REGULAR_COLOR, true, true, true};
-    pointsNames_.append("S");
-    pointsNames_.append("N");
-    pointsNames_.append("A");
-    pointsNames_.append("B");
-    pointsNames_.append("Pog");
-    pointsNames_.append("C");
-    pointsNames_.append("6");
-    pointsNames_.append("Se");
-    pointsNames_.append("PNS");
-    pointsNames_.append("ANS");
-    pointsNames_.append("Go'");
-    pointsNames_.append("Ar");
-    pointsNames_.append("Rc");
-    pointsNames_.append("Is");
-    pointsNames_.append("Ias");
-    pointsNames_.append("Ii");
-    pointsNames_.append("Iai");
-    pointsNames_.append("1");
-    pointsNames_.append("Me");
-    pointsNames_.append("Go");
-    pointsNames_.append("Gn");
 
-    for (auto nameIt = pointsNames_.begin()+2; nameIt!=pointsNames_.end(); ++nameIt)
-    {
-        points_.insert(*nameIt, tempPoint);
-    }
+    workPoints_.append(points_.insert("S", tempPoint));
+    workPoints_.append(points_.insert("N", tempPoint));
+    workPoints_.append(points_.insert("A", tempPoint));
+    workPoints_.append(points_.insert("B", tempPoint));
+    workPoints_.append(points_.insert("Pog", tempPoint));
+    workPoints_.append(points_.insert("C", tempPoint));
+    workPoints_.append(points_.insert("6", tempPoint));
+    workPoints_.append(points_.insert("Se", tempPoint));
+    workPoints_.append(points_.insert("PNS", tempPoint));
+    workPoints_.append(points_.insert("ANS", tempPoint));
+    workPoints_.append(points_.insert("Go'", tempPoint));
+    workPoints_.append(points_.insert("Ar", tempPoint));
+    workPoints_.append(points_.insert("Rc", tempPoint));
+    workPoints_.append(points_.insert("Is", tempPoint));
+    workPoints_.append(points_.insert("Ias", tempPoint));
+    workPoints_.append(points_.insert("Ii", tempPoint));
+    workPoints_.append(points_.insert("Iai", tempPoint));
+    workPoints_.append(points_.insert("1", tempPoint));
+    workPoints_.append(points_.insert("Me", tempPoint));
+    workPoints_.append(points_.insert("Go", tempPoint));
+    workPoints_.append(points_.insert("Gn", tempPoint));
 
     //Additional points
 

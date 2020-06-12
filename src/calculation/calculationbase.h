@@ -68,8 +68,7 @@ class CalculationBase
         void clearAll();
         void movePoint(const QString& pointName, qreal x, qreal y); //TODO: Setting colour
         void saveData(const QString& path, const QString& name);
-        void getPoints(QVector<Point>& result);
-        int getPointsNumber();
+        const QVector<Points::Iterator>& getPoints() const;
         void loadPoints(const QVector<Point>& points);
 
         static void setCalibrationLength(qreal length);
@@ -81,9 +80,9 @@ class CalculationBase
         void updateResult(const QString& resultName);
         void updatePoint(const QString& pointName);
         qreal getCalibrationValue();
-        //TODO: QHash Iterators vector instead of QStrings? Checking size for safety
-        QVector<QString> pointsNames_; //For points ordering
+
         Points points_;
+        QVector<Points::Iterator> workPoints_; //For points ordering
         ResultsTable resultsTable_;
         QVector<ResultsTable::Iterator> results_; //For results ordering
 
@@ -95,7 +94,7 @@ class CalculationBase
 
         IFrontendConnector& frontendConnector_;
         qreal calibrationValue_ = 1; //mm/px
-        QVector<QString>::Iterator nameIt_;
+        QVector<Points::Iterator>::Iterator workPointsIt_;
         PointsHistory undoHistory_;
         PointsHistory redoHistory_;
 

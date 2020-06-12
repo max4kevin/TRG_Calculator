@@ -4,9 +4,12 @@
 
 #define MAPO_CODE 0xBAF0
 
+//TODO: Resending text fields to frontend after language switch
+
 BackEnd::BackEnd(QGuiApplication &app)
     : QQuickImageProvider(QQuickImageProvider::Image), app_(&app), calculationMethodMAPO_(*this), actualCalculationMethod_(&calculationMethodMAPO_)
 {
+    //TODO: Check language load, if false - load English
     qtTranslator_.load(QLatin1String("QtLanguage_")+QLocale::system().name(), QLatin1String(":/"));
     app.installTranslator(&qtTranslator_);
 }
@@ -106,7 +109,7 @@ void BackEnd::openFile(const QString& filePath)
             }
             //reading points and image
             QVector<Point> points;
-            for (auto i = 0; i < actualCalculationMethod_->getPointsNumber(); ++i)
+            for (auto i = 0; i < actualCalculationMethod_->getPoints().size(); ++i)
             {
                 Point point;
                 stream >> point.coordinates;
@@ -183,16 +186,15 @@ void BackEnd::saveFile(const QString& filePath)
         QDataStream stream(&file);
         stream.setVersion(QDataStream::Qt_4_7);
         stream << code;
-        QVector<Point> points;
-        actualCalculationMethod_->getPoints(points);
+        const QVector<Points::Iterator>& points = actualCalculationMethod_->getPoints();
         for (auto &p: points)
         {
-            stream << p.coordinates;
-            stream << p.isReady;
-            stream << p.color;
-            stream << p.isTilted;
-            stream << p.isEntilted;
-            stream << p.isVisible;
+            stream << p.value().coordinates;
+            stream << p.value().isReady;
+            stream << p.value().color;
+            stream << p.value().isTilted;
+            stream << p.value().isEntilted;
+            stream << p.value().isVisible;
         }
         stream << image_;
         if(stream.status() != QDataStream::Ok)

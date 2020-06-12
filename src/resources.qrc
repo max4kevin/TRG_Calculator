@@ -14,5 +14,6 @@
         <file>QtLanguage_ru.qm</file>
         <file>qml/ResultsZone.qml</file>
         <file>qml/CustomTabButton.qml</file>
+        <file>qml/PointsZone.qml</file>
     </qresource>
 </RCC>

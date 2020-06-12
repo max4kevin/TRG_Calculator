@@ -5,15 +5,11 @@
 #include <QGuiApplication>
 
 CalculationBase::CalculationBase(IFrontendConnector& frontendConnector)
-    :frontendConnector_(frontendConnector), nameIt_(pointsNames_.begin())
+    :frontendConnector_(frontendConnector), workPointsIt_(workPoints_.begin())
 {
     Point tempPoint = {QPoint(0, 0), false, CALIB_COLOR, false, false, true};
-    pointsNames_.append("Calibration Point 1");
-    pointsNames_.append("Calibration Point 2");
-    for (auto &name : pointsNames_)
-    {
-        points_.insert(name, tempPoint);
-    }
+    workPoints_.append(points_.insert("Calibration Point 1", tempPoint));
+    workPoints_.append(points_.insert("Calibration Point 2", tempPoint));
 }
 
 qreal CalculationBase::calibrationLength_ = 40;
@@ -46,14 +42,14 @@ void CalculationBase::writeCoordinates(qreal x, qreal y)
         qDebug() << "writeCoordinates(): points_.size() == 0";
         return;
     }
-    if (nameIt_ != pointsNames_.end())
+    if (workPointsIt_ != workPoints_.end())
     {
-        saveState({*nameIt_, points_[*nameIt_]});
-        points_[*nameIt_].coordinates = QPointF(x,y);
-        points_[*nameIt_].isReady = true;
-        updatePoint(*nameIt_);
-        qDebug() << *nameIt_ << points_[*nameIt_].coordinates;
-        updateCalculation(*nameIt_);
+        saveState({workPointsIt_->key(), workPointsIt_->value()});
+        workPointsIt_->value().coordinates = QPointF(x,y);
+        workPointsIt_->value().isReady = true;
+        updatePoint(workPointsIt_->key());
+        qDebug() << workPointsIt_->key() << workPointsIt_->value().coordinates;
+        updateCalculation(workPointsIt_->key());
         recalculateIt();
     }
     else
@@ -173,31 +169,23 @@ void CalculationBase::saveData(const QString& path, const QString& name)
     qDebug() << "File saved";
 }
 
-void CalculationBase::getPoints(QVector<Point>& result)
+const QVector<Points::Iterator>& CalculationBase::getPoints() const
 {
-    for (auto &name: pointsNames_)
-    {
-        result.append(points_[name]);
-    }
-}
-
-int CalculationBase::getPointsNumber()
-{
-    return pointsNames_.size();
+    return workPoints_;
 }
 
 void CalculationBase::loadPoints(const QVector<Point>& points)
 {
-    if (points.size() != pointsNames_.size()) {
+    if (points.size() != workPoints_.size()) {
         qDebug() << "Error: wrong points vector size!";
     }
     reset();
     auto p = points.begin();
-    for (auto &name: pointsNames_)
+    for (auto &it: workPoints_)
     {
-        points_[name] = *p;
-        updatePoint(name);
-        updateCalculation(name);
+        it.value() = *p;
+        updatePoint(it.key());
+        updateCalculation(it.key());
         ++p;
     }
     recalculateIt();
@@ -240,24 +228,24 @@ qreal CalculationBase::getCalibrationValue()
 
 void CalculationBase::clearFrom(int number)
 {
-    if ((number>=0)&&(number < pointsNames_.size()))
+    if ((number>=0)&&(number < workPoints_.size()))
     {
         undoHistory_.clear(); //FIXME: temp solution
         redoHistory_.clear();
-        for (auto it = pointsNames_.begin()+number; it != pointsNames_.end(); ++it)
+        for (auto it = workPoints_.begin()+number; it != workPoints_.end(); ++it)
         {
-            if (points_[*it].isReady)
+            if (it->value().isReady)
             {
-                points_[*it].isReady = false;
-                updateCalculation(*it);
-                frontendConnector_.deletePoint(*it);
+                it->value().isReady = false;
+                updateCalculation(it->key());
+                frontendConnector_.deletePoint(it->key());
             }
         }
         recalculateIt();
     }
     else
     {
-        qDebug() << "Error: clearing from " << number << "while size ="<<pointsNames_.size();
+        qDebug() << "Error: clearing from " << number << "while size ="<<workPoints_.size();
     }
 }
 
@@ -283,30 +271,26 @@ void CalculationBase::saveState(const PointState& state)
 void CalculationBase::recalculateIt()
 {
     //Searching for next writable point
-    nameIt_ = pointsNames_.begin();
+    workPointsIt_ = workPoints_.begin();
     if (!points_.size())
     {
         qDebug() << "recalculateIt(): points_.size() == 0";
         return;
     }
-    for (auto name: pointsNames_)
+    while (workPointsIt_ != workPoints_.end())
     {
-
-    }
-    while (nameIt_ != pointsNames_.end())
-    {
-        if (!points_[*nameIt_].isReady)
+        if (!workPointsIt_->value().isReady)
         {
             break;
         }
-        ++nameIt_;
+        ++workPointsIt_;
     }
-    if (nameIt_ == pointsNames_.end())
+    if (workPointsIt_ == workPoints_.end())
     {
         frontendConnector_.sendMsg(QCoreApplication::translate("main","Drawing done"));
     }
     else
     {
-        frontendConnector_.sendMsg(QCoreApplication::translate("main", "Now drawing point: ") + *nameIt_);
+        frontendConnector_.sendMsg(QCoreApplication::translate("main", "Now drawing point: ") + workPointsIt_->key());
     }
 }
