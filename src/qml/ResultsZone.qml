@@ -1,38 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 
-Rectangle {
+Item {
     id: resultsZone
-    color: mainWindow.backgroundColor
-    property real animationDuration: 100
-    property real spacingValue: 10
-    property real spacing: width > spacingValue ? spacingValue : 0
-
-    function expand() {
-        collapseAnimation.stop()
-        expandAnimation.start()
-    }
-
-    function collapse() {
-        expandAnimation.stop()
-        collapseAnimation.start()
-    }
-
-    PropertyAnimation {
-        id: expandAnimation
-        target: resultsZone
-        property: "width"
-        to: 450
-        duration: resultsZone.animationDuration
-    }
-
-    PropertyAnimation {
-        id: collapseAnimation
-        target: resultsZone
-        property: "width"
-        to: 0
-        duration: resultsZone.animationDuration
-    }
 
     Rectangle {
         id: resultTitle
@@ -43,10 +13,10 @@ Rectangle {
 
         Row {
             width: parent.width
-            anchors.leftMargin: resultsZone.spacing
-            anchors.rightMargin: resultsZone.spacing
+            anchors.leftMargin: rightPanel.spacing
+            anchors.rightMargin: rightPanel.spacing
             anchors.verticalCenter: parent.verticalCenter
-            spacing: resultsZone.spacingValue
+            spacing: rightPanel.spacingValue
 
             Text {
                 width: parent.width/3
@@ -80,19 +50,19 @@ Rectangle {
     ListView {
         id: resultsList
         width: parent.width
-//        anchors.topMargin: resultsZone.spacing
+//        anchors.topMargin: rightPanel.spacing
         anchors.top: resultTitle.bottom
         anchors.bottom: parent.bottom
         orientation: Qt.Vertical
-        spacing: resultsZone.spacingValue
+        spacing: rightPanel.spacingValue
 
         delegate: Row {
             id: resultLine
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.leftMargin: resultsZone.spacing
-            anchors.rightMargin: resultsZone.spacing
-            spacing: resultsZone.spacingValue
+            anchors.leftMargin: rightPanel.spacing
+            anchors.rightMargin: rightPanel.spacing
+            spacing: rightPanel.spacingValue
 
             Text {
                 id: nameText
@@ -150,20 +120,18 @@ Rectangle {
                 results.clear()
             }
         }
+    }
+    CustomButton {
+        id: storeResultsBtn
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        text: qsTr("Store results")
+        enabled: workZone.isReady
 
-        CustomButton {
-            id: storeResultsBtn
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            text: qsTr("Store results")
-            enabled: workZone.isReady
-
-            //TODO: Custom store path
-            onClicked: {
-                workZone.saveData()
-            }
+        //TODO: Custom store path
+        onClicked: {
+            workZone.saveData()
         }
     }
 }
-

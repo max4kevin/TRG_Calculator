@@ -44,13 +44,15 @@ HEADERS += \
 
 DISTFILES += \
     qml/CustomButton.qml \
+    qml/CustomTabButton.qml \
     qml/ParametersWindow.qml \
     qml/PointItem.qml \
     qml/LineItem.qml \
     qml/MenuDelegate.qml \
+    qml/ResultsZone.qml \
+    qml/RightPanel.qml \
     qml/WorkZone.qml \
     qml/ControlsBar.qml \
-    qml/ResultsZone.qml \
     qml/CustomMenuSeparator.qml \
     qml/ControlBackground.qml
 

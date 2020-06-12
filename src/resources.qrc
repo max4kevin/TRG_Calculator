@@ -6,11 +6,13 @@
         <file>qml/MenuDelegate.qml</file>
         <file>qml/WorkZone.qml</file>
         <file>qml/ControlsBar.qml</file>
-        <file>qml/ResultsZone.qml</file>
+        <file>qml/RightPanel.qml</file>
         <file>qml/CustomMenuSeparator.qml</file>
         <file>qml/ControlBackground.qml</file>
         <file>qml/CustomButton.qml</file>
         <file>qml/ParametersWindow.qml</file>
         <file>QtLanguage_ru.qm</file>
+        <file>qml/ResultsZone.qml</file>
+        <file>qml/CustomTabButton.qml</file>
     </qresource>
 </RCC>

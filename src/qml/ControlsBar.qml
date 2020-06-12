@@ -11,6 +11,7 @@ MenuBar {
     property alias linesSwitch: switchShowLines
     property alias lockSwitch: switchPointsLock
     property alias invertSwitch: switchInvert
+    property alias panelSwitch: switchPanel
 
 
     background: ControlBackground {}
@@ -226,16 +227,17 @@ MenuBar {
         CustomMenuSeparator {}
 
         Action {
-            id: resultsBtn
-            text: qsTr("Show results")
+            id: switchPanel
+            text: qsTr("Show work panel")
             shortcut: "Alt+R"
             checkable: true
+            checked: true
             onTriggered: {
                 if (checked) {
-                    resultsZone.expand()
+                    rightPanel.expand()
                 }
                 else {
-                    resultsZone.collapse()
+                    rightPanel.collapse()
                 }
             }
         }

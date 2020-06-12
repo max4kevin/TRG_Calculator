@@ -5,11 +5,11 @@ import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.2
 import Qt.labs.platform 1.0 as Labs
 
-//TODO: Image inverse, russian language
-//TODO: Custom about, menu open animation
 //TODO: Ask for saving before closing
 //TODO: Custom data storing path
 //TODO: Calculation method choosing
+//TODO: Laguage choosing
+//TODO: Settings data in resourses
 
 
 ApplicationWindow {
@@ -125,7 +125,7 @@ ApplicationWindow {
         WorkZone {
             id: workZone
             height: parent.height
-            width: workRow.width - resultsZone.width
+            width: workRow.width - rightPanel.width
         }
 
         Rectangle {
@@ -134,10 +134,9 @@ ApplicationWindow {
             color: mainWindow.controlColor
         }
 
-        ResultsZone {
-            id: resultsZone
+        RightPanel {
+            id: rightPanel
             height: parent.height
-            width: 0
         }
     }
 
