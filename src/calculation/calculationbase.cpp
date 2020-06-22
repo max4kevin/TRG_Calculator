@@ -7,7 +7,7 @@
 CalculationBase::CalculationBase(IFrontendConnector& frontendConnector)
     :frontendConnector_(frontendConnector), workPointsIt_(workPoints_.begin())
 {
-    Point tempPoint = {QPoint(0, 0), false, CALIB_COLOR, false, false, true};
+    Point tempPoint = {QPoint(0, 0), false, false, false, true, CALIB_COLOR, ""};
     workPoints_.append(points_.insert("Calibration Point 1", tempPoint));
     workPoints_.append(points_.insert("Calibration Point 2", tempPoint));
 }
@@ -22,6 +22,15 @@ void CalculationBase::loadTable()
     for (auto &it : results_)
     {
         frontendConnector_.updateResult(it.key(), it->value, it->referenceValue);
+    }
+}
+
+void CalculationBase::loadPointsTable()
+{
+    qDebug() << "Loading points";
+    for (auto &it : workPoints_)
+    {
+        updatePoint(it.key());
     }
 }
 
@@ -58,6 +67,20 @@ void CalculationBase::writeCoordinates(qreal x, qreal y)
     }
 }
 
+void CalculationBase::writeCoordinates(const QString& pointName, qreal x, qreal y)
+{
+    if (points_.contains(pointName))
+    {
+        saveState({pointName, points_[pointName]});
+        points_[pointName].coordinates = QPointF(x, y);
+        points_[pointName].isReady = true;
+        updatePoint(pointName);
+        qDebug() << pointName << points_[pointName].coordinates;
+        updateCalculation(pointName);
+        recalculateIt();
+    }
+}
+
 void CalculationBase::setCalibrationLength(qreal length)
 {
     calibrationLength_ = length;
@@ -86,7 +109,7 @@ void CalculationBase::removePoint(const QString& pointName)
         saveState({pointName, points_[pointName]});
         points_[pointName].isReady = false;
         updateCalculation(pointName);
-        frontendConnector_.deletePoint(pointName);
+        updatePoint(pointName);
     }
 }
 
@@ -128,21 +151,6 @@ void CalculationBase::clear()
 void CalculationBase::clearAll()
 {
     clearFrom(0);
-}
-
-void CalculationBase::movePoint(const QString& pointName, qreal x, qreal y)
-{
-    if (points_[pointName].isReady)
-    {
-        saveState({pointName, points_[pointName]});
-        points_[pointName].coordinates = QPointF(x, y);
-        updateCalculation(pointName);
-        qDebug() << pointName << points_[pointName].coordinates;
-    }
-    else
-    {
-        qDebug() << "Point "+pointName+" is not ready!";
-    }
 }
 
 void CalculationBase::saveData(const QString& path, const QString& name)
@@ -211,14 +219,7 @@ void CalculationBase::updateResult(const QString& resultName)
 
 void CalculationBase::updatePoint(const QString &pointName)
 {
-    if (points_[pointName].isReady)
-    {
-        frontendConnector_.updatePoint(pointName, points_[pointName].color, points_[pointName].coordinates.x(), points_[pointName].coordinates.y(), points_[pointName].isTilted, points_[pointName].isEntilted, points_[pointName].isVisible);
-    }
-    else
-    {
-        frontendConnector_.deletePoint(pointName);
-    }
+    frontendConnector_.updatePoint(pointName, points_[pointName].color, points_[pointName].coordinates.x(), points_[pointName].coordinates.y(), points_[pointName].isTilted, points_[pointName].isEntilted, points_[pointName].isVisible, points_[pointName].description, points_[pointName].isReady);
 }
 
 qreal CalculationBase::getCalibrationValue()
@@ -238,7 +239,7 @@ void CalculationBase::clearFrom(int number)
             {
                 it->value().isReady = false;
                 updateCalculation(it->key());
-                frontendConnector_.deletePoint(it->key());
+                updatePoint(it->key());
             }
         }
         recalculateIt();

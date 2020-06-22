@@ -10,13 +10,13 @@ Item {
 
     property alias name: nameText.text
     property alias drag: dragArea.drag
-    property alias color: nameText.color
     property point beginDrag
     property bool isCaught: false
     property bool isNameAlwaysOn: false
     property bool isEntilted: true
     property bool isTilted: true
     property real size: 10
+    property color color
 
     signal moving(var x, var y)
     signal moved(var name, var x, var y)
@@ -51,7 +51,10 @@ Item {
         }
 
         onDisableLock: {
-            dragArea.drag.target = point
+            if (pointName === point.name)
+            {
+                dragArea.drag.target = point
+            }
         }
 
         onScaled: scale = 1/scaleFactor
@@ -74,6 +77,10 @@ Item {
 
         onEntered: if (!isNameAlwaysOn && isEntilted) nameText.visible = true
         onExited:  if (!isNameAlwaysOn && isEntilted) nameText.visible = false
+        onDoubleClicked: {
+            workZone.selectPoint(point.name)
+            rightPanel.pointsList.selectPoint(point.name)
+        }
 
         onPressed: {
             if (drag.target === point) //if not locked
@@ -104,26 +111,62 @@ Item {
         }
 
 
-        Canvas {
+        Item {
             id: cross
             anchors.fill: parent
-            rotation: point.isTilted ? 45 : 0
+            property color color
 
-            onPaint: {
-                var w = parent.width
-                var ctx = getContext("2d")
-                ctx.lineWidth = 1.4
-                ctx.miterLimit = 0.1
-                ctx.strokeStyle = nameText.color
-                ctx.beginPath()
-                ctx.moveTo(w/2, 0)
-                ctx.lineTo(w/2, w)
-                ctx.stroke()
-                ctx.moveTo(0, w/2)
-                ctx.lineTo(w, w/2)
-                ctx.stroke()
+            Rectangle {
+                width: 2
+                height: parent.width
+                color: parent.color
+                anchors.centerIn: parent
+                rotation: point.isTilted ? 45 : 0
+            }
+
+            Rectangle {
+                width: parent.width
+                height: 2
+                color: parent.color
+                anchors.centerIn: parent
+                rotation: point.isTilted ? 45 : 0
+            }
+
+            SequentialAnimation on color{
+                id: pointAnimation
+                running: dragArea.drag.target === point
+                loops: Animation.Infinite
+                onRunningChanged: {
+                    if (!running) {
+                        cross.color = point.color
+                    }
+                }
+
+                ColorAnimation { from: point.color; to: "white"; duration: 1000 }
+                ColorAnimation { from: "white"; to: point.color;  duration: 1000 }
             }
         }
+
+//        Canvas {
+//            id: cross
+//            anchors.fill: parent
+//            rotation: point.isTilted ? 45 : 0
+
+//            onPaint: {
+//                var w = parent.width
+//                var ctx = getContext("2d")
+//                ctx.lineWidth = 1.4
+//                ctx.miterLimit = 0.1
+//                ctx.strokeStyle = point.color
+//                ctx.beginPath()
+//                ctx.moveTo(w/2, 0)
+//                ctx.lineTo(w/2, w)
+//                ctx.stroke()
+//                ctx.moveTo(0, w/2)
+//                ctx.lineTo(w, w/2)
+//                ctx.stroke()
+//            }
+//        }
 
         ParallelAnimation {
             id: backAnim
@@ -136,8 +179,9 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             y: parent.y - point.size*1.8
             font.pixelSize: point.size*1.5
-            color: "#FF0000"
+            color: cross.color
             visible: point.isNameAlwaysOn
+
         }
     }
 }

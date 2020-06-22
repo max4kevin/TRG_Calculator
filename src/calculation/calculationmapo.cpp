@@ -4,7 +4,7 @@
 CalculationMAPO::CalculationMAPO(IFrontendConnector& frontendConnector)
 : CalculationBase (frontendConnector)
 {
-    Point tempPoint = {QPoint(0, 0), false, REGULAR_COLOR, true, true, true};
+    Point tempPoint = {QPoint(0, 0), false, true, true, true, REGULAR_COLOR, ""};
 
     workPoints_.append(points_.insert("S", tempPoint));
     workPoints_.append(points_.insert("N", tempPoint));
@@ -30,7 +30,7 @@ CalculationMAPO::CalculationMAPO(IFrontendConnector& frontendConnector)
 
     //Additional points
 
-    tempPoint = {QPoint(0, 0), false, "#0000FF", true, true, false};
+    tempPoint = {QPoint(0, 0), false, true, true, false, "#0000FF", ""};
 
     points_.insert("NS/ANSPNS", tempPoint);
     points_.insert("NS/MeGo", tempPoint);

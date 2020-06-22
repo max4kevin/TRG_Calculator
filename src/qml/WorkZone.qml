@@ -2,7 +2,10 @@ import QtQuick 2.11
 import QtQuick.Controls 2.4
 
 Item {
+    id: workZone
+
     property bool isReady: imageTRG.status === Image.Ready
+    signal pointDeselected
 
     function zoom() {
         if (imageTRG.scale !== mouseArea.maxScaleFactor)
@@ -36,15 +39,26 @@ Item {
         mouseArea.linesStateChanged(isEnabled)
     }
 
-    function changeLock(isEnabled) {
-        if (isEnabled) {
-            mouseArea.enableLock()
-            message.send(qsTr("Points locked"))
+    function selectPoint(pointName) {
+        mouseArea.selectedPoint = pointName;
+        mouseArea.enableLock();
+        mouseArea.disableLock(pointName);
+    }
+
+    function deselectPoint() {
+        mouseArea.selectedPoint = ""
+        mouseArea.enableLock();
+        pointDeselected()
+    }
+
+    function focusOnPoint(pointName) {
+        for (var i = 0; i < mouseArea.children.length; ++i) {
+            if (mouseArea.children[i].name === pointName) {
+                mouseArea.focusOn(mouseArea.children[i].x, mouseArea.children[i].y)
+                return
+            }
         }
-        else {
-            mouseArea.disableLock()
-            message.send(qsTr("Points unlocked"))
-        }
+        console.log(pointName+" point not found when focused")
     }
 
     //TODO: Custom files path and name
@@ -65,10 +79,6 @@ Item {
         id: pointsMenu
         delegate: MenuDelegate {}
         background: ControlBackground {}
-
-        MenuDelegate {
-            action: controls.lockSwitch
-        }
 
         MenuDelegate {
             action: controls.pointsSwitch
@@ -109,10 +119,7 @@ Item {
                 interactive = true
                 boundsBehavior = Flickable.DragAndOvershootBounds
                 mouseArea.cursorShape = Qt.OpenHandCursor
-                if (!switchPointsLock.checked)
-                {
-                    mouseArea.enableLock()
-                }
+                mouseArea.enableLock()
             }
         }
 
@@ -122,9 +129,8 @@ Item {
                 interactive = false
                 boundsBehavior = Flickable.StopAtBounds
                 mouseArea.cursorShape = Qt.CrossCursor
-                if (!switchPointsLock.checked)
-                {
-                    mouseArea.disableLock()
+                if (mouseArea.selectedPoint !== "") {
+                    mouseArea.disableLock(mouseArea.selectedPoint);
                 }
             }
         }
@@ -204,11 +210,12 @@ Item {
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 property real pointsSize: 12
                 property real maxScaleFactor: 5
+                property string selectedPoint: ""
 
                 signal scaled(var scaleFactor)
                 signal deletePoint(var pointName)
                 signal enableLock
-                signal disableLock
+                signal disableLock(var pointName)
                 signal pointsNamesStateChanged(var isEnabled)
                 signal linesStateChanged(var isEnabled)
 
@@ -233,8 +240,13 @@ Item {
                     flickArea.contentY = flickArea.contentHeight === flickArea.height ? 0 : focusY*imageTRG.scale - offsetY
                 }
 
+                function focusOn(x, y) {
+                    flickArea.contentX = flickArea.contentWidth === flickArea.width ? 0 : x*imageTRG.scale - flickArea.width/2
+                    flickArea.contentY = flickArea.contentHeight === flickArea.height ? 0 : y*imageTRG.scale - flickArea.height/2
+                }
+
                 function pointMoved(pointName, x, y) {
-                    backEnd.movePoint(pointName, x, y)
+                    backEnd.writeCoordinates(pointName, x, y)
                 }
 
                 function updatePoint(pointName, color, x, y, isTilted, isEntilted, isVisible) {
@@ -261,6 +273,7 @@ Item {
                             var childRec = component.createObject(mouseArea)
                             childRec.name = pointName
                             childRec.color = color
+                            childRec.drag.target = undefined //FIXME: crutch
                             childRec.isTilted = isTilted
                             childRec.isEntilted = isEntilted
                             childRec.visible = isVisible
@@ -268,9 +281,9 @@ Item {
                             childRec.x = x - childRec.width/2
                             childRec.y = y - childRec.height/2
                             childRec.scale = 1/imageTRG.scale
-                            if (controls.lockSwitch.checked)
+                            if (pointName === mouseArea.selectedPoint)
                             {
-                                childRec.drag.target = undefined
+                                childRec.drag.target = childRec
                             }
                             childRec.isNameAlwaysOn = (controls.pointsSwitch.checked && isTilted)
                             childRec.hold.connect(flickArea.switchKeys)
@@ -355,7 +368,20 @@ Item {
                 onClicked: {
                     if  (!flickArea.interactive) {
                         if (mouse.button === Qt.LeftButton) {
-                            backEnd.writeCoordinates(mouseArea.mouseX, mouseArea.mouseY)
+                            //TODO: Check pointName in pointList?
+                            if (mouseArea.selectedPoint === "") {
+                                backEnd.writeCoordinates(mouseArea.mouseX, mouseArea.mouseY)
+                            }
+                            else {
+                                //FIXME: Set calibration points first!
+                                for (var i = 0; i < mouseArea.children.length; ++i) {
+                                    if (mouseArea.children[i].name === mouseArea.selectedPoint) {
+                                        return workZone.deselectPoint()
+                                    }
+                                }
+                                console.log(mouseArea.selectedPoint)
+                                backEnd.writeCoordinates(mouseArea.selectedPoint, mouseArea.mouseX, mouseArea.mouseY)
+                            }
                         }
                         else {
                             pointsMenu.popup()
@@ -402,11 +428,12 @@ Item {
                 Connections {
                     target: backEnd
                     onPointUpdated: {
-                        mouseArea.updatePoint(pointName, color, x, y, isTilted, isEntilted, isVisible)
-                    }
-
-                    onPointDeleted: {
-                        mouseArea.deletePoint(pointName)
+                        if (status) {
+                            mouseArea.updatePoint(pointName, color, x, y, isTilted, isEntilted, isVisible)
+                        }
+                        else {
+                            mouseArea.deletePoint(pointName)
+                        }
                     }
 
                     onPointsConnected: {

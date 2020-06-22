@@ -55,6 +55,8 @@ Item {
         anchors.bottom: parent.bottom
         orientation: Qt.Vertical
         spacing: rightPanel.spacingValue
+        clip: true
+        boundsBehavior: Flickable.StopAtBounds
 
         delegate: Row {
             id: resultLine

@@ -22,12 +22,12 @@ ApplicationWindow {
     minimumHeight: 480
     property int menuBarHeight: 20
     property bool darkTheme: controls.isDark
-    property string backgroundColor: mainWindow.darkTheme ? "#000000" : "#EEEEEE"
-    property string controlColor: mainWindow.darkTheme ? "#222222" : "#CCCCCC"
-    property string hControlColor: mainWindow.darkTheme ? "#888888" : "#888888"
+    property string backgroundColor: mainWindow.darkTheme ? "#000000" : "#DDDDDD"
+    property string controlColor: mainWindow.darkTheme ? "#222222" : "#BBBBBB"
+    property string hControlColor: mainWindow.darkTheme ? "#777777" : "#888888"
     property string textColor: mainWindow.darkTheme ? "#AAAAAA" : "#222222"
     property string hTextColor: mainWindow.darkTheme ? "#FFFFFF" : "#000000"
-    property string inputColor: mainWindow.darkTheme ? "#888888" : "#FFFFFF"
+    property string inputColor: mainWindow.darkTheme ? "#888888" : "#DDDDDD"
     property string version: "2.1.0"
 
     background: Rectangle {

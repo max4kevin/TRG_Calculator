@@ -29,6 +29,9 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
         void writeCoordinates(qreal x, qreal y);
 
         Q_INVOKABLE
+        void writeCoordinates(const QString& pointName, qreal x, qreal y);
+
+        Q_INVOKABLE
         void setCalibrationLength(qreal length);
 
         Q_INVOKABLE
@@ -45,9 +48,6 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
 
         Q_INVOKABLE
         void clearAll();
-
-        Q_INVOKABLE
-        void movePoint(const QString& pointName, qreal x, qreal y);
 
         Q_INVOKABLE
         void saveData(const QString& path, const QString& name);
@@ -73,8 +73,7 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
         Q_INVOKABLE
         void invertImage();
 
-        void updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible) override;
-        void deletePoint(const QString& pointName) override;
+        void updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, const QString& description, bool status) override;
         void connectPoints(const QString& pointName1, const QString& pointName2, const QString& color) override;
         void updateResult(const QString& resultName, const QString& resultValue, const QString& resultReference) override;
         void sendMsg(const QString& msg) override;
@@ -82,8 +81,7 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
         void changeRedoState(bool isEnabled) override;
 
     signals:
-        void pointUpdated(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible);
-        void pointDeleted(const QString& pointName);
+        void pointUpdated(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, const QString& description, bool status);
         void pointsConnected(const QString& pointName1, const QString& pointName2, const QString& color);
         void resultUpdated(const QString& resultName, const QString& resultValue, const QString& resultReference);
         void newMsg(const QString& msg);
@@ -94,7 +92,7 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
         void redoStateChanged(bool isEnabled);
 
     private:
-        void loadTable();
+        void loadData();
 
         QGuiApplication* const app_;
         QTranslator qtTranslator_;

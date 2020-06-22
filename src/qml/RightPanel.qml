@@ -10,6 +10,7 @@ Rectangle {
     property real animationDuration: 100
     property real spacingValue: 10
     property real spacing: width > spacingValue ? spacingValue : 0
+    property alias pointsList: pointsZone
 
     function expand() {
         collapseAnimation.stop()
@@ -62,33 +63,33 @@ Rectangle {
         background: Rectangle {color: mainWindow.backgroundColor}
 
         CustomTabButton {
-            text: qsTr("Results")
-        }
-        CustomTabButton {
             text: qsTr("Points")
         }
         CustomTabButton {
             text: qsTr("Lines")
         }
+        CustomTabButton {
+            text: qsTr("Results")
+        }
     }
 
     SwipeView {
         id: swipeView
-        anchors.topMargin: 40
-        anchors.fill: parent
+        anchors.top: tabBar.bottom
+        anchors.bottom: parent.bottom
+        width: parent.width
         currentIndex: 0
         onCurrentIndexChanged: tabBar.setCurrentIndex(currentIndex)
 
-        ResultsZone {
-            id: resultsZone
-        }
-        Rectangle {
+        PointsZone {
             id: pointsZone
-            color: "red"
         }
         Rectangle {
             id: linesZone
             color: "blue"
+        }
+        ResultsZone {
+            id: resultsZone
         }
     }
 }

@@ -9,7 +9,6 @@ MenuBar {
 
     property alias pointsSwitch: switchShowPointsNames
     property alias linesSwitch: switchShowLines
-    property alias lockSwitch: switchPointsLock
     property alias invertSwitch: switchInvert
     property alias panelSwitch: switchPanel
 
@@ -139,17 +138,6 @@ MenuBar {
         }
 
         CustomMenuSeparator {}
-
-        Action {
-            id: switchPointsLock
-            text: qsTr("Lock points")
-            shortcut: "Ctrl+G"
-            checkable: true
-            checked: true
-            onTriggered: {
-                workZone.changeLock(checked)
-            }
-        }
 
         CustomMenuSeparator {}
 

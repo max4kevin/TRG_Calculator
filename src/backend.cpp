@@ -25,10 +25,11 @@ QImage BackEnd::requestImage(const QString &/*id*/, QSize *size, const QSize &/*
     return image_;
 }
 
-void BackEnd::loadTable()
+void BackEnd::loadData()
 {
     clearTable();
     actualCalculationMethod_->loadTable();
+    actualCalculationMethod_->loadPointsTable();
 }
 
 void BackEnd::reset()
@@ -41,6 +42,11 @@ void BackEnd::reset()
 void BackEnd::writeCoordinates(qreal x, qreal y)
 {
     actualCalculationMethod_->writeCoordinates(x,y);
+}
+
+void BackEnd::writeCoordinates(const QString& pointName, qreal x, qreal y)
+{
+    actualCalculationMethod_->writeCoordinates(pointName, x, y);
 }
 
 void BackEnd::setCalibrationLength(qreal length)
@@ -71,11 +77,6 @@ void BackEnd::clear()
 void BackEnd::clearAll()
 {
     actualCalculationMethod_->clearAll();
-}
-
-void BackEnd::movePoint(const QString& pointName, qreal x, qreal y)
-{
-    actualCalculationMethod_->movePoint(pointName, x, y);
 }
 
 void BackEnd::saveData(const QString& path, const QString& name)
@@ -130,7 +131,7 @@ void BackEnd::openFile(const QString& filePath)
             }
             image_ = image;
             fileLoaded();
-            loadTable();
+            loadData();
             actualCalculationMethod_->loadPoints(points);
             file.close();
         }
@@ -146,7 +147,7 @@ void BackEnd::openFile(const QString& filePath)
 
         image_ = QImage(fileString);
         fileLoaded();
-        loadTable();
+        loadData();
     }
 
     filePath_ = fileString;
@@ -244,14 +245,9 @@ void BackEnd::invertImage()
     }
 }
 
-void BackEnd::updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible)
+void BackEnd::updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, const QString& description, bool status)
 {
-    pointUpdated(pointName, color, x, y, isTilted, isEntilted, isVisible);
-}
-
-void BackEnd::deletePoint(const QString& pointName)
-{
-    pointDeleted(pointName);
+    pointUpdated(pointName, color, x, y, isTilted, isEntilted, isVisible, description, status);
 }
 
 void BackEnd::connectPoints(const QString& pointName1, const QString& pointName2, const QString& color)

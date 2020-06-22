@@ -14,10 +14,11 @@ struct Point
 {
     QPointF coordinates;
     bool isReady;
-    QString color;
     bool isTilted;
     bool isEntilted;
     bool isVisible;
+    QString color;
+    QString description;
 };
 
 struct PointState
@@ -40,8 +41,7 @@ class IFrontendConnector
 {
     public:
         virtual ~IFrontendConnector() = default;
-        virtual void updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible) = 0;
-        virtual void deletePoint(const QString& pointName) = 0;
+        virtual void updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, const QString& description, bool status) = 0;
         virtual void connectPoints(const QString& pointName1, const QString& pointName2, const QString& color) = 0;
         virtual void updateResult(const QString& resultName, const QString& resultValue, const QString& resultReference) = 0;
         virtual void sendMsg(const QString& msg) = 0;
@@ -54,19 +54,21 @@ class IFrontendConnector
 class CalculationBase
 {
     public:
+        //TODO: Setting point colour
         explicit CalculationBase(IFrontendConnector& frontendConnector);
         virtual ~CalculationBase();
         virtual void updateCalculation(const QString& lastPointName) = 0;
         void reset();
         void loadTable();
+        void loadPointsTable();
 //        void loadLastCoordinates();
         void writeCoordinates(qreal x, qreal y);
+        void writeCoordinates(const QString& pointName, qreal x, qreal y);
         void removePoint(const QString& pointName);
         void undo();
         void redo();
         void clear();
         void clearAll();
-        void movePoint(const QString& pointName, qreal x, qreal y); //TODO: Setting colour
         void saveData(const QString& path, const QString& name);
         const QVector<Points::Iterator>& getPoints() const;
         void loadPoints(const QVector<Point>& points);

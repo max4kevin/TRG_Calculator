@@ -22,6 +22,5 @@ TabButton {
         implicitWidth: 100
         implicitHeight: 40
         color: tabButton.checked ? mainWindow.backgroundColor : mainWindow.controlColor
-//        border.width: 1
     }
 }
