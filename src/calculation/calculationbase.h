@@ -18,13 +18,12 @@ struct Point
     bool isEntilted;
     bool isVisible;
     QString color;
-    QString description;
 };
 
 struct PointState
 {
-    QString pointName;
     Point point;
+    QString pointName;
 };
 
 struct Result
@@ -37,19 +36,28 @@ typedef QVector<PointState> PointsHistory;
 typedef QHash<QString, Point> Points;
 typedef QHash<QString, Result> ResultsTable;
 
+struct WorkPoint
+{
+    Points::Iterator point;
+    QString description;
+};
+
+typedef QVector<WorkPoint> WorkPoints;
+
 class IFrontendConnector
 {
     public:
         virtual ~IFrontendConnector() = default;
-        virtual void updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, const QString& description, bool status) = 0;
+        virtual void addPoint(const QString& pointName, const QString& description) = 0;
+        virtual void updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, bool status) = 0;
         virtual void connectPoints(const QString& pointName1, const QString& pointName2, const QString& color) = 0;
+        virtual void addResult(const QString& resultName, const QString& resultReference) = 0;
         virtual void updateResult(const QString& resultName, const QString& resultValue, const QString& resultReference) = 0;
         virtual void sendMsg(const QString& msg) = 0;
         virtual void changeUndoState(bool isEnabled) = 0;
         virtual void changeRedoState(bool isEnabled) = 0;
 };
 
-//TODO: Manual removing points
 //TODO: separate init method and setResultsTable method
 class CalculationBase
 {
@@ -59,7 +67,7 @@ class CalculationBase
         virtual ~CalculationBase();
         virtual void updateCalculation(const QString& lastPointName) = 0;
         void reset();
-        void loadTable();
+        void loadResultsTable();
         void loadPointsTable();
 //        void loadLastCoordinates();
         void writeCoordinates(qreal x, qreal y);
@@ -70,7 +78,7 @@ class CalculationBase
         void clear();
         void clearAll();
         void saveData(const QString& path, const QString& name);
-        const QVector<Points::Iterator>& getPoints() const;
+        const WorkPoints& getPoints() const;
         void loadPoints(const QVector<Point>& points);
 
         static void setCalibrationLength(qreal length);
@@ -84,8 +92,8 @@ class CalculationBase
         qreal getCalibrationValue();
 
         Points points_;
-        QVector<Points::Iterator> workPoints_; //For points ordering
-        ResultsTable resultsTable_;
+        WorkPoints workPoints_; //For points ordering
+        ResultsTable resultsTable_; //TODO: Results description
         QVector<ResultsTable::Iterator> results_; //For results ordering
 
     private:
@@ -96,7 +104,7 @@ class CalculationBase
 
         IFrontendConnector& frontendConnector_;
         qreal calibrationValue_ = 1; //mm/px
-        QVector<Points::Iterator>::Iterator workPointsIt_;
+        WorkPoints::Iterator workPointsIt_;
         PointsHistory undoHistory_;
         PointsHistory redoHistory_;
 

@@ -78,8 +78,10 @@ Item {
         onEntered: if (!isNameAlwaysOn && isEntilted) nameText.visible = true
         onExited:  if (!isNameAlwaysOn && isEntilted) nameText.visible = false
         onDoubleClicked: {
-            workZone.selectPoint(point.name)
-            rightPanel.pointsList.selectPoint(point.name)
+            if (rightPanel.pointsZone.isPointSelectionAllowed()) {
+                workZone.selectPoint(point.name)
+                rightPanel.pointsZone.selectPoint(point.name)
+            }
         }
 
         onPressed: {
@@ -142,8 +144,8 @@ Item {
                     }
                 }
 
-                ColorAnimation { from: point.color; to: "white"; duration: 1000 }
-                ColorAnimation { from: "white"; to: point.color;  duration: 1000 }
+                ColorAnimation { from: point.color; to: "white"; duration: 500 }
+                ColorAnimation { from: "white"; to: point.color;  duration: 500 }
             }
         }
 

@@ -17,19 +17,21 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
     public:
         explicit BackEnd(QGuiApplication& app);
 
+//        ~BackEnd(){};
+
         QImage requestImage(const QString &/*id*/, QSize *size, const QSize &/*requestedSize*/) override;
 
         Q_INVOKABLE
         void reset();
-
-//        Q_INVOKABLE
-//        void loadTable();
 
         Q_INVOKABLE
         void writeCoordinates(qreal x, qreal y);
 
         Q_INVOKABLE
         void writeCoordinates(const QString& pointName, qreal x, qreal y);
+
+        Q_INVOKABLE
+        void removePoint(const QString& pointName);
 
         Q_INVOKABLE
         void setCalibrationLength(qreal length);
@@ -73,23 +75,28 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
         Q_INVOKABLE
         void invertImage();
 
-        void updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, const QString& description, bool status) override;
+        void addPoint(const QString& pointName, const QString& description) override;
+        void updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, bool status) override;
         void connectPoints(const QString& pointName1, const QString& pointName2, const QString& color) override;
+        void addResult(const QString& resultName, const QString& resultReference) override;
         void updateResult(const QString& resultName, const QString& resultValue, const QString& resultReference) override;
         void sendMsg(const QString& msg) override;
         void changeUndoState(bool isEnabled) override;
         void changeRedoState(bool isEnabled) override;
 
     signals:
-        void pointUpdated(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, const QString& description, bool status);
+        void pointAdded(const QString& pointName, const QString& description);
+        void pointUpdated(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, bool status);
         void pointsConnected(const QString& pointName1, const QString& pointName2, const QString& color);
+        void resultAdded(const QString& resultName, const QString& resultReference);
         void resultUpdated(const QString& resultName, const QString& resultValue, const QString& resultReference);
         void newMsg(const QString& msg);
         void fileLoaded();
         void imageUpdated();
-        void clearTable();
+        void clearTables();
         void undoStateChanged(bool isEnabled);
         void redoStateChanged(bool isEnabled);
+        void error(const QString& errorMsg);
 
     private:
         void loadData();

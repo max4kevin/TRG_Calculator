@@ -16,6 +16,8 @@ Rectangle {
     property real x2: 1
     property real y2: 1
 
+    property bool selected: false
+
     x: x1
     y: y1
     z: -1
@@ -34,12 +36,24 @@ Rectangle {
         return Math.sqrt(Math.pow(x2-x1, 2) + Math.pow(y2-y1, 2))
     }
 
+    function changeVisibility(pointName1, pointName2, isEnabled) {
+//        console.log(line.pointName1, line.pointName2, pointName1, pointName2)
+        if (line.pointName1 === pointName1 && line.pointName2 === pointName2) {
+            visible = isEnabled
+        }
+    }
+
+//    function changeVisibility(isEnabled) {
+//        visible = isEnabled
+//    }
+
     Connections {
         target: parent
 
-        onLinesStateChanged: {
-            visible = isEnabled
-        }
+//        onLineVisibilityChanged: {
+//            if (line.pointName1 === pointName1 && line.pointName2 === pointName2)
+//            visible = isEnabled
+//        }
 
         onDeletePoint: {
             if (pointName === pointName1 || pointName === pointName2)
@@ -47,6 +61,7 @@ Rectangle {
                 console.log("Destroing line", pointName1, pointName2)
                 pointName1 = "" //FIXME: Сrutch
                 pointName2 = ""
+                rightPanel.linesZone.lineVisibilityChanged.disconnect(line.changeVisibility)
                 line.destroy()
             }
         }

@@ -1,36 +1,79 @@
 #include "calculationmapo.h"
 #include "geometry.h"
+#include <QGuiApplication>
 
 CalculationMAPO::CalculationMAPO(IFrontendConnector& frontendConnector)
 : CalculationBase (frontendConnector)
 {
-    Point tempPoint = {QPoint(0, 0), false, true, true, true, REGULAR_COLOR, ""};
+    Point tempPoint = {QPoint(0, 0), false, true, true, true, REGULAR_COLOR};
 
-    workPoints_.append(points_.insert("S", tempPoint));
-    workPoints_.append(points_.insert("N", tempPoint));
-    workPoints_.append(points_.insert("A", tempPoint));
-    workPoints_.append(points_.insert("B", tempPoint));
-    workPoints_.append(points_.insert("Pog", tempPoint));
-    workPoints_.append(points_.insert("C", tempPoint));
-    workPoints_.append(points_.insert("6", tempPoint));
-    workPoints_.append(points_.insert("Se", tempPoint));
-    workPoints_.append(points_.insert("PNS", tempPoint));
-    workPoints_.append(points_.insert("ANS", tempPoint));
-    workPoints_.append(points_.insert("Go'", tempPoint));
-    workPoints_.append(points_.insert("Ar", tempPoint));
-    workPoints_.append(points_.insert("Rc", tempPoint));
-    workPoints_.append(points_.insert("Is", tempPoint));
-    workPoints_.append(points_.insert("Ias", tempPoint));
-    workPoints_.append(points_.insert("Ii", tempPoint));
-    workPoints_.append(points_.insert("Iai", tempPoint));
-    workPoints_.append(points_.insert("1", tempPoint));
-    workPoints_.append(points_.insert("Me", tempPoint));
-    workPoints_.append(points_.insert("Go", tempPoint));
-    workPoints_.append(points_.insert("Gn", tempPoint));
+
+    workPoints_.append({points_.insert("S", tempPoint),
+    QCoreApplication::translate("main", "S Point Description")});
+
+    workPoints_.append({points_.insert("N", tempPoint),
+    QCoreApplication::translate("main", "N Point Description")});
+
+    workPoints_.append({points_.insert("A", tempPoint),
+    QCoreApplication::translate("main", "A Point Description")});
+
+    workPoints_.append({points_.insert("B", tempPoint),
+    QCoreApplication::translate("main", "B Point Description")});
+
+    workPoints_.append({points_.insert("Pog", tempPoint),
+    QCoreApplication::translate("main", "Pog Point Description")});
+
+    workPoints_.append({points_.insert("C", tempPoint),
+    QCoreApplication::translate("main", "C Point Description")});
+
+    workPoints_.append({points_.insert("6", tempPoint),
+    QCoreApplication::translate("main", "6 Point Description")});
+
+    workPoints_.append({points_.insert("Se", tempPoint),
+    QCoreApplication::translate("main", "Se Point Description")});
+
+    workPoints_.append({points_.insert("PNS", tempPoint),
+    QCoreApplication::translate("main", "PNS Point Description")});
+
+    workPoints_.append({points_.insert("ANS", tempPoint),
+    QCoreApplication::translate("main", "ANS Point Description")});
+
+    workPoints_.append({points_.insert("Go'", tempPoint),
+    QCoreApplication::translate("main", "Go' Point Description")});
+
+    workPoints_.append({points_.insert("Ar", tempPoint),
+    QCoreApplication::translate("main", "Ar Point Description")});
+
+    workPoints_.append({points_.insert("Rc", tempPoint),
+    QCoreApplication::translate("main", "Rc Point Description")});
+
+    workPoints_.append({points_.insert("Is", tempPoint),
+    QCoreApplication::translate("main", "Is Point Description")});
+
+    workPoints_.append({points_.insert("Ias", tempPoint),
+    QCoreApplication::translate("main", "Ias Point Description")});
+
+    workPoints_.append({points_.insert("Ii", tempPoint),
+    QCoreApplication::translate("main", "Ii Point Description")});
+
+    workPoints_.append({points_.insert("Iai", tempPoint),
+    QCoreApplication::translate("main", "Iai Point Description")});
+
+    workPoints_.append({points_.insert("1", tempPoint),
+    QCoreApplication::translate("main", "1 Point Description")});
+
+    workPoints_.append({points_.insert("Me", tempPoint),
+    QCoreApplication::translate("main", "Me Point Description")});
+
+    workPoints_.append({points_.insert("Go", tempPoint),
+    QCoreApplication::translate("main", "Go Point Description")});
+
+    workPoints_.append({points_.insert("Gn", tempPoint),
+    QCoreApplication::translate("main", "Gn Point Description")});
 
     //Additional points
 
-    tempPoint = {QPoint(0, 0), false, true, true, false, "#0000FF", ""};
+    tempPoint = {QPoint(0, 0), false, true, true, false, "#0000FF"};
 
     points_.insert("NS/ANSPNS", tempPoint);
     points_.insert("NS/MeGo", tempPoint);
@@ -173,9 +216,11 @@ void CalculationMAPO::checkAngle(const QString& checkPoint, const QString &dataN
 
 void CalculationMAPO::checkDistance(const QString& checkPoint, const QString &dataName, const QString &pName1, const QString &pName2)
 {
-    if (checkPoint == pName1 || checkPoint == pName2)
+    if (checkPoint == pName1 || checkPoint == pName2
+        || checkPoint == "Calibration 1" || checkPoint == "Calibration 2")
     {
-        if ( points_[pName1].isReady && points_[pName2].isReady )
+        if ( points_[pName1].isReady && points_[pName2].isReady
+             && points_["Calibration 1"].isReady && points_["Calibration 2"].isReady)
         {
             resultsTable_[dataName].value =
                     QString::number(geometry::calculateDistance(points_[pName1].coordinates, points_[pName2].coordinates)*getCalibrationValue(), 'f', 2);
@@ -200,9 +245,11 @@ void CalculationMAPO::checkDistance(const QString& checkPoint, const QString &da
 
 void CalculationMAPO::checkRatio(const QString& checkPoint, const QString &dataName, const QString &pName1, const QString &pName2, const QString &pName3, const QString &pName4)
 {
-    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3 || checkPoint == pName4)
+    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3 || checkPoint == pName4
+        || checkPoint == "Calibration 1" || checkPoint == "Calibration 2")
     {
-        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady && points_[pName4].isReady)
+        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady && points_[pName4].isReady
+             && points_["Calibration 1"].isReady && points_["Calibration 2"].isReady)
         {
             qreal dist1 = geometry::calculateDistance(points_[pName1].coordinates, points_[pName2].coordinates);
             qreal dist2 = geometry::calculateDistance(points_[pName3].coordinates, points_[pName4].coordinates);
@@ -218,9 +265,11 @@ void CalculationMAPO::checkRatio(const QString& checkPoint, const QString &dataN
 
 void CalculationMAPO::checkProjection(const QString& checkPoint, const QString &dataName, const QString &pName1, const QString &pName2, const QString &pName3, const QString &pName4)
 {
-    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3 || checkPoint == pName4)
+    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3 || checkPoint == pName4
+        || checkPoint == "Calibration 1" || checkPoint == "Calibration 2")
     {
-        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady && points_[pName4].isReady)
+        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady && points_[pName4].isReady
+             && points_["Calibration 1"].isReady && points_["Calibration 2"].isReady)
         {
             resultsTable_[dataName].value =
                     QString::number(geometry::calculateProjection(points_[pName1].coordinates, points_[pName2].coordinates,

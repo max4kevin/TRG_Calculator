@@ -15,7 +15,7 @@ MenuItem {
            anchors.centerIn: parent
            visible: menuItem.checkable
            opacity: enabled ? 1.0 : 0.3
-           color: highlighted ? mainWindow.hControlColor : mainWindow.controlColor
+           color: menuItem.highlighted ? mainWindow.hControlColor : mainWindow.controlColor
            border.color: menuItem.highlighted ? mainWindow.hTextColor : mainWindow.textColor
            radius: 3
            Rectangle {

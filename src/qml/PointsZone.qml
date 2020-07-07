@@ -8,6 +8,10 @@ Item {
         pointsList.isSelected = false
     }
 
+    function showNextPoint() {
+
+    }
+
     function selectPoint(pointName) {
         for (var i = 0; i < points.count; ++i) {
             if (points.get(i).name === pointName) {
@@ -17,7 +21,7 @@ Item {
                 return
             }
         }
-        console.log(pointName+" not found in PointsList")
+        console.log("Error: "+pointName+" not found in PointsList")
     }
 
     Connections {
@@ -29,7 +33,7 @@ Item {
         id: pointsList
         width: parent.width
         anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        anchors.bottom: buttons.top
         orientation: Qt.Vertical
         spacing: rightPanel.spacingValue
         clip: true
@@ -38,17 +42,23 @@ Item {
 
         property bool isSelected: false
 
-        //TODO: Blink animation
-        //TODO: Disabling selection on another tab
         //FIXME: Scrolling bug
         highlight: Rectangle {
             id: selection
             width: pointsList.width
-            visible: pointsList.isSelected
-            border.color: mainWindow.backgroundColor
+            visible: true
+            color: "transparent"
+            border.color: mainWindow.hControlColor
             SequentialAnimation on color{
                 running: pointsList.isSelected
                 loops: Animation.Infinite
+                onRunningChanged: {
+                    if (!running)
+                    {
+                        selection.color = "transparent"
+                    }
+                }
+
                 ColorAnimation { from: mainWindow.controlColor; to: mainWindow.hControlColor; duration: 1000 }
                 ColorAnimation { from: mainWindow.hControlColor; to: mainWindow.controlColor;  duration: 1000 }
             }
@@ -73,14 +83,16 @@ Item {
                 }
                 pointsList.isSelected = true
                 workZone.selectPoint(nameText.text)
-                workZone.focusOnPoint(nameText.text)
+                if (pointRow.isReady) {
+                    workZone.focusOnPoint(nameText.text)
+                }
             }
 
             Row {
                 id: pointStatus
                 height: 20
                 anchors.left: parent.left
-                anchors.right: parent.right
+                anchors.right: deleteBtn.left
                 anchors.leftMargin: rightPanel.spacing
                 anchors.rightMargin: rightPanel.spacing
                 spacing: rightPanel.spacingValue
@@ -95,7 +107,7 @@ Item {
 
                 Text {
                     id: nameText
-                    width: parent.width-10
+                    width: implicitWidth
                     height: 20
                     clip: true
                     color: (pointsList.currentIndex === index) && (pointsList.isSelected) ? mainWindow.hTextColor : mainWindow.textColor
@@ -103,6 +115,23 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                 }
             }
+
+            CustomButton {
+                id: deleteBtn
+                height: 15
+                width: 50
+                text: qsTr("Delete") //TODO: Icon
+                anchors.right: parent.right
+                anchors.rightMargin: rightPanel.spacing
+                anchors.leftMargin: rightPanel.spacing
+                anchors.verticalCenter: pointStatus.verticalCenter
+                onClicked: {
+                    backEnd.removePoint(nameText.text)
+                    message.send(nameText.text+qsTr(" point deleted"))
+                }
+            }
+
+            //TODO: Property button (for choosing color, etc.)
 
             Text {
                 id: pointDescript
@@ -115,7 +144,7 @@ Item {
                 wrapMode: Text.WordWrap
                 text: description
                 clip: true
-                color: pointsList.currentIndex === index ? mainWindow.hTextColor : mainWindow.textColor
+                color: nameText.color
                 verticalAlignment: Text.AlignVCenter
 
             }
@@ -132,23 +161,56 @@ Item {
 
         Connections {
             target: backEnd
+            onPointAdded : {
+                points.append({name: pointName, description: description, readyStatus: false})
+                console.log("PointLine \""+pointName+"\" added")
+            }
+
             onPointUpdated: {
                 if (isVisible) {
                     for (var i = 0; i < points.count; ++i)
                     {
                         if (points.get(i).name === pointName)
                         {
-                            points.get(i).description = description
                             points.get(i).readyStatus = status
                             return
                         }
                     }
-                    points.append({name: pointName, description: description, readyStatus: status})
-                    console.log("PointLine \""+pointName+"\" added")
+                    console.log("Error: PointLine \""+pointName+"\" not found in table")
                 }
             }
-            onClearTable: {
+            onClearTables: {
                 points.clear()
+            }
+        }
+    }
+
+    Row {
+        id: buttons
+        height: 20
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+
+        CustomButton {
+            height: parent.height
+            width: parent.width/2
+            text: qsTr("Delete points")
+            enabled: points.count > 0
+            onClicked: {
+                backEnd.clear()
+                message.send(qsTr("Points deleted"))
+            }
+        }
+
+        CustomButton {
+            height: parent.height
+            width: parent.width/2
+            text: qsTr("Delete all points")
+            enabled: points.count > 0
+            onClicked: {
+                backEnd.clearAll()
+                message.send(qsTr("All points deleted"))
             }
         }
     }

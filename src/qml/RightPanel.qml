@@ -10,7 +10,8 @@ Rectangle {
     property real animationDuration: 100
     property real spacingValue: 10
     property real spacing: width > spacingValue ? spacingValue : 0
-    property alias pointsList: pointsZone
+    property alias pointsZone: pointsZone
+    property alias linesZone: linesZone
 
     function expand() {
         collapseAnimation.stop()
@@ -78,15 +79,29 @@ Rectangle {
         anchors.top: tabBar.bottom
         anchors.bottom: parent.bottom
         width: parent.width
+        wheelEnabled: false
         currentIndex: 0
         onCurrentIndexChanged: tabBar.setCurrentIndex(currentIndex)
 
         PointsZone {
             id: pointsZone
+
+            function isPointSelectionAllowed() {
+                return SwipeView.isCurrentItem
+            }
+
+            Connections {
+                target: swipeView
+                onCurrentIndexChanged:{
+                    if (swipeView.currentItem !== pointsZone) {
+                        pointsZone.deselectPoint()
+                        workZone.deselectPoint()
+                    }
+                }
+            }
         }
-        Rectangle {
+        LinesZone {
             id: linesZone
-            color: "blue"
         }
         ResultsZone {
             id: resultsZone

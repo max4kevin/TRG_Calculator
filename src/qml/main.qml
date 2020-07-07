@@ -24,7 +24,7 @@ ApplicationWindow {
     property bool darkTheme: controls.isDark
     property string backgroundColor: mainWindow.darkTheme ? "#000000" : "#DDDDDD"
     property string controlColor: mainWindow.darkTheme ? "#222222" : "#BBBBBB"
-    property string hControlColor: mainWindow.darkTheme ? "#777777" : "#888888"
+    property string hControlColor: mainWindow.darkTheme ? "#666666" : "#888888"
     property string textColor: mainWindow.darkTheme ? "#AAAAAA" : "#222222"
     property string hTextColor: mainWindow.darkTheme ? "#FFFFFF" : "#000000"
     property string inputColor: mainWindow.darkTheme ? "#888888" : "#DDDDDD"
@@ -106,14 +106,19 @@ ApplicationWindow {
             height: 20
             font.bold: true
             color: mainWindow.textColor
-            text: qsTr("Please open file")
+            text: backendMsg
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
+            property string backendMsg: qsTr("Please open file")
+
+            function loadBackendMsg() {
+                text = Qt.binding(function(){return backendMsg})
+            }
 
             Connections {
                 target: backEnd
                 onNewMsg: {
-                    pointMessage.text = msg
+                    pointMessage.backendMsg = msg
                 }
             }
         }
@@ -163,6 +168,11 @@ ApplicationWindow {
         function sendErr(text) {
             message.color = "red"
             fadeOut(text)
+        }
+
+        Connections {
+            target: backEnd
+            onError: message.sendErr(errorMsg)
         }
 
         OpacityAnimator {

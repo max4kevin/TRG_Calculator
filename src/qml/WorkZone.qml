@@ -35,20 +35,22 @@ Item {
         mouseArea.pointsNamesStateChanged(isEnabled)
     }
 
-    function showLines(isEnabled) {
+    function showLine(pointName1, pointName2, isEnabled) {
         mouseArea.linesStateChanged(isEnabled)
     }
 
     function selectPoint(pointName) {
-        mouseArea.selectedPoint = pointName;
-        mouseArea.enableLock();
-        mouseArea.disableLock(pointName);
+        mouseArea.selectedPoint = pointName
+        mouseArea.enableLock()
+        mouseArea.disableLock(pointName)
+        pointMessage.text = qsTr("Point ")+pointName+qsTr(" selected")
     }
 
     function deselectPoint() {
         mouseArea.selectedPoint = ""
-        mouseArea.enableLock();
+        mouseArea.enableLock()
         pointDeselected()
+        pointMessage.loadBackendMsg()
     }
 
     function focusOnPoint(pointName) {
@@ -59,6 +61,10 @@ Item {
             }
         }
         console.log(pointName+" point not found when focused")
+    }
+
+    function focusOnLine(pointName1, pointName2){
+
     }
 
     //TODO: Custom files path and name
@@ -78,14 +84,14 @@ Item {
     Menu {
         id: pointsMenu
         delegate: MenuDelegate {}
-        background: ControlBackground {}
+        background: ControlBackground {implicitWidth: 250}
 
         MenuDelegate {
             action: controls.pointsSwitch
         }
 
         MenuDelegate {
-            action: controls.linesSwitch
+            action: controls.panelSwitch
         }
 
     }
@@ -193,7 +199,7 @@ Item {
                 source = ""
                 message.send(qsTr("File closed"))
                 backEnd.reset()
-                pointMessage.text = ""
+                pointMessage.backendMsg = qsTr("Please open file");
             }
 
             Connections {
@@ -217,7 +223,6 @@ Item {
                 signal enableLock
                 signal disableLock(var pointName)
                 signal pointsNamesStateChanged(var isEnabled)
-                signal linesStateChanged(var isEnabled)
 
                 function scale(scaleIncrement, focusX, focusY)
                 {
@@ -241,8 +246,12 @@ Item {
                 }
 
                 function focusOn(x, y) {
-                    flickArea.contentX = flickArea.contentWidth === flickArea.width ? 0 : x*imageTRG.scale - flickArea.width/2
-                    flickArea.contentY = flickArea.contentHeight === flickArea.height ? 0 : y*imageTRG.scale - flickArea.height/2
+                    flickArea.contentX = flickArea.contentWidth === flickArea.width ?
+                                0 : x*imageTRG.scale - flickArea.width/2
+                    flickArea.contentY = flickArea.contentHeight === flickArea.height ?
+                                0 : y*imageTRG.scale - flickArea.height/2
+                    flickArea.contentX -= flickArea.horizontalOvershoot
+                    flickArea.contentY -= flickArea.verticalOvershoot
                 }
 
                 function pointMoved(pointName, x, y) {
@@ -340,11 +349,13 @@ Item {
                             childRec.y2 = mouseArea.children[i2].y+mouseArea.children[i2].height/2
                             childRec.color = color
                             childRec.width = 1/imageTRG.scale
-                            childRec.visible = controls.linesSwitch.checked
+                            childRec.visible = rightPanel.linesZone.isNewVisible
+                            rightPanel.linesZone.lineVisibilityChanged.connect(childRec.changeVisibility)
                             mouseArea.children[i1].moving.connect(childRec.movePoint1)
                             mouseArea.children[i2].moving.connect(childRec.movePoint2)
+
                         }
-                     }
+                    }
                 }
 
                 onEntered: {

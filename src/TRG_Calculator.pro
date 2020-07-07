@@ -45,6 +45,7 @@ HEADERS += \
 DISTFILES += \
     qml/CustomButton.qml \
     qml/CustomTabButton.qml \
+    qml/LinesZone.qml \
     qml/ParametersWindow.qml \
     qml/PointItem.qml \
     qml/LineItem.qml \

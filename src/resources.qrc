@@ -15,5 +15,6 @@
         <file>qml/ResultsZone.qml</file>
         <file>qml/CustomTabButton.qml</file>
         <file>qml/PointsZone.qml</file>
+        <file>qml/LinesZone.qml</file>
     </qresource>
 </RCC>

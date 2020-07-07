@@ -8,7 +8,7 @@ MenuBar {
 //    property alias isNamesEnabled: switchShowPointsNames.checked
 
     property alias pointsSwitch: switchShowPointsNames
-    property alias linesSwitch: switchShowLines
+//    property alias linesSwitch: switchShowLines
     property alias invertSwitch: switchInvert
     property alias panelSwitch: switchPanel
 
@@ -115,29 +115,27 @@ MenuBar {
             }
         }
 
-        CustomMenuSeparator {}
+//        CustomMenuSeparator {}
 
-        Action {
-            id: clearBtn
-            text: qsTr("Delete points")
-            enabled: workZone.isReady
-            onTriggered: {
-                backEnd.clear()
-                message.send(qsTr("Points deleted"))
-            }
-        }
+//        Action {
+//            id: clearBtn
+//            text: qsTr("Delete points")
+//            enabled: workZone.isReady
+//            onTriggered: {
+//                backEnd.clear()
+//                message.send(qsTr("Points deleted"))
+//            }
+//        }
 
-        Action {
-            id: clearAllBtn
-            enabled: workZone.isReady
-            text: qsTr("Clear all")
-            onTriggered: {
-                backEnd.clearAll()
-                message.send(qsTr("Area cleared"))
-            }
-        }
-
-        CustomMenuSeparator {}
+//        Action {
+//            id: clearAllBtn
+//            enabled: workZone.isReady
+//            text: qsTr("Clear all")
+//            onTriggered: {
+//                backEnd.clearAll()
+//                message.send(qsTr("Area cleared"))
+//            }
+//        }
 
         CustomMenuSeparator {}
 
@@ -192,16 +190,16 @@ MenuBar {
             }
         }
 
-        Action {
-            id: switchShowLines
-            text: qsTr("Show lines")
-            shortcut: "Ctrl+L"
-            checkable: true
-            checked: true
-            onTriggered: {
-                workZone.showLines(checked)
-            }
-        }
+//        Action {
+//            id: switchShowLines
+//            text: qsTr("Show lines")
+//            shortcut: "Ctrl+L"
+//            checkable: true
+//            checked: true
+//            onTriggered: {
+//                workZone.showLines(checked)
+//            }
+//        }
 
         CustomMenuSeparator {}
 

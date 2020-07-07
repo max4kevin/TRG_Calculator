@@ -2,6 +2,8 @@
 #include <QQmlApplicationEngine>
 #include <QFile>
 
+#define TRG_CODE 0xDEAF
+#define VERSION_CODE 0x0001
 #define MAPO_CODE 0xBAF0
 
 //TODO: Resending text fields to frontend after language switch
@@ -27,15 +29,15 @@ QImage BackEnd::requestImage(const QString &/*id*/, QSize *size, const QSize &/*
 
 void BackEnd::loadData()
 {
-    clearTable();
-    actualCalculationMethod_->loadTable();
+    clearTables();
+    actualCalculationMethod_->loadResultsTable();
     actualCalculationMethod_->loadPointsTable();
 }
 
 void BackEnd::reset()
 {
     calculationMethodMAPO_.reset();
-    clearTable();
+    clearTables();
     //TODO: reseting other methods
 }
 
@@ -47,6 +49,11 @@ void BackEnd::writeCoordinates(qreal x, qreal y)
 void BackEnd::writeCoordinates(const QString& pointName, qreal x, qreal y)
 {
     actualCalculationMethod_->writeCoordinates(pointName, x, y);
+}
+
+void BackEnd::removePoint(const QString &pointName)
+{
+    actualCalculationMethod_->removePoint(pointName);
 }
 
 void BackEnd::setCalibrationLength(qreal length)
@@ -96,17 +103,27 @@ void BackEnd::openFile(const QString& filePath)
         {
             QDataStream stream(&file);
             stream.setVersion (QDataStream::Qt_4_7);
-            int code;
+            uint16_t code;
+            stream >> code;
+            if (code != TRG_CODE)
+            {
+                file.close();
+                qDebug() << "Incorrect trg file: trg code failed " << code;
+                return error(QCoreApplication::translate("main", "Incorrect file"));
+            }
+            stream >> code;
+            qDebug() << "File version: " << code;
+
             stream >> code;
             if (code == MAPO_CODE)
             {
                 //switch to MAPO method
-            }
+            } //TODO: else if - another methods
             else
             {
                 file.close();
-                qDebug() << "Incorrect trg file";
-                return;
+                qDebug() << "Incorrect trg file: method code failed " << code;
+                return error(QCoreApplication::translate("main", "Incorrect file"));
             }
             //reading points and image
             QVector<Point> points;
@@ -115,10 +132,10 @@ void BackEnd::openFile(const QString& filePath)
                 Point point;
                 stream >> point.coordinates;
                 stream >> point.isReady;
-                stream >> point.color;
                 stream >> point.isTilted;
                 stream >> point.isEntilted;
                 stream >> point.isVisible;
+                stream >> point.color;
                 points.append(point);
             }
             QImage image;
@@ -171,7 +188,7 @@ void BackEnd::saveFile(const QString& filePath)
         return;
     }
 
-    int code;
+    uint16_t code;
 
     if (actualCalculationMethod_ == &calculationMethodMAPO_)
     {
@@ -186,16 +203,18 @@ void BackEnd::saveFile(const QString& filePath)
     {
         QDataStream stream(&file);
         stream.setVersion(QDataStream::Qt_4_7);
+        stream << (uint16_t)TRG_CODE;
+        stream << (uint16_t)VERSION_CODE;
         stream << code;
-        const QVector<Points::Iterator>& points = actualCalculationMethod_->getPoints();
+        const WorkPoints& points = actualCalculationMethod_->getPoints();
         for (auto &p: points)
         {
-            stream << p.value().coordinates;
-            stream << p.value().isReady;
-            stream << p.value().color;
-            stream << p.value().isTilted;
-            stream << p.value().isEntilted;
-            stream << p.value().isVisible;
+            stream << p.point.value().coordinates;
+            stream << p.point.value().isReady;
+            stream << p.point.value().isTilted;
+            stream << p.point.value().isEntilted;
+            stream << p.point.value().isVisible;
+            stream << p.point.value().color;
         }
         stream << image_;
         if(stream.status() != QDataStream::Ok)
@@ -245,14 +264,24 @@ void BackEnd::invertImage()
     }
 }
 
-void BackEnd::updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, const QString& description, bool status)
+void BackEnd::addPoint(const QString &pointName, const QString &description)
 {
-    pointUpdated(pointName, color, x, y, isTilted, isEntilted, isVisible, description, status);
+    pointAdded(pointName, description);
+}
+
+void BackEnd::updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, bool status)
+{
+    pointUpdated(pointName, color, x, y, isTilted, isEntilted, isVisible, status);
 }
 
 void BackEnd::connectPoints(const QString& pointName1, const QString& pointName2, const QString& color)
 {
     pointsConnected(pointName1, pointName2, color);
+}
+
+void BackEnd::addResult(const QString &resultName, const QString &resultReference)
+{
+    resultAdded(resultName, resultReference);
 }
 
 void BackEnd::updateResult(const QString& resultName, const QString& resultValue, const QString& resultReference)

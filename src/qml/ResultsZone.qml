@@ -104,6 +104,11 @@ Item {
 
         Connections {
             target: backEnd
+            onResultAdded: {
+                results.append({name: resultName, value: "", reference: resultReference})
+                console.log("Result \""+resultName+"\" added")
+            }
+
             onResultUpdated: {
                 for (var i = 0; i < results.count; ++i)
                 {
@@ -114,11 +119,10 @@ Item {
                         return
                     }
                 }
-                results.append({name: resultName, value: resultValue, reference: resultReference})
-                console.log("Result \""+resultName+"\" added")
+                console.log("Error: Result \""+resultName+"\" not found in table")
             }
 
-            onClearTable: {
+            onClearTables: {
                 results.clear()
             }
         }
