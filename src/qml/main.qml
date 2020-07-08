@@ -162,7 +162,11 @@ ApplicationWindow {
         id: message
         anchors.centerIn: parent
         font.bold: true
-        font.pointSize: mainWindow.width/25
+        width: mainWindow.width-200
+        font.pointSize: 100
+        minimumPointSize: 10
+        horizontalAlignment: Text.AlignHCenter
+        fontSizeMode: Text.Fit
         color: "green"
         opacity: 0
 

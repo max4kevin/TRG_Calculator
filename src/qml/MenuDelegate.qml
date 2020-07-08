@@ -13,9 +13,12 @@ MenuItem {
         height: 7
         width: 7
         visible: menuItem.subMenu
+        property color color: menuItem.highlighted ? mainWindow.hTextColor : mainWindow.textColor
+        onColorChanged: requestPaint()
+
         onPaint: {
             var ctx = getContext("2d")
-            ctx.fillStyle = menuItem.highlighted ? mainWindow.hTextColor : mainWindow.textColor
+            ctx.fillStyle = color
             ctx.moveTo(0, 0)
             ctx.lineTo(0, height)
             ctx.lineTo(width, height/2)

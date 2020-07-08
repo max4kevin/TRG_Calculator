@@ -6,21 +6,18 @@ Item {
 
     Rectangle {
         id: resultTitle
-        anchors.left: parent.left
-        anchors.right: parent.right
+        width: parent.width
         height: 30
         color: mainWindow.backgroundColor
 
         Row {
             width: parent.width
-            anchors.leftMargin: rightPanel.spacing
-            anchors.rightMargin: rightPanel.spacing
             anchors.verticalCenter: parent.verticalCenter
-            spacing: rightPanel.spacingValue
+            spacing: 0
 
             Text {
                 width: parent.width/3
-                horizontalAlignment: Text.AlignHCenter
+                horizontalAlignment:  Text.AlignHCenter
                 color: mainWindow.textColor
                 clip: true
                 font.bold: true
@@ -29,7 +26,7 @@ Item {
 
             Text {
                 width: parent.width/3
-                horizontalAlignment: Text.AlignHCenter
+                horizontalAlignment:  Text.AlignHCenter
                 color: mainWindow.textColor
                 clip: true
                 font.bold: true
@@ -38,7 +35,7 @@ Item {
 
             Text {
                 width: parent.width/3
-                horizontalAlignment: Text.AlignHCenter
+                horizontalAlignment:  Text.AlignHCenter
                 color: mainWindow.textColor
                 clip: true
                 font.bold: true
@@ -62,13 +59,12 @@ Item {
             id: resultLine
             anchors.left: parent.left
             anchors.right: parent.right
-            anchors.leftMargin: rightPanel.spacing
-            anchors.rightMargin: rightPanel.spacing
-            spacing: rightPanel.spacingValue
+            spacing: 0
 
             Text {
                 id: nameText
                 width: parent.width/3
+                leftPadding: rightPanel.spacing
                 clip: true
                 color: mainWindow.textColor
                 text: name

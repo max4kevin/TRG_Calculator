@@ -119,11 +119,38 @@ MenuBar {
 
         Menu {
             title: qsTr("Calculation method")
-            delegate: MenuDelegate {}
+            delegate: MenuDelegate {
+                id: menuItem
+                indicator: Item {
+                    anchors.verticalCenter: parent.verticalCenter
+                    implicitHeight: 20
+                    implicitWidth: 20
+                    visible: menuItem.checkable
+                    opacity: menuItem.checked ? 1 : 0
+
+                    Rectangle {
+                        width: 7
+                        height: 7
+                        radius: 4
+                        anchors.centerIn: parent
+                        color: menuItem.highlighted ? mainWindow.hTextColor : mainWindow.textColor
+                    }
+                }
+            }
             background: ControlBackground {implicitWidth: 150}
+            function clearSelection() {
+
+            }
 
             Action {
                 text: "MAPO"
+                checkable: true
+                checked: true
+            }
+
+            Action {
+                text: "FACE"
+                checkable: true
             }
         }
 

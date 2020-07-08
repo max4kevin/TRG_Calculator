@@ -121,6 +121,7 @@ Rectangle {
                 color: mainWindow.controlColor
             }
         }
+
         ResultsZone {
             id: resultsZone
         }
