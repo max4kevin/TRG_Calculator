@@ -53,6 +53,10 @@ Item {
         pointMessage.loadBackendMsg()
     }
 
+    function deselectLine() {
+        mouseArea.linesDeselected()
+    }
+
     function focusOnPoint(pointName) {
         for (var i = 0; i < mouseArea.children.length; ++i) {
             if (mouseArea.children[i].name === pointName) {
@@ -64,7 +68,16 @@ Item {
     }
 
     function focusOnLine(pointName1, pointName2){
-
+        for (var i = 0; i < mouseArea.children.length; ++i) {
+            if (mouseArea.children[i].pointName1 === pointName1 && mouseArea.children[i].pointName2 === pointName2) {
+                var x = (mouseArea.children[i].x1 + mouseArea.children[i].x2)/2
+                var y = (mouseArea.children[i].y1 + mouseArea.children[i].y2)/2
+                mouseArea.children[i].isSelected = true
+                mouseArea.focusOn(x, y)
+                return
+            }
+        }
+        console.log(pointName1, pointName2, "line not found when focused")
     }
 
     //TODO: Custom files path and name
@@ -91,7 +104,7 @@ Item {
         }
 
         MenuDelegate {
-            action: controls.panelSwitch
+            action: controls.invertSwitch
         }
 
     }
@@ -111,13 +124,9 @@ Item {
             Keys.enabled = !isHolded
         }
 
-        ScrollBar.vertical: ScrollBar {
-               active: true
-        }
+        ScrollBar.vertical: CustomScrollBar {}
 
-        ScrollBar.horizontal: ScrollBar {
-               active: true
-        }
+        ScrollBar.horizontal: CustomScrollBar {}
 
         Keys.onSpacePressed: {
             if(!event.isAutoRepeat)
@@ -222,6 +231,7 @@ Item {
                 signal deletePoint(var pointName)
                 signal enableLock
                 signal disableLock(var pointName)
+                signal linesDeselected()
                 signal pointsNamesStateChanged(var isEnabled)
 
                 function scale(scaleIncrement, focusX, focusY)
@@ -350,10 +360,10 @@ Item {
                             childRec.color = color
                             childRec.width = 1/imageTRG.scale
                             childRec.visible = rightPanel.linesZone.isNewVisible
-                            rightPanel.linesZone.lineVisibilityChanged.connect(childRec.changeVisibility)
                             mouseArea.children[i1].moving.connect(childRec.movePoint1)
                             mouseArea.children[i2].moving.connect(childRec.movePoint2)
-
+                            childRec.removed.connect(mouseArea.children[i1].disconnectLine)
+                            childRec.removed.connect(mouseArea.children[i2].disconnectLine)
                         }
                     }
                 }

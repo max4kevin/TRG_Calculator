@@ -44,6 +44,7 @@ HEADERS += \
 
 DISTFILES += \
     qml/CustomButton.qml \
+    qml/CustomScrollBar.qml \
     qml/CustomTabButton.qml \
     qml/LinesZone.qml \
     qml/ParametersWindow.qml \

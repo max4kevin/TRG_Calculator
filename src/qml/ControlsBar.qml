@@ -115,27 +115,17 @@ MenuBar {
             }
         }
 
-//        CustomMenuSeparator {}
+        CustomMenuSeparator {}
 
-//        Action {
-//            id: clearBtn
-//            text: qsTr("Delete points")
-//            enabled: workZone.isReady
-//            onTriggered: {
-//                backEnd.clear()
-//                message.send(qsTr("Points deleted"))
-//            }
-//        }
+        Menu {
+            title: qsTr("Calculation method")
+            delegate: MenuDelegate {}
+            background: ControlBackground {implicitWidth: 150}
 
-//        Action {
-//            id: clearAllBtn
-//            enabled: workZone.isReady
-//            text: qsTr("Clear all")
-//            onTriggered: {
-//                backEnd.clearAll()
-//                message.send(qsTr("Area cleared"))
-//            }
-//        }
+            Action {
+                text: "MAPO"
+            }
+        }
 
         CustomMenuSeparator {}
 
@@ -190,17 +180,6 @@ MenuBar {
             }
         }
 
-//        Action {
-//            id: switchShowLines
-//            text: qsTr("Show lines")
-//            shortcut: "Ctrl+L"
-//            checkable: true
-//            checked: true
-//            onTriggered: {
-//                workZone.showLines(checked)
-//            }
-//        }
-
         CustomMenuSeparator {}
 
         Action {
@@ -217,7 +196,7 @@ MenuBar {
             text: qsTr("Show work panel")
             shortcut: "Alt+R"
             checkable: true
-            checked: true
+            checked: false
             onTriggered: {
                 if (checked) {
                     rightPanel.expand()

@@ -23,6 +23,16 @@ Item {
     signal hold(var isHolded)               //signal that mouse holds point
     signal removed()
 
+    //FIXME: Crutch because of dynamic objects connections
+    function disconnectLine(line) {
+        if (name === line.pointName1) {
+            moving.disconnect(line.movePoint1)
+        }
+        else if (name === line.pointName2) {
+            moving.disconnect(line.movePoint2)
+        }
+    }
+
     Drag.active: dragArea.drag.active
 
     onXChanged: {
@@ -78,10 +88,8 @@ Item {
         onEntered: if (!isNameAlwaysOn && isEntilted) nameText.visible = true
         onExited:  if (!isNameAlwaysOn && isEntilted) nameText.visible = false
         onDoubleClicked: {
-            if (rightPanel.pointsZone.isPointSelectionAllowed()) {
-                workZone.selectPoint(point.name)
-                rightPanel.pointsZone.selectPoint(point.name)
-            }
+            workZone.selectPoint(point.name)
+            rightPanel.pointsZone.selectPoint(point.name)
         }
 
         onPressed: {
@@ -111,7 +119,6 @@ Item {
                 }
             }
         }
-
 
         Item {
             id: cross

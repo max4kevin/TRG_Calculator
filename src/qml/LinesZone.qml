@@ -1,6 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 
+
+//TODO: List padding
 Item {
     id: linesZone
 
@@ -8,6 +10,7 @@ Item {
 
     function deselectLine() {
         linesList.isSelected = false
+        workZone.deselectLine()
     }
 
     //FIXME: Megacrutch (because of dynamic item to delegate signals bag - not all signals catch!)
@@ -35,41 +38,62 @@ Item {
         id: linesList
         width: parent.width
         anchors.top: parent.top
-//        anchors.bottom: buttons.top
-        anchors.bottom: buttons.top
+        anchors.bottom: showNewSwitch.top
         orientation: Qt.Vertical
-        spacing: rightPanel.spacingValue
+        spacing: 0
         clip: true
         highlightMoveDuration: 0
         boundsBehavior: Flickable.StopAtBounds
 
         property bool isSelected: false
 
+        highlight: Rectangle {
+            id: selection
+            width: linesList.width
+            visible: true
+            color: "transparent"
+            SequentialAnimation on color{
+                running: linesList.isSelected
+                loops: Animation.Infinite
+                onRunningChanged: {
+                    if (!running)
+                    {
+                        selection.color = "transparent"
+                    }
+                }
+
+                ColorAnimation { from: mainWindow.controlColor; to: mainWindow.hControlColor; duration: 1000 }
+                ColorAnimation { from: mainWindow.hControlColor; to: mainWindow.controlColor;  duration: 1000 }
+            }
+        }
+
         delegate: MouseArea {
             id: lineRow
-            height: 20
+            height: 40
             anchors.left: parent.left
             anchors.right: parent.right
 
-//            onClicked: {
-//                if (pointsList.currentIndex === index) {
-//                    if (pointsList.isSelected) {
-//                        workZone.deselectPoint()
-//                        return
-//                    }
-//                }
-//                else {
-//                    pointsList.currentIndex = index
-//                }
-//                pointsList.isSelected = true
-//                workZone.selectPoint(nameText.text)
-//                workZone.focusOnPoint(nameText.text)
-//            }
+            onClicked: {
+                if (linesList.currentIndex === index) {
+                    if (linesList.isSelected) {
+                        linesZone.deselectLine()
+                        return
+                    }
+                }
+                else {
+                    workZone.deselectLine()
+                    linesList.currentIndex = index
+                }
+                if (lines.get(index).isVisible) {
+                    linesList.isSelected = true
+                    workZone.focusOnLine(nameText.name1, nameText.name2)
+                }
+            }
 
             Text {
                 id: nameText
 
-                height: 20
+                height: 40
                 anchors.left: hideBtn.right
                 anchors.right: parent.right
                 anchors.leftMargin: rightPanel.spacing
@@ -87,6 +111,8 @@ Item {
                 id: hideBtn
                 checked: isVisible
                 width: 20
+                height: 20
+                anchors.verticalCenter: nameText.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin: rightPanel.spacing
                 anchors.rightMargin: rightPanel.spacing
@@ -120,18 +146,69 @@ Item {
                     {
                         lines.setProperty(index, "isVisible", checked)
                         linesZone.lineVisibilityChanged(nameText.name1, nameText.name2, checked)
+                        if (!checked) {
+                            linesZone.deselectLine()
+                        }
                     }
                 }
             }
         }
         model: lines
+
+        ScrollBar.vertical: CustomScrollBar {
+               visible: parent.width !== 0
+        }
     }
+
+    CheckBox {
+        id: showNewSwitch
+        height: 25
+        width: implicitWidth
+        checked: true
+        text: qsTr("Show new lines")
+        anchors.bottom: buttons.top
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        indicator: Item {
+            implicitWidth: 25
+            implicitHeight: 25
+            Rectangle {
+                width: 13
+                height: 13
+                anchors.centerIn: parent
+                opacity: enabled ? 1.0 : 0.3
+                color: "transparent"
+                border.color: showNewSwitch.checked? "green" : "red"
+                radius: 3
+                Rectangle {
+                    width: 7
+                    height: 7
+                   anchors.centerIn: parent
+                   visible: showNewSwitch.checked
+                   opacity: enabled ? 1.0 : 0.3
+                   color: showNewSwitch.checked? "green" : "red"
+                   radius: 2
+                }
+            }
+        }
+
+        contentItem: Text {
+            text: showNewSwitch.text
+            font: showNewSwitch.font
+            opacity: enabled ? 1.0 : 0.3
+            color: showNewSwitch.checked? "green" : "red"
+            clip: true
+            verticalAlignment: Text.AlignVCenter
+            leftPadding: showNewSwitch.indicator.width
+        }
+    }
+
     Row {
         id: buttons
         height: 20
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.bottom: showNewSwitch.top
+        anchors.bottom: parent.bottom
 //        anchors.bottom: parent.bottom
 
         CustomButton {
@@ -161,16 +238,9 @@ Item {
                     lines.setProperty(i, "isVisible", false)
                     linesZone.lineVisibilityChanged(lines.get(i).pointName1, lines.get(i).pointName2, false)
                 }
+                linesZone.deselectLine()
             }
         }
-    }
-
-    Switch {
-        id: showNewSwitch
-        height: 20
-        width: implicitWidth
-        checked: true
-        anchors.bottom: parent.bottom
     }
 
     //FIXME: Megacrutch (because of dynamic item to delegate signals bag - not all signals catch!)

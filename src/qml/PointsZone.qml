@@ -4,12 +4,21 @@ import QtQuick.Controls 2.4
 Item {
     id: pointsZone
 
+    //Deselecting only in list
     function deselectPoint() {
         pointsList.isSelected = false
+        showNextPoint()
     }
 
     function showNextPoint() {
-
+        for (var i = 0; i < points.count; ++i) {
+            if (!points.get(i).readyStatus) {
+                pointsList.currentIndex = i
+                pointsList.isHighlighted = true
+                return
+            }
+            pointsList.isHighlighted = false
+        }
     }
 
     function selectPoint(pointName) {
@@ -41,6 +50,7 @@ Item {
         boundsBehavior: Flickable.StopAtBounds
 
         property bool isSelected: false
+        property bool isHighlighted: true
 
         //FIXME: Scrolling bug
         highlight: Rectangle {
@@ -48,7 +58,7 @@ Item {
             width: pointsList.width
             visible: true
             color: "transparent"
-            border.color: mainWindow.hControlColor
+            border.color: pointsList.isHighlighted||pointsList.isSelected? mainWindow.hControlColor : "transparent"
             SequentialAnimation on color{
                 running: pointsList.isSelected
                 loops: Animation.Infinite
@@ -116,19 +126,28 @@ Item {
                 }
             }
 
+            Action {
+                id: deleteAction
+                text: qsTr("Delete")
+                enabled: (pointsList.currentIndex === index) && pointsList.isSelected && pointRow.isReady
+                shortcut: "Delete"
+                onTriggered: {
+                    backEnd.removePoint(nameText.text)
+                    workZone.deselectPoint()
+                    message.send(nameText.text+qsTr(" point deleted"))
+                }
+            }
+
             CustomButton {
                 id: deleteBtn
                 height: 15
                 width: 50
-                text: qsTr("Delete") //TODO: Icon
+                action: deleteAction
+                visible: deleteAction.enabled
                 anchors.right: parent.right
                 anchors.rightMargin: rightPanel.spacing
                 anchors.leftMargin: rightPanel.spacing
                 anchors.verticalCenter: pointStatus.verticalCenter
-                onClicked: {
-                    backEnd.removePoint(nameText.text)
-                    message.send(nameText.text+qsTr(" point deleted"))
-                }
             }
 
             //TODO: Property button (for choosing color, etc.)
@@ -154,8 +173,7 @@ Item {
             id: points
         }
 
-        ScrollBar.vertical: ScrollBar {
-               active: true
+        ScrollBar.vertical: CustomScrollBar {
                visible: parent.width !== 0
         }
 
@@ -173,6 +191,9 @@ Item {
                         if (points.get(i).name === pointName)
                         {
                             points.get(i).readyStatus = status
+                            if (!pointsList.isSelected) {
+                                showNextPoint()
+                            }
                             return
                         }
                     }

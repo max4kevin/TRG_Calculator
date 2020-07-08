@@ -10,7 +10,7 @@ import Qt.labs.platform 1.0 as Labs
 //TODO: Calculation method choosing
 //TODO: Laguage choosing
 //TODO: Settings data in resourses
-
+//TODO: Sync Animation
 
 ApplicationWindow {
     id: mainWindow
@@ -97,13 +97,14 @@ ApplicationWindow {
 
     menuBar: ControlsBar {id: controls}
 
-    footer:
-        //TODO: Fix text areas
-
+    footer: Item {
+        height: 20
         Text {
             id: pointMessage
             leftPadding: 10
-            height: 20
+            height: parent.height
+            anchors.left: parent.left
+            anchors.right: panelBtn.right
             font.bold: true
             color: mainWindow.textColor
             text: backendMsg
@@ -122,6 +123,18 @@ ApplicationWindow {
                 }
             }
         }
+
+        CustomButton {
+            id: panelBtn
+            width: 100
+            height: parent.height
+            anchors.right: parent.right
+            text: controls.panelSwitch.checked ? qsTr("Hide work panel") : qsTr("Show work panel")
+            onReleased: controls.panelSwitch.trigger()
+        }
+
+
+    }
 
     Row {
         id: workRow

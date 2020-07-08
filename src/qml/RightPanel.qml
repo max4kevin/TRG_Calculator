@@ -5,7 +5,7 @@ Rectangle {
     id: rightPanel
     color: mainWindow.backgroundColor
     clip: true
-    width: expandedWidth
+    width: /*expandedWidth*/ 0
     property real expandedWidth: 450
     property real animationDuration: 100
     property real spacingValue: 10
@@ -41,16 +41,24 @@ Rectangle {
         onStopped: rightPanel.visible = false
     }
 
-    CustomButton {
-        id: hideBtn
+    Rectangle {
+        id: separator
+        anchors.top: parent.top
         width: parent.width
-        height: 20
-        text: qsTr("Hide panel")
-        onClicked: {
-            parent.collapse()
-            controls.panelSwitch.checked = false
-        }
+        height: 1
+        color: mainWindow.backgroundColor
     }
+
+//    CustomButton {
+//        id: hideBtn
+//        width: parent.width
+//        height: 20
+//        text: qsTr("Hide panel")
+//        onClicked: {
+//            parent.collapse()
+//            controls.panelSwitch.checked = false
+//        }
+//    }
 
     //TODO: delegate
     TabBar {
@@ -59,7 +67,7 @@ Rectangle {
         height: 20
         contentHeight: height
         currentIndex: 0
-        anchors.top: hideBtn.bottom
+        anchors.top: separator.bottom
         onCurrentIndexChanged: swipeView.setCurrentIndex(currentIndex)
         background: Rectangle {color: mainWindow.backgroundColor}
 
@@ -86,22 +94,32 @@ Rectangle {
         PointsZone {
             id: pointsZone
 
-            function isPointSelectionAllowed() {
-                return SwipeView.isCurrentItem
+            Rectangle {
+                width: 1
+                height: parent.height
+                anchors.right: parent.right
+                color: mainWindow.controlColor
             }
+        }
+
+        LinesZone {
+            id: linesZone
 
             Connections {
                 target: swipeView
                 onCurrentIndexChanged:{
-                    if (swipeView.currentItem !== pointsZone) {
-                        pointsZone.deselectPoint()
-                        workZone.deselectPoint()
+                    if (swipeView.currentItem !== linesZone) {
+                        linesZone.deselectLine()
                     }
                 }
             }
-        }
-        LinesZone {
-            id: linesZone
+
+            Rectangle {
+                width: 1
+                height: parent.height
+                anchors.right: parent.right
+                color: mainWindow.controlColor
+            }
         }
         ResultsZone {
             id: resultsZone

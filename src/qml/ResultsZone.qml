@@ -97,8 +97,7 @@ Item {
             id: results
         }
 
-        ScrollBar.vertical: ScrollBar {
-               active: true
+        ScrollBar.vertical: CustomScrollBar {
                visible: parent.width !== 0
         }
 
