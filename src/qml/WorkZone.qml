@@ -5,7 +5,13 @@ Item {
     id: workZone
 
     property bool isReady: imageTRG.status === Image.Ready
-    signal pointDeselected
+
+    //FIXME: crutch
+    function sendSelectionMsg() {
+        if (mouseArea.selectedPoint !== "") {
+            pointMessage.text = qsTr("Point ")+mouseArea.selectedPoint+qsTr(" selected")
+        }
+    }
 
     function zoom() {
         if (imageTRG.scale !== mouseArea.maxScaleFactor)
@@ -43,13 +49,13 @@ Item {
         mouseArea.selectedPoint = pointName
         mouseArea.enableLock()
         mouseArea.disableLock(pointName)
-        pointMessage.text = qsTr("Point ")+pointName+qsTr(" selected")
+//        pointMessage.text = qsTr("Point ")+pointName+qsTr(" selected")
+        sendSelectionMsg()
     }
 
     function deselectPoint() {
         mouseArea.selectedPoint = ""
         mouseArea.enableLock()
-        pointDeselected()
         pointMessage.loadBackendMsg()
     }
 
@@ -97,7 +103,7 @@ Item {
     Menu {
         id: pointsMenu
         delegate: MenuDelegate {}
-        background: ControlBackground {implicitWidth: 250}
+        background: ControlBackground {implicitWidth: 270}
 
         MenuDelegate {
             action: controls.pointsSwitch
@@ -172,6 +178,7 @@ Item {
 
             function dropImage(drop) {
                 if (checkFileExtension(drop.text)) {
+                    rightPanel.resetSelections()
                     backEnd.openFile(drop.text)
                 }
                 else {
@@ -199,6 +206,7 @@ Item {
             }
 
             function update() {
+                rightPanel.resetSelections()
                 source = ""
                 source = "image://imageProvider/img"
             }
@@ -206,6 +214,7 @@ Item {
             function close()
             {
                 source = ""
+                rightPanel.resetSelections()
                 message.send(qsTr("File closed"))
                 backEnd.reset()
                 pointMessage.backendMsg = qsTr("Please open file");
@@ -397,7 +406,7 @@ Item {
                                 //FIXME: Set calibration points first!
                                 for (var i = 0; i < mouseArea.children.length; ++i) {
                                     if (mouseArea.children[i].name === mouseArea.selectedPoint) {
-                                        return workZone.deselectPoint()
+                                        return rightPanel.pointsZone.deselectPoint()
                                     }
                                 }
                                 console.log(mouseArea.selectedPoint)
@@ -419,7 +428,7 @@ Item {
                     else
                     {
                         if (!flickArea.interactive) {
-                            flickArea.flick(wheel.angleDelta.x*50, wheel.angleDelta.y*50)
+                            flickArea.flick(wheel.angleDelta.x*20, wheel.angleDelta.y*20)
                         }
                     }
                 }
@@ -428,13 +437,13 @@ Item {
                     id: pointsDropArea
                     anchors.fill: parent
                     onEntered: {
-                        if (!drag.hasText) {
+                        if (!drag.hasText && drag.source) {
                             drag.source.isCaught = true
                         }
                     }
 
                     onExited: {
-                        if (!drag.hasText) {
+                        if (!drag.hasText && drag.source) {
                             drag.source.isCaught = false
                         }
                     }
@@ -460,6 +469,12 @@ Item {
                     onPointsConnected: {
                         mouseArea.connectPoints(pointName1, pointName2, color)
                     }
+
+//                    onClearTables: {
+//                        if (mouseArea.selectedPoint !== "") {
+//                            workZone.selectPoint(mouseArea.selectedPoint)
+//                        }
+//                    }
                 }
             }
         }

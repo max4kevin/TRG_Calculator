@@ -23,6 +23,11 @@ Rectangle {
         collapseAnimation.start()
     }
 
+    function resetSelections() {
+        pointsZone.deselectPoint()
+        linesZone.deselectLine()
+    }
+
     PropertyAnimation {
         id: expandAnimation
         target: rightPanel
@@ -49,16 +54,6 @@ Rectangle {
         color: mainWindow.backgroundColor
     }
 
-//    CustomButton {
-//        id: hideBtn
-//        width: parent.width
-//        height: 20
-//        text: qsTr("Hide panel")
-//        onClicked: {
-//            parent.collapse()
-//            controls.panelSwitch.checked = false
-//        }
-//    }
 
     //TODO: delegate
     TabBar {

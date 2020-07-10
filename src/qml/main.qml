@@ -6,11 +6,9 @@ import QtQuick.Dialogs 1.2
 import Qt.labs.platform 1.0 as Labs
 
 //TODO: Ask for saving before closing
-//TODO: Custom data storing path
 //TODO: Calculation method choosing
-//TODO: Laguage choosing
-//TODO: Settings data in resourses
-//TODO: Sync Animation
+//FIXME: Rewrite global functions to signals and slots
+
 
 ApplicationWindow {
     id: mainWindow
@@ -21,6 +19,8 @@ ApplicationWindow {
     minimumWidth: 640
     minimumHeight: 480
     property int menuBarHeight: 20
+    property int blinkDuration: 1000
+    property bool isBlinkAllowed: true
     property bool darkTheme: controls.isDark
     property string backgroundColor: mainWindow.darkTheme ? "#000000" : "#DDDDDD"
     property string controlColor: mainWindow.darkTheme ? "#222222" : "#BBBBBB"
@@ -28,11 +28,20 @@ ApplicationWindow {
     property string textColor: mainWindow.darkTheme ? "#AAAAAA" : "#222222"
     property string hTextColor: mainWindow.darkTheme ? "#FFFFFF" : "#000000"
     property string inputColor: mainWindow.darkTheme ? "#888888" : "#DDDDDD"
-    property string version: "2.1.0"
+    property string version: "2.2.0"
+
+    function syncBlink() {
+        isBlinkAllowed = false
+        isBlinkAllowed = true
+    }
 
     background: Rectangle {
         anchors.fill: parent
         color: backgroundColor
+    }
+
+    Component.onCompleted: {
+        //loading configs from backEnd
     }
 
     ParametersWindow {
@@ -44,14 +53,17 @@ ApplicationWindow {
         title: qsTr("About")
         flags: Qt.FramelessWindowHint
         visible: false
-        minimumWidth: 200
-        minimumHeight: 130
+        minimumWidth: 380
+        minimumHeight: 160
         maximumWidth: minimumWidth
         maximumHeight: minimumHeight
         color: mainWindow.controlColor
         modality: Qt.ApplicationModal
         Text {
-            text: qsTr("TRG calculation program.\nVersion ")+mainWindow.version+qsTr("\nCreated by Kirill Maksimov")
+            text: qsTr("TRG calculation program.\nVersion ")+mainWindow.version+
+                  qsTr("\n\nCreated by Kirill Maksimov.\nCalculations methods provided by Regina Maximova.\nContacts: ")+
+                  "maximovkirandr@gmail.com"
+
             color: mainWindow.textColor
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
@@ -126,7 +138,7 @@ ApplicationWindow {
 
         CustomButton {
             id: panelBtn
-            width: 100
+            width: 140
             height: parent.height
             anchors.right: parent.right
             text: controls.panelSwitch.checked ? qsTr("Hide work panel") : qsTr("Show work panel")

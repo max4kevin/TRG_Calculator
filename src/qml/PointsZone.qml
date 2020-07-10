@@ -7,6 +7,7 @@ Item {
     //Deselecting only in list
     function deselectPoint() {
         pointsList.isSelected = false
+        workZone.deselectPoint()
         showNextPoint()
     }
 
@@ -33,18 +34,13 @@ Item {
         console.log("Error: "+pointName+" not found in PointsList")
     }
 
-    Connections {
-        target: workZone
-        onPointDeselected: deselectPoint()
-    }
-
     ListView {
         id: pointsList
         width: parent.width
         anchors.top: parent.top
         anchors.bottom: buttons.top
         orientation: Qt.Vertical
-        spacing: rightPanel.spacingValue
+        spacing: /*rightPanel.spacingValue*/ 0
         clip: true
         highlightMoveDuration: 0
         boundsBehavior: Flickable.StopAtBounds
@@ -60,7 +56,7 @@ Item {
             color: "transparent"
             border.color: pointsList.isHighlighted||pointsList.isSelected? mainWindow.hControlColor : "transparent"
             SequentialAnimation on color{
-                running: pointsList.isSelected
+                running: pointsList.isSelected && mainWindow.isBlinkAllowed
                 loops: Animation.Infinite
                 onRunningChanged: {
                     if (!running)
@@ -69,14 +65,14 @@ Item {
                     }
                 }
 
-                ColorAnimation { from: mainWindow.controlColor; to: mainWindow.hControlColor; duration: 1000 }
-                ColorAnimation { from: mainWindow.hControlColor; to: mainWindow.controlColor;  duration: 1000 }
+                ColorAnimation { from: mainWindow.controlColor; to: mainWindow.hControlColor; duration: mainWindow.blinkDuration }
+                ColorAnimation { from: mainWindow.hControlColor; to: mainWindow.controlColor;  duration: mainWindow.blinkDuration }
             }
         }
 
         delegate: MouseArea {
             id: pointRow
-            height: 50
+            height: 70
             anchors.left: parent.left
             anchors.right: parent.right
             property bool isReady: readyStatus
@@ -84,7 +80,7 @@ Item {
             onClicked: {
                 if (pointsList.currentIndex === index) {
                     if (pointsList.isSelected) {
-                        workZone.deselectPoint()
+                        pointsZone.deselectPoint()
                         return
                     }
                 }
@@ -93,6 +89,7 @@ Item {
                 }
                 pointsList.isSelected = true
                 workZone.selectPoint(nameText.text)
+                mainWindow.syncBlink()
                 if (pointRow.isReady) {
                     workZone.focusOnPoint(nameText.text)
                 }
@@ -100,7 +97,7 @@ Item {
 
             Row {
                 id: pointStatus
-                height: 20
+                height: 30
                 anchors.left: parent.left
                 anchors.right: deleteBtn.left
                 anchors.leftMargin: rightPanel.spacing
@@ -119,6 +116,7 @@ Item {
                     id: nameText
                     width: implicitWidth
                     height: 20
+                    anchors.verticalCenter: parent.verticalCenter
                     clip: true
                     color: (pointsList.currentIndex === index) && (pointsList.isSelected) ? mainWindow.hTextColor : mainWindow.textColor
                     text: name
@@ -133,15 +131,15 @@ Item {
                 shortcut: "Delete"
                 onTriggered: {
                     backEnd.removePoint(nameText.text)
-                    workZone.deselectPoint()
-                    message.send(nameText.text+qsTr(" point deleted"))
+                    pointsZone.deselectPoint()
+                    message.send(qsTr("Point ")+nameText.text+qsTr(" deleted"))
                 }
             }
 
             CustomButton {
                 id: deleteBtn
-                height: 15
-                width: 50
+                height: 20
+                width: 60
                 action: deleteAction
                 visible: deleteAction.enabled
                 anchors.right: parent.right
@@ -180,7 +178,15 @@ Item {
         Connections {
             target: backEnd
             onPointAdded : {
-                points.append({name: pointName, description: description, readyStatus: false})
+                for (var i = 0; i < points.count; ++i) {
+                    if (points.get(i).name === pointName) {
+                        points.setProperty(i, "description", description)
+                        points.setProperty(i, "readyStatus", status)
+                        return
+                    }
+                }
+
+                points.append({name: pointName, description: description, readyStatus: status})
                 console.log("PointLine \""+pointName+"\" added")
             }
 
@@ -216,7 +222,7 @@ Item {
         CustomButton {
             height: parent.height
             width: parent.width/2
-            text: qsTr("Delete points")
+            text: qsTr("Delete calculation points")
             enabled: points.count > 0
             onClicked: {
                 backEnd.clear()

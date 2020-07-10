@@ -53,7 +53,7 @@ Item {
             visible: true
             color: "transparent"
             SequentialAnimation on color{
-                running: linesList.isSelected
+                running: linesList.isSelected && mainWindow.isBlinkAllowed
                 loops: Animation.Infinite
                 onRunningChanged: {
                     if (!running)
@@ -62,8 +62,8 @@ Item {
                     }
                 }
 
-                ColorAnimation { from: mainWindow.controlColor; to: mainWindow.hControlColor; duration: 1000 }
-                ColorAnimation { from: mainWindow.hControlColor; to: mainWindow.controlColor;  duration: 1000 }
+                ColorAnimation { from: mainWindow.controlColor; to: mainWindow.hControlColor; duration: mainWindow.blinkDuration }
+                ColorAnimation { from: mainWindow.hControlColor; to: mainWindow.controlColor;  duration: mainWindow.blinkDuration }
             }
         }
 
@@ -87,6 +87,7 @@ Item {
                 if (lines.get(index).isVisible) {
                     linesList.isSelected = true
                     workZone.focusOnLine(nameText.name1, nameText.name2)
+                    mainWindow.syncBlink()
                 }
             }
 

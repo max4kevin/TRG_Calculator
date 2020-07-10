@@ -90,6 +90,7 @@ Item {
         onDoubleClicked: {
             workZone.selectPoint(point.name)
             rightPanel.pointsZone.selectPoint(point.name)
+            mainWindow.syncBlink()
         }
 
         onPressed: {
@@ -143,7 +144,7 @@ Item {
 
             SequentialAnimation on color{
                 id: pointAnimation
-                running: dragArea.drag.target === point
+                running: dragArea.drag.target === point && mainWindow.isBlinkAllowed
                 loops: Animation.Infinite
                 onRunningChanged: {
                     if (!running) {
@@ -151,8 +152,8 @@ Item {
                     }
                 }
 
-                ColorAnimation { from: point.color; to: "white"; duration: 500 }
-                ColorAnimation { from: "white"; to: point.color;  duration: 500 }
+                ColorAnimation { from: point.color; to: "white"; duration: mainWindow.blinkDuration }
+                ColorAnimation { from: "white"; to: point.color;  duration: mainWindow.blinkDuration }
             }
         }
 

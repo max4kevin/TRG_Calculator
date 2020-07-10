@@ -45,7 +45,7 @@ Item {
 
         SequentialAnimation on color {
             id: lineAnimation
-            running: line.isSelected
+            running: line.isSelected && mainWindow.isBlinkAllowed
             loops: Animation.Infinite
             onRunningChanged: {
                 if (!running) {
@@ -53,8 +53,8 @@ Item {
                 }
             }
 
-            ColorAnimation { from: line.color; to: "white"; duration: 500 }
-            ColorAnimation { from: "white"; to: line.color;  duration: 500 }
+            ColorAnimation { from: line.color; to: "white"; duration: mainWindow.blinkDuration }
+            ColorAnimation { from: "white"; to: line.color;  duration: mainWindow.blinkDuration }
         }
     }
 
@@ -72,7 +72,7 @@ Item {
             }
         }
 
-        onScaled: width = 1/scaleFactor
+        onScaled: rect.width = 1/scaleFactor
 
         onLinesDeselected: line.isSelected = false
     }
