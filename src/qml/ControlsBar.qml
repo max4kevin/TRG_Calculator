@@ -12,7 +12,6 @@ MenuBar {
     property alias invertSwitch: switchInvert
     property alias panelSwitch: switchPanel
 
-
     background: ControlBackground {}
 
     delegate: MenuBarItem {
@@ -118,6 +117,7 @@ MenuBar {
         CustomMenuSeparator {}
 
         Menu {
+            id: methodsBtn
             title: qsTr("Calculation method")
             delegate: MenuDelegate {
                 id: menuItem
@@ -138,20 +138,56 @@ MenuBar {
                 }
             }
             background: ControlBackground {implicitWidth: 150}
-            function clearSelection() {
 
+            function setMethod(method) {
+                for (var i = 0; i < count; ++i) {
+                    if (itemAt(i).text !== method) {
+                        itemAt(i).checked = false
+                    }
+                }
+                rightPanel.resetSelections()
+                backEnd.setMethod(method)
+            }
+
+            Component.onCompleted: {
+                var method = backEnd.getConfig("method")
+                for (var i = 0; i < count; ++i) {
+                    if (itemAt(i).text === method) {
+                        itemAt(i).checked = true
+                        return
+                    }
+                }
             }
 
             Action {
+                id: mapoBtn
                 text: "MAPO"
                 checkable: true
                 checked: true
+                onTriggered: {
+                    if (checked) {
+                         methodsBtn.setMethod(text)
+                    }
+                    else {
+                        checked = true
+                    }
+                }
             }
 
-            Action {
-                text: "FACE"
-                checkable: true
-            }
+//            Action {
+//                id: faceBtn
+//                text: "SOME_METHOD"
+//                checkable: true
+//                checked: false
+//                onTriggered: {
+//                    if (checked) {
+//                         methodsBtn.setMethod(text)
+//                    }
+//                    else {
+//                        checked = true
+//                    }
+//                }
+//            }
         }
 
         CustomMenuSeparator {}
@@ -214,6 +250,22 @@ MenuBar {
             text: qsTr("Dark theme")
             checkable: true
             checked: true
+
+            onTriggered: {
+                if (checked) {
+                    backEnd.setConfig("theme", "dark")
+                }
+                else {
+                    backEnd.setConfig("theme", "light")
+                }
+            }
+
+            Component.onCompleted: {
+               var theme = backEnd.getConfig("theme")
+               if (theme === "light") {
+                   checked = false
+               }
+            }
         }
 
         CustomMenuSeparator {}
