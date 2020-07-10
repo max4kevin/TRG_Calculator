@@ -7,69 +7,68 @@ CalculationMAPO::CalculationMAPO(IFrontendConnector& frontendConnector)
 {
     Point tempPoint = {QPoint(0, 0), false, true, true, true, REGULAR_COLOR};
 
-
     workPoints_.append({points_.insert("S", tempPoint),
-    QCoreApplication::translate("main", "S Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "S Point Description")});
 
     workPoints_.append({points_.insert("N", tempPoint),
-    QCoreApplication::translate("main", "N Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "N Point Description")});
 
     workPoints_.append({points_.insert("A", tempPoint),
-    QCoreApplication::translate("main", "A Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "A Point Description")});
 
     workPoints_.append({points_.insert("B", tempPoint),
-    QCoreApplication::translate("main", "B Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "B Point Description")});
 
     workPoints_.append({points_.insert("Pog", tempPoint),
-    QCoreApplication::translate("main", "Pog Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Pog Point Description")});
 
     workPoints_.append({points_.insert("C", tempPoint),
-    QCoreApplication::translate("main", "C Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "C Point Description")});
 
     workPoints_.append({points_.insert("6", tempPoint),
-    QCoreApplication::translate("main", "6 Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "6 Point Description")});
 
     workPoints_.append({points_.insert("Se", tempPoint),
-    QCoreApplication::translate("main", "Se Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Se Point Description")});
 
     workPoints_.append({points_.insert("PNS", tempPoint),
-    QCoreApplication::translate("main", "PNS Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "PNS Point Description")});
 
     workPoints_.append({points_.insert("ANS", tempPoint),
-    QCoreApplication::translate("main", "ANS Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "ANS Point Description")});
 
     workPoints_.append({points_.insert("Go'", tempPoint),
-    QCoreApplication::translate("main", "Go' Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Go' Point Description")});
 
     workPoints_.append({points_.insert("Ar", tempPoint),
-    QCoreApplication::translate("main", "Ar Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Ar Point Description")});
 
     workPoints_.append({points_.insert("Rc", tempPoint),
-    QCoreApplication::translate("main", "Rc Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Rc Point Description")});
 
     workPoints_.append({points_.insert("Is", tempPoint),
-    QCoreApplication::translate("main", "Is Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Is Point Description")});
 
     workPoints_.append({points_.insert("Ias", tempPoint),
-    QCoreApplication::translate("main", "Ias Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Ias Point Description")});
 
     workPoints_.append({points_.insert("Ii", tempPoint),
-    QCoreApplication::translate("main", "Ii Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Ii Point Description")});
 
     workPoints_.append({points_.insert("Iai", tempPoint),
-    QCoreApplication::translate("main", "Iai Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Iai Point Description")});
 
     workPoints_.append({points_.insert("1", tempPoint),
-    QCoreApplication::translate("main", "1 Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "1 Point Description")});
 
     workPoints_.append({points_.insert("Me", tempPoint),
-    QCoreApplication::translate("main", "Me Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Me Point Description")});
 
     workPoints_.append({points_.insert("Go", tempPoint),
-    QCoreApplication::translate("main", "Go Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Go Point Description")});
 
     workPoints_.append({points_.insert("Gn", tempPoint),
-    QCoreApplication::translate("main", "Gn Point Description")});
+    QT_TRANSLATE_NOOP("Calculation", "Gn Point Description")});
 
     //Additional points
 
@@ -95,24 +94,24 @@ CalculationMAPO::CalculationMAPO(IFrontendConnector& frontendConnector)
     points_.insert("PenPogMe", tempPoint);
 
     //Results
-    results_.append(resultsTable_.insert("SNA, deg", {"", "82"}));
-    results_.append(resultsTable_.insert("SNB, deg", {"", "80"}));
-    results_.append(resultsTable_.insert("ANB, deg", {"", "2"}));
-    results_.append(resultsTable_.insert("SNPog, deg", {"", ""})); //=SNB
-    results_.append(resultsTable_.insert("Beta, deg", {"", "27-35"}));
-    results_.append(resultsTable_.insert("Wits, mm", {"", "1"}));
-    results_.append(resultsTable_.insert("Se-N, mm", {"", "-"}));
-    results_.append(resultsTable_.insert("A1-PNS, mm", {"", ""})); //0.7*Se-N
-    results_.append(resultsTable_.insert("Go-Gn, mm", {"", "118 - 128"})); //Se-N+3(Se-N+6)
-    results_.append(resultsTable_.insert("(S-Go)/(N-Me), %", {"", "62-65"}));
-    results_.append(resultsTable_.insert("NSL-NL, deg", {"", "8.5"}));
-    results_.append(resultsTable_.insert("NSL-ML, deg", {"", "32"}));
-    results_.append(resultsTable_.insert("NL-ML, deg", {"", "24"}));
-    results_.append(resultsTable_.insert("Go, deg", {"", "130"}));
-    results_.append(resultsTable_.insert("I-NSL, deg", {"", "104"}));
-    results_.append(resultsTable_.insert("I-NL, deg", {"", "110"}));
-    results_.append(resultsTable_.insert("I-ML, deg", {"", "95"}));
-    results_.append(resultsTable_.insert("I-I, deg", {"", "128"}));
+    results_.append(resultsTable_.insert("SNA", {"", "82", QT_TRANSLATE_NOOP("Calculation", "SNA, deg")}));
+    results_.append(resultsTable_.insert("SNB", {"", "80", QT_TRANSLATE_NOOP("Calculation", "SNB, deg")}));
+    results_.append(resultsTable_.insert("ANB", {"", "2", QT_TRANSLATE_NOOP("Calculation", "ANB, deg")}));
+    results_.append(resultsTable_.insert("SNPog", {"", "", QT_TRANSLATE_NOOP("Calculation", "SNPog, deg")})); //=SNB
+    results_.append(resultsTable_.insert("Beta", {"", "27-35", QT_TRANSLATE_NOOP("Calculation", "Beta, deg")}));
+    results_.append(resultsTable_.insert("Wits", {"", "1", QT_TRANSLATE_NOOP("Calculation", "Wits, mm")}));
+    results_.append(resultsTable_.insert("Se-N", {"", "-", QT_TRANSLATE_NOOP("Calculation", "Se-N, mm")}));
+    results_.append(resultsTable_.insert("A1-PNS", {"", "", QT_TRANSLATE_NOOP("Calculation", "A1-PNS, mm")})); //0.7*Se-N
+    results_.append(resultsTable_.insert("Go-Gn", {"", "118 - 128", QT_TRANSLATE_NOOP("Calculation", "Go-Gn, mm")})); //Se-N+3(Se-N+6)
+    results_.append(resultsTable_.insert("(S-Go)/(N-Me)", {"", "62-65", QT_TRANSLATE_NOOP("Calculation", "(S-Go)/(N-Me), %")}));
+    results_.append(resultsTable_.insert("NSL-NL", {"", "8.5", QT_TRANSLATE_NOOP("Calculation", "NSL-NL, deg")}));
+    results_.append(resultsTable_.insert("NSL-ML", {"", "32", QT_TRANSLATE_NOOP("Calculation", "NSL-ML, deg")}));
+    results_.append(resultsTable_.insert("NL-ML", {"", "24", QT_TRANSLATE_NOOP("Calculation", "NL-ML, deg")}));
+    results_.append(resultsTable_.insert("Go", {"", "130", QT_TRANSLATE_NOOP("Calculation", "Go, deg")}));
+    results_.append(resultsTable_.insert("I-NSL", {"", "104", QT_TRANSLATE_NOOP("Calculation", "I-NSL, deg")}));
+    results_.append(resultsTable_.insert("I-NL", {"", "110", QT_TRANSLATE_NOOP("Calculation", "I-NL, deg")}));
+    results_.append(resultsTable_.insert("I-ML", {"", "95", QT_TRANSLATE_NOOP("Calculation", "I-ML, deg")}));
+    results_.append(resultsTable_.insert("I-I", {"", "128", QT_TRANSLATE_NOOP("Calculation", "I-I, deg")}));
 }
 
 CalculationMAPO::~CalculationMAPO(){}
@@ -120,36 +119,36 @@ CalculationMAPO::~CalculationMAPO(){}
 void CalculationMAPO::updateCalculation(const QString& lastPointName)
 {
     checkCalibration(lastPointName);
-    checkAngle(lastPointName, "SNA, deg", "S", "N", "A");
-    checkAngle(lastPointName, "SNB, deg", "S", "N", "B");
-    checkAngle(lastPointName, "ANB, deg", "A", "N", "B");
-    checkAngle(lastPointName, "SNPog, deg", "S", "N", "Pog");
+    checkAngle(lastPointName, "SNA", "S", "N", "A");
+    checkAngle(lastPointName, "SNB", "S", "N", "B");
+    checkAngle(lastPointName, "ANB", "A", "N", "B");
+    checkAngle(lastPointName, "SNPog", "S", "N", "Pog");
     checkPerpendicular(lastPointName, "pA/CB", "A", "C", "B");
-    checkAngle(lastPointName, "Beta, deg", "pA/CB", "A", "B");
+    checkAngle(lastPointName, "Beta", "pA/CB", "A", "B");
     checkPerpendicular(lastPointName, "pA/16", "A", "6", "1");
     checkPerpendicular(lastPointName, "pB/16", "B", "6", "1");
-    checkProjection(lastPointName, "Wits, mm", "pB/16", "pA/16", "6", "1");
-    checkDistance(lastPointName, "Se-N, mm", "Se", "N");
+    checkProjection(lastPointName, "Wits", "pB/16", "pA/16", "6", "1");
+    checkDistance(lastPointName, "Se-N", "Se", "N");
     checkPerpendicular(lastPointName, "pA/PNSANS", "A", "PNS", "ANS");
-    checkDistance(lastPointName, "A1-PNS, mm", "PNS", "pA/PNSANS");
-    checkDistance(lastPointName, "Go-Gn, mm", "Go", "Gn");
-    checkRatio(lastPointName, "(S-Go)/(N-Me), %", "S", "Go", "N", "Me");
+    checkDistance(lastPointName, "A1-PNS", "PNS", "pA/PNSANS");
+    checkDistance(lastPointName, "Go-Gn", "Go", "Gn");
+    checkRatio(lastPointName, "(S-Go)/(N-Me)", "S", "Go", "N", "Me");
     checkCross(lastPointName, "NS/ANSPNS", "N", "S", "ANS", "PNS");
-    checkAngle(lastPointName, "NSL-NL, deg", "N", "NS/ANSPNS", "ANS");
+    checkAngle(lastPointName, "NSL-NL", "N", "NS/ANSPNS", "ANS");
     checkCross(lastPointName, "NS/MeGo", "N", "S", "Me", "Go");
-    checkAngle(lastPointName, "NSL-ML, deg", "N", "NS/MeGo", "Me");
+    checkAngle(lastPointName, "NSL-ML", "N", "NS/MeGo", "Me");
     checkCross(lastPointName, "MeGo/ANSPNS", "Me", "Go", "ANS", "PNS");
-    checkAngle(lastPointName, "NL-ML, deg", "ANS", "MeGo/ANSPNS", "Me");
+    checkAngle(lastPointName, "NL-ML", "ANS", "MeGo/ANSPNS", "Me");
     checkCross(lastPointName, "ArRc/MeGo'", "Ar", "Rc", "Me", "Go'");
-    checkAngle(lastPointName, "Go, deg", "Ar", "ArRc/MeGo'", "Me");
+    checkAngle(lastPointName, "Go", "Ar", "ArRc/MeGo'", "Me");
     checkCross(lastPointName, "NS/IsIas", "N", "S", "Is", "Ias");
-    checkAngle(lastPointName, "I-NSL, deg", "S", "NS/IsIas", "Is");
+    checkAngle(lastPointName, "I-NSL", "S", "NS/IsIas", "Is");
     checkCross(lastPointName, "PNSANS/IsIas", "PNS", "ANS", "Is", "Ias");
-    checkAngle(lastPointName, "I-NL, deg", "PNS", "PNSANS/IsIas", "Is");
+    checkAngle(lastPointName, "I-NL", "PNS", "PNSANS/IsIas", "Is");
     checkCross(lastPointName, "IiIai/MeGo", "Ii", "Iai", "Me", "Go");
-    checkAngle(lastPointName, "I-ML, deg", "Ii", "IiIai/MeGo", "Go");
+    checkAngle(lastPointName, "I-ML", "Ii", "IiIai/MeGo", "Go");
     checkCross(lastPointName, "IsIas/IiIai", "Ias", "Is", "Iai", "Ii");
-    checkAngle(lastPointName, "I-I, deg", "Ias", "IsIas/IiIai", "Iai");
+    checkAngle(lastPointName, "I-I", "Ias", "IsIas/IiIai", "Iai");
     checkBisect(lastPointName, "BisArGoMe", "Ar", "ArRc/MeGo'", "Me");
     checkMiddlePoint(lastPointName, "1", "Is", "Ii");
     checkMiddlePoint(lastPointName, "MidPogMe", "Pog", "Me");
@@ -192,133 +191,33 @@ void CalculationMAPO::updateCalculation(const QString& lastPointName)
     checkPointsConnection(lastPointName, "PenPogMe", "MidPogMe");
 }
 
-void CalculationMAPO::checkAngle(const QString& checkPoint, const QString &dataName, const QString &pName1, const QString &pName2, const QString &pName3)
+void CalculationMAPO::checkAngle(const QString &checkPoint, const QString &dataName, const QString &pName1, const QString &pName2, const QString &pName3)
 {
+    CalculationBase::checkAngle(checkPoint, dataName, pName1, pName2, pName3);
     if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3)
     {
-        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady )
+        if (dataName == "SNB")
         {
-            resultsTable_[dataName].value =
-                    QString::number(geometry::calculateAngleDeg(points_[pName1].coordinates, points_[pName2].coordinates, points_[pName3].coordinates), 'f', 2);
-        }
-        else
-        {
-            resultsTable_[dataName].value = "";
-        }
-        updateResult(dataName);
-        if (dataName == "SNB, deg")
-        {
-            resultsTable_["SNPog, deg"].referenceValue = resultsTable_[dataName].value;
-            updateResult("SNPog, deg");
+            resultsTable_["SNPog"].referenceValue = resultsTable_[dataName].value;
+            updateResult("SNPog");
         }
     }
 }
 
-void CalculationMAPO::checkDistance(const QString& checkPoint, const QString &dataName, const QString &pName1, const QString &pName2)
+void CalculationMAPO::checkDistance(const QString &checkPoint, const QString &dataName, const QString &pName1, const QString &pName2)
 {
-    if (checkPoint == pName1 || checkPoint == pName2
-        || checkPoint == "Calibration 1" || checkPoint == "Calibration 2")
-    {
-        if ( points_[pName1].isReady && points_[pName2].isReady
-             && points_["Calibration 1"].isReady && points_["Calibration 2"].isReady)
-        {
-            resultsTable_[dataName].value =
-                    QString::number(geometry::calculateDistance(points_[pName1].coordinates, points_[pName2].coordinates)*getCalibrationValue(), 'f', 2);
-        }
-        else
-        {
-            resultsTable_[dataName].value = "";
-        }
-        updateResult(dataName);
-
-        if (dataName == "Se-N, mm")
-        {
-            const QString &ref = resultsTable_[dataName].value;
-            resultsTable_["A1-PNS, mm"].referenceValue = (ref == "") ? ref : QString::number(0.7*ref.toFloat(), 'f', 2);
-            updateResult("A1-PNS, mm");
-            resultsTable_["Go-Gn, mm"].referenceValue = (ref == "") ?
-                        ref : QString::number(ref.toFloat()+3, 'f', 2)+"("+QString::number(ref.toFloat()+6, 'f', 2)+")";
-            updateResult("Go-Gn, mm");
-        }
-    }
-}
-
-void CalculationMAPO::checkRatio(const QString& checkPoint, const QString &dataName, const QString &pName1, const QString &pName2, const QString &pName3, const QString &pName4)
-{
-    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3 || checkPoint == pName4
-        || checkPoint == "Calibration 1" || checkPoint == "Calibration 2")
-    {
-        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady && points_[pName4].isReady
-             && points_["Calibration 1"].isReady && points_["Calibration 2"].isReady)
-        {
-            qreal dist1 = geometry::calculateDistance(points_[pName1].coordinates, points_[pName2].coordinates);
-            qreal dist2 = geometry::calculateDistance(points_[pName3].coordinates, points_[pName4].coordinates);
-            resultsTable_[dataName].value = QString::number(dist1/dist2*100, 'f', 2);
-        }
-        else
-        {
-            resultsTable_[dataName].value = "";
-        }
-        updateResult(dataName);
-    }
-}
-
-void CalculationMAPO::checkProjection(const QString& checkPoint, const QString &dataName, const QString &pName1, const QString &pName2, const QString &pName3, const QString &pName4)
-{
-    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3 || checkPoint == pName4
-        || checkPoint == "Calibration 1" || checkPoint == "Calibration 2")
-    {
-        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady && points_[pName4].isReady
-             && points_["Calibration 1"].isReady && points_["Calibration 2"].isReady)
-        {
-            resultsTable_[dataName].value =
-                    QString::number(geometry::calculateProjection(points_[pName1].coordinates, points_[pName2].coordinates,
-                                                                  points_[pName3].coordinates, points_[pName4].coordinates)*getCalibrationValue(), 'f', 2);
-        }
-        else
-        {
-            resultsTable_[dataName].value = "";
-        }
-        updateResult(dataName);
-    }
-}
-
-void CalculationMAPO::checkCross(const QString& checkPoint, const QString &pointName, const QString &pName1, const QString &pName2, const QString &pName3, const QString &pName4)
-{
-    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3 || checkPoint == pName4)
-    {
-        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady && points_[pName4].isReady )
-        {
-            geometry::Line line1(points_[pName1].coordinates, points_[pName2].coordinates);
-            geometry::Line line2(points_[pName3].coordinates, points_[pName4].coordinates);
-            points_[pointName].coordinates = geometry::getCross(line1, line2);
-            points_[pointName].isReady = true;
-        }
-        else
-        {
-            points_[pointName].isReady = false;
-        }
-        updatePoint(pointName);
-        updateCalculation(pointName);
-    }
-}
-
-void CalculationMAPO::checkPerpendicular(const QString& checkPoint, const QString &pointName, const QString &pName0, const QString &pName1, const QString &pName2)
-{
+    CalculationBase::checkDistance(checkPoint, dataName, pName1, pName2);
     if (checkPoint == pName1 || checkPoint == pName2)
     {
-        if ( points_[pName0].isReady && points_[pName1].isReady && points_[pName2].isReady )
+        if (dataName == "Se-N")
         {
-            geometry::Line line1(points_[pName1].coordinates, points_[pName2].coordinates);
-            points_[pointName].coordinates = geometry::getPerpendicularBase(points_[pName0].coordinates, line1);
-            points_[pointName].isReady = true;
+            const QString &ref = resultsTable_[dataName].value;
+            resultsTable_["A1-PNS"].referenceValue = (ref == "") ? ref : QString::number(0.7*ref.toFloat(), 'f', 2);
+            updateResult("A1-PNS");
+            resultsTable_["Go-Gn"].referenceValue = (ref == "") ?
+                        ref : QString::number(ref.toFloat()+3, 'f', 2)+"("+QString::number(ref.toFloat()+6, 'f', 2)+")";
+            updateResult("Go-Gn");
         }
-        else
-        {
-            points_[pointName].isReady = false;
-        }
-        updatePoint(pointName);
-        updateCalculation(pointName);
     }
 }
 
@@ -358,6 +257,7 @@ void CalculationMAPO::checkMiddlePoint(const QString& checkPoint, const QString 
     }
 }
 
+//What perpendicular?
 void CalculationMAPO::checkAddPerpendicular(const QString& checkPoint, const QString &pointName, const QString &pName1, const QString &pName2)
 {
     if (checkPoint == pName1 || checkPoint == pName2)

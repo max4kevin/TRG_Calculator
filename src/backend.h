@@ -4,10 +4,12 @@
 #include <QObject>
 #include <QMap>
 #include <QQuickImageProvider>
+#include <QQmlApplicationEngine>
 #include <QTranslator>
-#include <QGuiApplication>
+#include <QSettings>
 #include "calculation/calculationmapo.h"
 
+//TODO: Saving all methods in one file if there some points?
 
 //Fasade
 class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConnector
@@ -15,7 +17,7 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
     Q_OBJECT
 
     public:
-        explicit BackEnd(QGuiApplication& app);
+        explicit BackEnd(QQmlApplicationEngine& engine);
 
 //        ~BackEnd(){};
 
@@ -75,20 +77,35 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
         Q_INVOKABLE
         void invertImage();
 
-        void addPoint(const QString& pointName, const QString& description) override;
+        Q_INVOKABLE
+        void setLanguage(const QString& lang);
+
+        Q_INVOKABLE
+        void setMethod(const QString& method);
+
+        Q_INVOKABLE
+        void setConfig(const QString& key, const QString& value);
+
+        Q_INVOKABLE
+        QString getConfig(const QString& key);
+
+        Q_INVOKABLE
+        bool isDirectoryValid(const QString& directory);
+
+        void addPoint(const QString& pointName, bool status, const QString& description) override;
         void updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, bool status) override;
         void connectPoints(const QString& pointName1, const QString& pointName2, const QString& color) override;
-        void addResult(const QString& resultName, const QString& resultReference) override;
+        void addResult(const QString& resultName, const QString& resultReference, const QString& description) override;
         void updateResult(const QString& resultName, const QString& resultValue, const QString& resultReference) override;
         void sendMsg(const QString& msg) override;
         void changeUndoState(bool isEnabled) override;
         void changeRedoState(bool isEnabled) override;
 
     signals:
-        void pointAdded(const QString& pointName, const QString& description);
+        void pointAdded(const QString& pointName, bool status, const QString& description);
         void pointUpdated(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, bool status);
         void pointsConnected(const QString& pointName1, const QString& pointName2, const QString& color);
-        void resultAdded(const QString& resultName, const QString& resultReference);
+        void resultAdded(const QString& resultName, const QString& resultReference, const QString& description);
         void resultUpdated(const QString& resultName, const QString& resultValue, const QString& resultReference);
         void newMsg(const QString& msg);
         void fileLoaded();
@@ -101,7 +118,7 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
     private:
         void loadData();
 
-        QGuiApplication* const app_;
+        QQmlApplicationEngine* const engine_;
         QTranslator qtTranslator_;
         CalculationMAPO  calculationMethodMAPO_;
         CalculationBase* actualCalculationMethod_;
@@ -109,6 +126,7 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
         QString filePath_;
         QString fileName_;
         QString fileType_;
+        QSettings settings_;
 };
 
 #endif // BACKEND_H

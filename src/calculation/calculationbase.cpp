@@ -10,10 +10,10 @@ CalculationBase::CalculationBase(IFrontendConnector& frontendConnector)
     Point tempPoint = {QPoint(0, 0), false, false, false, true, CALIB_COLOR};
 
     workPoints_.append({points_.insert("Calibration 1", tempPoint),
-    QCoreApplication::translate("main", "First calibration point for calculation pixels to meters coefficient")});
+    QT_TRANSLATE_NOOP("Calculation", "First calibration point for pixels to millimeters translation coefficient calculation")});
 
     workPoints_.append({points_.insert("Calibration 2", tempPoint),
-    QCoreApplication::translate("main", "Second calibration point for calculation pixels to meters coefficient")});
+    QT_TRANSLATE_NOOP("Calculation", "Second calibration point for pixels to millimeters translation coefficient calculation")});
 }
 
 qreal CalculationBase::calibrationLength_ = 40;
@@ -25,7 +25,7 @@ void CalculationBase::loadResultsTable()
     qDebug() << "Loading results table";
     for (auto &it : results_)
     {
-        frontendConnector_.addResult(it.key(), it->referenceValue);
+        frontendConnector_.addResult(it.key(), it.value().referenceValue, QCoreApplication::translate("Calculation", it.value().description));
     }
 }
 
@@ -34,8 +34,9 @@ void CalculationBase::loadPointsTable()
     qDebug() << "Loading points table";
     for (auto &it : workPoints_)
     {
-        frontendConnector_.addPoint(it.point.key(), it.description);
+        frontendConnector_.addPoint(it.point.key(), it.point.value().isReady, QCoreApplication::translate("Calculation", it.description));
     }
+    recalculateIt(); //For actual msg
 }
 
 void CalculationBase::reset()
@@ -158,6 +159,7 @@ void CalculationBase::clearAll()
     clearFrom(0);
 }
 
+//TODO: Error messages
 void CalculationBase::saveData(const QString& path, const QString& name)
 {
     QFile file(path+name+"_data.dat");
@@ -168,7 +170,7 @@ void CalculationBase::saveData(const QString& path, const QString& name)
     }
     if (file.exists())
     {
-        //TODO: Call file dialog
+        //TODO: Call message dialog
         qDebug() << "File rewrited";
         file.resize(0);
     }
@@ -217,6 +219,121 @@ void CalculationBase::checkCalibration(const QString& checkPoint)
     }
 }
 
+void CalculationBase::checkAngle(const QString& checkPoint, const QString &dataName, const QString &pName1, const QString &pName2, const QString &pName3)
+{
+    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3)
+    {
+        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady )
+        {
+            resultsTable_[dataName].value =
+                    QString::number(geometry::calculateAngleDeg(points_[pName1].coordinates, points_[pName2].coordinates, points_[pName3].coordinates), 'f', 2);
+        }
+        else
+        {
+            resultsTable_[dataName].value = "";
+        }
+        updateResult(dataName);
+    }
+}
+
+void CalculationBase::checkDistance(const QString& checkPoint, const QString &dataName, const QString &pName1, const QString &pName2)
+{
+    if (checkPoint == pName1 || checkPoint == pName2
+        || checkPoint == "Calibration 1" || checkPoint == "Calibration 2")
+    {
+        if ( points_[pName1].isReady && points_[pName2].isReady
+             && points_["Calibration 1"].isReady && points_["Calibration 2"].isReady)
+        {
+            resultsTable_[dataName].value =
+                    QString::number(geometry::calculateDistance(points_[pName1].coordinates, points_[pName2].coordinates)*getCalibrationValue(), 'f', 2);
+        }
+        else
+        {
+            resultsTable_[dataName].value = "";
+        }
+        updateResult(dataName);
+    }
+}
+
+void CalculationBase::checkRatio(const QString& checkPoint, const QString &dataName, const QString &pName1, const QString &pName2, const QString &pName3, const QString &pName4)
+{
+    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3 || checkPoint == pName4
+        || checkPoint == "Calibration 1" || checkPoint == "Calibration 2")
+    {
+        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady && points_[pName4].isReady
+             && points_["Calibration 1"].isReady && points_["Calibration 2"].isReady)
+        {
+            qreal dist1 = geometry::calculateDistance(points_[pName1].coordinates, points_[pName2].coordinates);
+            qreal dist2 = geometry::calculateDistance(points_[pName3].coordinates, points_[pName4].coordinates);
+            resultsTable_[dataName].value = QString::number(dist1/dist2*100, 'f', 2);
+        }
+        else
+        {
+            resultsTable_[dataName].value = "";
+        }
+        updateResult(dataName);
+    }
+}
+
+void CalculationBase::checkProjection(const QString& checkPoint, const QString &dataName, const QString &pName1, const QString &pName2, const QString &pName3, const QString &pName4)
+{
+    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3 || checkPoint == pName4
+        || checkPoint == "Calibration 1" || checkPoint == "Calibration 2")
+    {
+        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady && points_[pName4].isReady
+             && points_["Calibration 1"].isReady && points_["Calibration 2"].isReady)
+        {
+            resultsTable_[dataName].value =
+                    QString::number(geometry::calculateProjection(points_[pName1].coordinates, points_[pName2].coordinates,
+                                                                  points_[pName3].coordinates, points_[pName4].coordinates)*getCalibrationValue(), 'f', 2);
+        }
+        else
+        {
+            resultsTable_[dataName].value = "";
+        }
+        updateResult(dataName);
+    }
+}
+
+void CalculationBase::checkCross(const QString& checkPoint, const QString &pointName, const QString &pName1, const QString &pName2, const QString &pName3, const QString &pName4)
+{
+    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3 || checkPoint == pName4)
+    {
+        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady && points_[pName4].isReady )
+        {
+            geometry::Line line1(points_[pName1].coordinates, points_[pName2].coordinates);
+            geometry::Line line2(points_[pName3].coordinates, points_[pName4].coordinates);
+            points_[pointName].coordinates = geometry::getCross(line1, line2);
+            points_[pointName].isReady = true;
+        }
+        else
+        {
+            points_[pointName].isReady = false;
+        }
+        updatePoint(pointName);
+        updateCalculation(pointName);
+    }
+}
+
+void CalculationBase::checkPerpendicular(const QString& checkPoint, const QString &pointName, const QString &pName0, const QString &pName1, const QString &pName2)
+{
+    if (checkPoint == pName1 || checkPoint == pName2)
+    {
+        if ( points_[pName0].isReady && points_[pName1].isReady && points_[pName2].isReady )
+        {
+            geometry::Line line1(points_[pName1].coordinates, points_[pName2].coordinates);
+            points_[pointName].coordinates = geometry::getPerpendicularBase(points_[pName0].coordinates, line1);
+            points_[pointName].isReady = true;
+        }
+        else
+        {
+            points_[pointName].isReady = false;
+        }
+        updatePoint(pointName);
+        updateCalculation(pointName);
+    }
+}
+
 void CalculationBase::updateResult(const QString& resultName)
 {
     frontendConnector_.updateResult(resultName, resultsTable_[resultName].value, resultsTable_[resultName].referenceValue);
@@ -237,12 +354,13 @@ void CalculationBase::clearFrom(int number)
 {
     if ((number>=0)&&(number < workPoints_.size()))
     {
-        undoHistory_.clear(); //FIXME: temp solution
+//        undoHistory_.clear(); //FIXME: temp solution
         redoHistory_.clear();
         for (auto it = workPoints_.begin()+number; it != workPoints_.end(); ++it)
         {
             if (it->point.value().isReady)
             {
+                saveState({it->point.value(), it->point.key()});
                 it->point.value().isReady = false;
                 updateCalculation(it->point.key());
                 updatePoint(it->point.key());

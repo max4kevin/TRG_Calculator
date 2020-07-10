@@ -1,6 +1,7 @@
-#include "backend.h"
-#include <QQmlApplicationEngine>
 #include <QFile>
+#include <QDir>
+#include <QGuiApplication>
+#include "backend.h"
 
 #define TRG_CODE 0xDEAF
 #define VERSION_CODE 0x0001
@@ -8,12 +9,48 @@
 
 //TODO: Resending text fields to frontend after language switch
 
-BackEnd::BackEnd(QGuiApplication &app)
-    : QQuickImageProvider(QQuickImageProvider::Image), app_(&app), calculationMethodMAPO_(*this), actualCalculationMethod_(&calculationMethodMAPO_)
+BackEnd::BackEnd(QQmlApplicationEngine &engine)
+    : QQuickImageProvider(QQuickImageProvider::Image), engine_(&engine), calculationMethodMAPO_(*this), settings_(QCoreApplication::applicationDirPath()+"/config.ini", QSettings::IniFormat)
 {
-    //TODO: Check language load, if false - load English
-    qtTranslator_.load(QLatin1String("QtLanguage_")+QLocale::system().name(), QLatin1String(":/"));
-    app.installTranslator(&qtTranslator_);
+    qDebug() << "Config filepath:" << settings_.fileName();
+    settings_.beginGroup("Settings");
+    //Checking settings
+    if (!settings_.contains("method"))
+    {
+        settings_.setValue("method", "MAPO");
+    }
+    if (!settings_.contains("calibLength"))
+    {
+        settings_.setValue("calibLength", CalculationBase::getCalibrationLength());
+    }
+    if (!settings_.contains("saveDir"))
+    {
+        settings_.setValue("saveDir", "default");
+    }
+    if (!settings_.contains("theme"))
+    {
+        settings_.setValue("theme", "dark");
+    }
+    if (!settings_.contains("lang"))
+    {
+        settings_.setValue("lang", QLocale::system().name());
+    }
+
+    QString method = settings_.value("method").toString();
+//    if (method == "ANOTHER")
+//    {
+//        actualCalculationMethod_ = &calculationMethodANOTHER_;
+//    }
+//    else
+//    {
+        actualCalculationMethod_ = &calculationMethodMAPO_;
+//    }
+    CalculationBase::setCalibrationLength(settings_.value("calibLength").toDouble());
+
+    qtTranslator_.load(QLatin1String("QtLanguage_")+settings_.value("lang").toString(), QLatin1String(":/"));
+
+    QCoreApplication::installTranslator(&qtTranslator_);
+    settings_.endGroup();
 }
 
 QImage BackEnd::requestImage(const QString &/*id*/, QSize *size, const QSize &/*requestedSize*/)
@@ -59,6 +96,7 @@ void BackEnd::removePoint(const QString &pointName)
 void BackEnd::setCalibrationLength(qreal length)
 {
     CalculationBase::setCalibrationLength(length);
+    setConfig("calibLength", QString::number(length));
 }
 
 qreal BackEnd::getCalibrationLength()
@@ -264,9 +302,57 @@ void BackEnd::invertImage()
     }
 }
 
-void BackEnd::addPoint(const QString &pointName, const QString &description)
+void BackEnd::setLanguage(const QString &lang)
 {
-    pointAdded(pointName, description);
+    if (!qtTranslator_.isEmpty())
+    {
+        QCoreApplication::removeTranslator(&qtTranslator_);
+    }
+    qtTranslator_.load(QLatin1String("QtLanguage_")+lang, QLatin1String(":/"));
+    QCoreApplication::installTranslator(&qtTranslator_);
+    engine_->retranslate();
+    actualCalculationMethod_->loadPointsTable();
+    actualCalculationMethod_->loadResultsTable();
+    setConfig("lang", lang);
+}
+
+void BackEnd::setMethod(const QString &method)
+{
+    if (method == "FACE")
+    {
+//        actualCalculationMethod_ = &calculationMethodFACE_;
+    }
+    else
+    {
+        actualCalculationMethod_ = &calculationMethodMAPO_;
+    }
+    loadData();
+    setConfig("method", method);
+}
+
+void BackEnd::setConfig(const QString &key, const QString &value)
+{
+    settings_.beginGroup("Settings");
+    settings_.setValue(key, value);
+    settings_.endGroup();
+}
+
+QString BackEnd::getConfig(const QString &key)
+{
+    settings_.beginGroup("Settings");
+    QString value = settings_.value(key).toString();
+    settings_.endGroup();
+    return value;
+}
+
+bool BackEnd::isDirectoryValid(const QString &directory)
+{
+    return QDir(directory).exists();
+}
+
+void BackEnd::addPoint(const QString &pointName, bool status, const QString &description)
+{
+    pointAdded(pointName, status, description);
 }
 
 void BackEnd::updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, bool status)
@@ -279,9 +365,9 @@ void BackEnd::connectPoints(const QString& pointName1, const QString& pointName2
     pointsConnected(pointName1, pointName2, color);
 }
 
-void BackEnd::addResult(const QString &resultName, const QString &resultReference)
+void BackEnd::addResult(const QString &resultName, const QString &resultReference, const QString& description)
 {
-    resultAdded(resultName, resultReference);
+    resultAdded(resultName, resultReference, description);
 }
 
 void BackEnd::updateResult(const QString& resultName, const QString& resultValue, const QString& resultReference)

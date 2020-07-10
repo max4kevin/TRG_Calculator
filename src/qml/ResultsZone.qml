@@ -1,6 +1,8 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 
+//TODO: warning message about calibration
+
 Item {
     id: resultsZone
 
@@ -21,7 +23,8 @@ Item {
                 color: mainWindow.textColor
                 clip: true
                 font.bold: true
-                text: qsTr("Name")
+                text: qsTr("Description")
+                wrapMode: Text.WordWrap
             }
 
             Text {
@@ -60,14 +63,15 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             spacing: 0
+            property string name: name
 
             Text {
-                id: nameText
+                id: descriptionText
                 width: parent.width/3
                 leftPadding: rightPanel.spacing
                 clip: true
                 color: mainWindow.textColor
-                text: name
+                text: description
             }
 
             Text {
@@ -100,15 +104,20 @@ Item {
         Connections {
             target: backEnd
             onResultAdded: {
-                results.append({name: resultName, value: "", reference: resultReference})
+                for (var i = 0; i < results.count; ++i) {
+                    if (results.get(i).name === resultName) {
+                        results.setProperty(i, "description", description)
+                        results.setProperty(i, "reference", resultReference)
+                        return
+                    }
+                }
+                results.append({name: resultName, description: description, value: "", reference: resultReference})
                 console.log("Result \""+resultName+"\" added")
             }
 
             onResultUpdated: {
-                for (var i = 0; i < results.count; ++i)
-                {
-                    if (results.get(i).name === resultName)
-                    {
+                for (var i = 0; i < results.count; ++i) {
+                    if (results.get(i).name === resultName) {
                         results.get(i).reference = resultReference
                         results.get(i).value = resultValue
                         return

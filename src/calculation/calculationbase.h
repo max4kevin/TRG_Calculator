@@ -30,6 +30,7 @@ struct Result
 {
     QString value;
     QString referenceValue;
+    const char* description;
 };
 
 typedef QVector<PointState> PointsHistory;
@@ -39,19 +40,21 @@ typedef QHash<QString, Result> ResultsTable;
 struct WorkPoint
 {
     Points::Iterator point;
-    QString description;
+    const char* description;
 };
 
 typedef QVector<WorkPoint> WorkPoints;
 
+
+//TODO: Signals refactoring
 class IFrontendConnector
 {
     public:
         virtual ~IFrontendConnector() = default;
-        virtual void addPoint(const QString& pointName, const QString& description) = 0;
+        virtual void addPoint(const QString& pointName, bool status, const QString& description) = 0;
         virtual void updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, bool status) = 0;
         virtual void connectPoints(const QString& pointName1, const QString& pointName2, const QString& color) = 0;
-        virtual void addResult(const QString& resultName, const QString& resultReference) = 0;
+        virtual void addResult(const QString& resultName, const QString& resultReference, const QString& description) = 0;
         virtual void updateResult(const QString& resultName, const QString& resultValue, const QString& resultReference) = 0;
         virtual void sendMsg(const QString& msg) = 0;
         virtual void changeUndoState(bool isEnabled) = 0;
@@ -87,6 +90,12 @@ class CalculationBase
     protected:
         void checkPointsConnection(const QString& checkPoint, const QString& pName1, const QString& pName2);
         void checkCalibration(const QString& checkPoint);
+        virtual void checkAngle(const QString& checkPoint, const QString& dataName, const QString& pName1, const QString& pName2, const QString& pName3);
+        virtual void checkDistance(const QString& checkPoint, const QString& dataName, const QString& pName1, const QString& pName2);
+        virtual void checkRatio(const QString& checkPoint, const QString& dataName, const QString& pName1, const QString& pName2, const QString& pName3, const QString& pName4);
+        virtual void checkProjection(const QString& checkPoint, const QString& dataName, const QString& pName1, const QString& pName2, const QString& pName3, const QString& pName4);
+        virtual void checkCross(const QString& checkPoint, const QString& pointName, const QString& pName1, const QString& pName2, const QString& pName3, const QString& pName4);
+        virtual void checkPerpendicular(const QString& checkPoint, const QString& pointName, const QString& pName0, const QString& pName1, const QString& pName2);
         void updateResult(const QString& resultName);
         void updatePoint(const QString& pointName);
         qreal getCalibrationValue();

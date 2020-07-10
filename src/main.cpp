@@ -7,8 +7,10 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
-    BackEnd *backEnd(new BackEnd(app));
+    app.setOrganizationName("Kirill Maximov");
+    app.setOrganizationDomain("none");
     QQmlApplicationEngine engine;
+    BackEnd *backEnd(new BackEnd(engine));
 
     engine.rootContext()->setContextProperty("backEnd", backEnd);
     engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
