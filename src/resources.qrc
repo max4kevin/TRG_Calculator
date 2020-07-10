@@ -17,5 +17,6 @@
         <file>qml/PointsZone.qml</file>
         <file>qml/LinesZone.qml</file>
         <file>qml/CustomScrollBar.qml</file>
+        <file>QtLanguage_en.qm</file>
     </qresource>
 </RCC>

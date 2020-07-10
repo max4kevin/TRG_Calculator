@@ -14,7 +14,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp \
+    main.cpp \
     backend.cpp \
     calculation/calculationbase.cpp \
     calculation/calculationmapo.cpp \
@@ -59,4 +59,5 @@ DISTFILES += \
     qml/CustomMenuSeparator.qml \
     qml/ControlBackground.qml
 
-TRANSLATIONS += QtLanguage_ru.ts
+TRANSLATIONS += QtLanguage_ru.ts \
+                QtLanguage_en.ts

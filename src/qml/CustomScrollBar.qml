@@ -9,7 +9,7 @@ ScrollBar {
         implicitWidth: 6
         implicitHeight: 6
         radius: width / 2
-        color: control.pressed ?  mainWindow.hTextColor : mainWindow.textColor
+        color: control.pressed ?  "#444444" : "#777777"
 
         PropertyAnimation {
             target: indicator
