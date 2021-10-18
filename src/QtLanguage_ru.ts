@@ -14,124 +14,44 @@
         <translation>Вторая калибровочная точка для расчета коэффициента перевода пикселей в миллиметры</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="9"/>
         <location filename="calculation/calculationmapo.cpp" line="11"/>
         <source>S Point Description</source>
-        <translation>Описание точки S</translation>
+        <translation>Точка геометрического центра гипофиза</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="12"/>
         <location filename="calculation/calculationmapo.cpp" line="14"/>
         <source>N Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Точка на передне-верхнем крае носолобного шва в сагиттальной плоскости</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="15"/>
         <location filename="calculation/calculationmapo.cpp" line="17"/>
         <source>A Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Наиболее глубокая точка на переднем контуре апикального базиса верхней челюсти</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="18"/>
         <location filename="calculation/calculationmapo.cpp" line="20"/>
         <source>B Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Наиболее дистально расположенная точка на переднем контуре апикального базиса верхней челюсти</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="21"/>
-        <source>Ba Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="24"/>
-        <source>Pt Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="27"/>
-        <source>Po Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="30"/>
-        <source>Or Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="42"/>
-        <source>PMi Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="45"/>
-        <source>PMp Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="48"/>
         <location filename="calculation/calculationmapo.cpp" line="23"/>
         <source>Pog Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="66"/>
-        <source>ApIs Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="69"/>
-        <source>ApIi Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="72"/>
-        <source>OcPM Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="75"/>
-        <source>OcPPr Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="78"/>
-        <source>OcPI Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="81"/>
-        <source>StS Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="84"/>
-        <source>Li Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="87"/>
-        <source>Prn Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="90"/>
-        <source>Pog&apos; Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Самая передняя точка симфиза</translation>
     </message>
     <message>
         <location filename="calculation/calculationmapo.cpp" line="26"/>
         <source>C Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Центральная точка головки нижней челюсти</translation>
     </message>
     <message>
         <location filename="calculation/calculationmapo.cpp" line="29"/>
         <source>6 Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Точка смыкания первых моляров верхней и нижней челюсти</translation>
     </message>
     <message>
         <location filename="calculation/calculationmapo.cpp" line="32"/>
         <source>Se Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Средняя точка на уровне входа в турецкое седло</translation>
     </message>
     <message>
         <location filename="calculation/calculationmapo.cpp" line="97"/>
@@ -224,77 +144,69 @@
         <translation>I-I, град</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="39"/>
         <location filename="calculation/calculationmapo.cpp" line="35"/>
         <source>PNS Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Задняя носовая ость</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="36"/>
         <location filename="calculation/calculationmapo.cpp" line="38"/>
         <source>ANS Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Передняя носовая ость</translation>
     </message>
     <message>
         <location filename="calculation/calculationmapo.cpp" line="41"/>
         <source>Go&apos; Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Точка пересечения нижней поверхности угла нижней челюсти и касательной из точки &quot;Me&quot;</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="33"/>
         <location filename="calculation/calculationmapo.cpp" line="44"/>
         <source>Ar Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Точка на пересечении передней поверхночти базилярной части затылочной кости с задней поверхностью шейки суставного отростка</translation>
     </message>
     <message>
         <location filename="calculation/calculationmapo.cpp" line="47"/>
         <source>Rc Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Точка пересечения задней поверхности угла нижней челюсти и касательной из точки &quot;Ar&quot;</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="60"/>
         <location filename="calculation/calculationmapo.cpp" line="50"/>
         <source>Is Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Режущий край верхнего центрального резца</translation>
     </message>
     <message>
         <location filename="calculation/calculationmapo.cpp" line="53"/>
         <source>Ias Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Апикальная точка центрального верхнего резца</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="63"/>
         <location filename="calculation/calculationmapo.cpp" line="56"/>
         <source>Ii Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Режущий край нижнего центрального резца</translation>
     </message>
     <message>
         <location filename="calculation/calculationmapo.cpp" line="59"/>
         <source>Iai Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Апикальная точка центрального нижнего резца</translation>
     </message>
     <message>
         <location filename="calculation/calculationmapo.cpp" line="62"/>
         <source>1 Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Средина расстояния между режущими точками резцов</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="51"/>
         <location filename="calculation/calculationmapo.cpp" line="65"/>
         <source>Me Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Нижняя точка на нижнем контуре тела нижней челюсти в месте наложения симфиза</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="57"/>
         <location filename="calculation/calculationmapo.cpp" line="68"/>
         <source>Go Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Точка угла нижней челюсти, образованная при пересечении биссектрисы угла между касательными к телу и ветви нижней челюсти и контура угла</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="54"/>
         <location filename="calculation/calculationmapo.cpp" line="71"/>
         <source>Gn Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation>Наиболее передняя и нижняя точка симфиза нижней челюсти</translation>
     </message>
 </context>
 <context>
@@ -311,61 +223,61 @@
 <context>
     <name>ControlsBar</name>
     <message>
-        <location filename="qml/ControlsBar.qml" line="35"/>
+        <location filename="qml/ControlsBar.qml" line="36"/>
         <source>File</source>
         <translation>Файл</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="41"/>
+        <location filename="qml/ControlsBar.qml" line="42"/>
         <source>Open...</source>
         <oldsource>Open... </oldsource>
         <translation>Открыть...</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="47"/>
+        <location filename="qml/ControlsBar.qml" line="48"/>
         <source>Save</source>
         <translation>Сохранить</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="54"/>
+        <location filename="qml/ControlsBar.qml" line="55"/>
         <source>File saved</source>
         <translation>Файл сохранен</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="64"/>
+        <location filename="qml/ControlsBar.qml" line="65"/>
         <source>Save as...</source>
         <oldsource>Save as... </oldsource>
         <translation>Сохранить как...</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="77"/>
+        <location filename="qml/ControlsBar.qml" line="78"/>
         <source>Close</source>
         <translation>Закрыть</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="86"/>
+        <location filename="qml/ControlsBar.qml" line="87"/>
         <source>Quit</source>
         <translation>Выход</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="91"/>
+        <location filename="qml/ControlsBar.qml" line="92"/>
         <source>Edit</source>
         <translation>Правка</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="97"/>
-        <location filename="qml/ControlsBar.qml" line="102"/>
+        <location filename="qml/ControlsBar.qml" line="98"/>
+        <location filename="qml/ControlsBar.qml" line="103"/>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="108"/>
-        <location filename="qml/ControlsBar.qml" line="113"/>
+        <location filename="qml/ControlsBar.qml" line="109"/>
+        <location filename="qml/ControlsBar.qml" line="114"/>
         <source>Redo</source>
         <translation>Повторить</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="121"/>
+        <location filename="qml/ControlsBar.qml" line="122"/>
         <source>Calculation method</source>
         <translation>Метод расчета</translation>
     </message>
@@ -390,32 +302,32 @@
         <translation type="vanished">Заблокировать точки</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="197"/>
+        <location filename="qml/ControlsBar.qml" line="198"/>
         <source>Parameters</source>
         <translation>Параметры</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="204"/>
+        <location filename="qml/ControlsBar.qml" line="205"/>
         <source>View</source>
         <translation>Вид</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="210"/>
+        <location filename="qml/ControlsBar.qml" line="211"/>
         <source>Zoom in</source>
         <translation>Приблизить</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="218"/>
+        <location filename="qml/ControlsBar.qml" line="219"/>
         <source>Zoom out</source>
         <translation>Отдалить</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="226"/>
+        <location filename="qml/ControlsBar.qml" line="227"/>
         <source>Invert image</source>
         <translation>Инвертировать изображение</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="237"/>
+        <location filename="qml/ControlsBar.qml" line="238"/>
         <source>Show points names</source>
         <translation>Показывать имена точек</translation>
     </message>
@@ -424,12 +336,12 @@
         <translation type="vanished">Показывать линии</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="250"/>
+        <location filename="qml/ControlsBar.qml" line="251"/>
         <source>Dark theme</source>
         <translation>Тёмная тема</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="275"/>
+        <location filename="qml/ControlsBar.qml" line="276"/>
         <source>Show work panel</source>
         <translation>Показать рабочую панель</translation>
     </message>
@@ -438,12 +350,12 @@
         <translation type="vanished">Показать результаты</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="292"/>
+        <location filename="qml/ControlsBar.qml" line="293"/>
         <source>Help</source>
         <translation>Помощь</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="296"/>
+        <location filename="qml/ControlsBar.qml" line="297"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
@@ -451,17 +363,17 @@
 <context>
     <name>LinesZone</name>
     <message>
-        <location filename="qml/LinesZone.qml" line="169"/>
+        <location filename="qml/LinesZone.qml" line="170"/>
         <source>Show new lines</source>
         <translation>Показывать новые линии</translation>
     </message>
     <message>
-        <location filename="qml/LinesZone.qml" line="219"/>
+        <location filename="qml/LinesZone.qml" line="220"/>
         <source>Show all</source>
         <translation>Показать все</translation>
     </message>
     <message>
-        <location filename="qml/LinesZone.qml" line="234"/>
+        <location filename="qml/LinesZone.qml" line="235"/>
         <source>Hide all</source>
         <translation>Спрятать все</translation>
     </message>
@@ -522,39 +434,39 @@
 <context>
     <name>PointsZone</name>
     <message>
-        <location filename="qml/PointsZone.qml" line="129"/>
+        <location filename="qml/PointsZone.qml" line="130"/>
         <source>Delete</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="135"/>
+        <location filename="qml/PointsZone.qml" line="136"/>
         <source>Point </source>
         <oldsource> point deleted</oldsource>
         <translation>Точка </translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="135"/>
+        <location filename="qml/PointsZone.qml" line="136"/>
         <source> deleted</source>
         <translation> удалена</translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="225"/>
+        <location filename="qml/PointsZone.qml" line="226"/>
         <source>Delete calculation points</source>
         <oldsource>Delete points</oldsource>
         <translation>Удалить расчетные точки</translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="229"/>
+        <location filename="qml/PointsZone.qml" line="230"/>
         <source>Points deleted</source>
         <translation>Точки удалены</translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="236"/>
+        <location filename="qml/PointsZone.qml" line="237"/>
         <source>Delete all points</source>
         <translation>Удалить все точки</translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="240"/>
+        <location filename="qml/PointsZone.qml" line="241"/>
         <source>All points deleted</source>
         <translation>Все точки удалены</translation>
     </message>
@@ -589,17 +501,17 @@
 <context>
     <name>RightPanel</name>
     <message>
-        <location filename="qml/RightPanel.qml" line="70"/>
+        <location filename="qml/RightPanel.qml" line="71"/>
         <source>Points</source>
         <translation>Точки</translation>
     </message>
     <message>
-        <location filename="qml/RightPanel.qml" line="73"/>
+        <location filename="qml/RightPanel.qml" line="74"/>
         <source>Lines</source>
         <translation>Линии</translation>
     </message>
     <message>
-        <location filename="qml/RightPanel.qml" line="76"/>
+        <location filename="qml/RightPanel.qml" line="77"/>
         <source>Results</source>
         <translation>Результаты</translation>
     </message>
@@ -607,8 +519,8 @@
 <context>
     <name>WorkZone</name>
     <message>
-        <location filename="qml/WorkZone.qml" line="29"/>
-        <location filename="qml/WorkZone.qml" line="220"/>
+        <location filename="qml/WorkZone.qml" line="32"/>
+        <location filename="qml/WorkZone.qml" line="223"/>
         <source>Please open file</source>
         <translation>Пожалуйста откройте файл</translation>
     </message>
@@ -621,33 +533,33 @@
         <translation type="vanished">Точки разблокированы</translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="12"/>
+        <location filename="qml/WorkZone.qml" line="15"/>
         <source>Point </source>
         <translation>Точка </translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="12"/>
+        <location filename="qml/WorkZone.qml" line="15"/>
         <source> selected</source>
         <translation> выделена</translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="99"/>
+        <location filename="qml/WorkZone.qml" line="102"/>
         <source>Result stored in .../</source>
         <translation>Результат сохранен в .../</translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="185"/>
+        <location filename="qml/WorkZone.qml" line="188"/>
         <source>Unsupported file format</source>
         <oldsource>Wrong file format!</oldsource>
         <translation>Формат не поддерживается</translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="205"/>
+        <location filename="qml/WorkZone.qml" line="208"/>
         <source>File loaded</source>
         <translation>Файл загружен</translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="218"/>
+        <location filename="qml/WorkZone.qml" line="221"/>
         <source>File closed</source>
         <translation>Файл закрыт</translation>
     </message>
@@ -756,12 +668,12 @@ Contacts: </oldsource>
         <translation type="vanished">Вторая калибровочная точка для расчета коэффициента перевода пикселей в миллиметры</translation>
     </message>
     <message>
-        <location filename="calculation/calculationbase.cpp" line="430"/>
+        <location filename="calculation/calculationbase.cpp" line="415"/>
         <source>Drawing done</source>
         <translation>Рисование завершено</translation>
     </message>
     <message>
-        <location filename="calculation/calculationbase.cpp" line="434"/>
+        <location filename="calculation/calculationbase.cpp" line="419"/>
         <source>Now drawing point: </source>
         <translation>Следующая точка: </translation>
     </message>

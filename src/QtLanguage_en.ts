@@ -14,109 +14,53 @@
         <translation>Second calibration point for pixels to millimeters translation coefficient calculation</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="9"/>
         <location filename="calculation/calculationmapo.cpp" line="11"/>
         <source>S Point Description</source>
         <translation>S Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="12"/>
         <location filename="calculation/calculationmapo.cpp" line="14"/>
         <source>N Point Description</source>
         <translation>N Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="15"/>
         <location filename="calculation/calculationmapo.cpp" line="17"/>
         <source>A Point Description</source>
         <translation>A Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="18"/>
         <location filename="calculation/calculationmapo.cpp" line="20"/>
         <source>B Point Description</source>
         <translation>B Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="21"/>
         <source>Ba Point Description</source>
-        <translation>Ba Point Description</translation>
+        <translation type="vanished">Ba Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="24"/>
-        <source>Pt Point Description</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="27"/>
         <source>Po Point Description</source>
-        <translation>Po Point Description</translation>
+        <translation type="vanished">Po Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="30"/>
         <source>Or Point Description</source>
-        <translation>Or Point Description</translation>
+        <translation type="vanished">Or Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="42"/>
         <source>PMi Point Description</source>
-        <translation>PMi Point Description</translation>
+        <translation type="vanished">PMi Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="45"/>
         <source>PMp Point Description</source>
-        <translation>PMp Point Description</translation>
+        <translation type="vanished">PMp Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="48"/>
         <location filename="calculation/calculationmapo.cpp" line="23"/>
         <source>Pog Point Description</source>
         <translation>Pog Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="66"/>
         <source>ApIs Point Description</source>
-        <translation>ApIs Point Description</translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="69"/>
-        <source>ApIi Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="72"/>
-        <source>OcPM Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="75"/>
-        <source>OcPPr Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="78"/>
-        <source>OcPI Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="81"/>
-        <source>StS Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="84"/>
-        <source>Li Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="87"/>
-        <source>Prn Point Description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="calculation/calculationface.cpp" line="90"/>
-        <source>Pog&apos; Point Description</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">ApIs Point Description</translation>
     </message>
     <message>
         <location filename="calculation/calculationmapo.cpp" line="26"/>
@@ -224,13 +168,11 @@
         <translation>I-I, deg</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="39"/>
         <location filename="calculation/calculationmapo.cpp" line="35"/>
         <source>PNS Point Description</source>
         <translation type="unfinished">PNS Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="36"/>
         <location filename="calculation/calculationmapo.cpp" line="38"/>
         <source>ANS Point Description</source>
         <translation type="unfinished">ANS Point Description</translation>
@@ -241,7 +183,6 @@
         <translation type="unfinished">Go&apos; Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="33"/>
         <location filename="calculation/calculationmapo.cpp" line="44"/>
         <source>Ar Point Description</source>
         <translation type="unfinished">Ar Point Description</translation>
@@ -252,7 +193,6 @@
         <translation type="unfinished">Rc Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="60"/>
         <location filename="calculation/calculationmapo.cpp" line="50"/>
         <source>Is Point Description</source>
         <translation type="unfinished">Is Point Description</translation>
@@ -263,7 +203,6 @@
         <translation type="unfinished">Ias Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="63"/>
         <location filename="calculation/calculationmapo.cpp" line="56"/>
         <source>Ii Point Description</source>
         <translation type="unfinished">Ii Point Description</translation>
@@ -279,19 +218,16 @@
         <translation type="unfinished">1 Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="51"/>
         <location filename="calculation/calculationmapo.cpp" line="65"/>
         <source>Me Point Description</source>
         <translation type="unfinished">Me Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="57"/>
         <location filename="calculation/calculationmapo.cpp" line="68"/>
         <source>Go Point Description</source>
         <translation type="unfinished">Go Point Description</translation>
     </message>
     <message>
-        <location filename="calculation/calculationface.cpp" line="54"/>
         <location filename="calculation/calculationmapo.cpp" line="71"/>
         <source>Gn Point Description</source>
         <translation type="unfinished">Gn Point Description</translation>
@@ -398,109 +334,109 @@
 <context>
     <name>ControlsBar</name>
     <message>
-        <location filename="qml/ControlsBar.qml" line="35"/>
+        <location filename="qml/ControlsBar.qml" line="36"/>
         <source>File</source>
         <translation>File</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="41"/>
+        <location filename="qml/ControlsBar.qml" line="42"/>
         <source>Open...</source>
         <translation>Open...</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="47"/>
+        <location filename="qml/ControlsBar.qml" line="48"/>
         <source>Save</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="54"/>
+        <location filename="qml/ControlsBar.qml" line="55"/>
         <source>File saved</source>
         <translation>File saved</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="64"/>
+        <location filename="qml/ControlsBar.qml" line="65"/>
         <source>Save as...</source>
         <translation>Save as...</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="77"/>
+        <location filename="qml/ControlsBar.qml" line="78"/>
         <source>Close</source>
         <translation>Close</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="86"/>
+        <location filename="qml/ControlsBar.qml" line="87"/>
         <source>Quit</source>
         <translation>Quit</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="91"/>
+        <location filename="qml/ControlsBar.qml" line="92"/>
         <source>Edit</source>
         <translation>Edit</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="97"/>
-        <location filename="qml/ControlsBar.qml" line="102"/>
+        <location filename="qml/ControlsBar.qml" line="98"/>
+        <location filename="qml/ControlsBar.qml" line="103"/>
         <source>Undo</source>
         <translation>Undo</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="108"/>
-        <location filename="qml/ControlsBar.qml" line="113"/>
+        <location filename="qml/ControlsBar.qml" line="109"/>
+        <location filename="qml/ControlsBar.qml" line="114"/>
         <source>Redo</source>
         <translation>Redo</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="121"/>
+        <location filename="qml/ControlsBar.qml" line="122"/>
         <source>Calculation method</source>
         <translation>Calculation method</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="197"/>
+        <location filename="qml/ControlsBar.qml" line="198"/>
         <source>Parameters</source>
         <translation>Parameters</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="204"/>
+        <location filename="qml/ControlsBar.qml" line="205"/>
         <source>View</source>
         <translation>View</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="210"/>
+        <location filename="qml/ControlsBar.qml" line="211"/>
         <source>Zoom in</source>
         <translation>Zoom in</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="218"/>
+        <location filename="qml/ControlsBar.qml" line="219"/>
         <source>Zoom out</source>
         <translation>Zoom out</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="226"/>
+        <location filename="qml/ControlsBar.qml" line="227"/>
         <source>Invert image</source>
         <translation>Invert image</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="237"/>
+        <location filename="qml/ControlsBar.qml" line="238"/>
         <source>Show points names</source>
         <translation>Show points names</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="250"/>
+        <location filename="qml/ControlsBar.qml" line="251"/>
         <source>Dark theme</source>
         <translation>Dark theme</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="275"/>
+        <location filename="qml/ControlsBar.qml" line="276"/>
         <source>Show work panel</source>
         <translation>Show work panel</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="292"/>
+        <location filename="qml/ControlsBar.qml" line="293"/>
         <source>Help</source>
         <translation>Help</translation>
     </message>
     <message>
-        <location filename="qml/ControlsBar.qml" line="296"/>
+        <location filename="qml/ControlsBar.qml" line="297"/>
         <source>About</source>
         <translation>About</translation>
     </message>
@@ -508,17 +444,17 @@
 <context>
     <name>LinesZone</name>
     <message>
-        <location filename="qml/LinesZone.qml" line="169"/>
+        <location filename="qml/LinesZone.qml" line="170"/>
         <source>Show new lines</source>
         <translation>Show new lines</translation>
     </message>
     <message>
-        <location filename="qml/LinesZone.qml" line="219"/>
+        <location filename="qml/LinesZone.qml" line="220"/>
         <source>Show all</source>
         <translation>Show all</translation>
     </message>
     <message>
-        <location filename="qml/LinesZone.qml" line="234"/>
+        <location filename="qml/LinesZone.qml" line="235"/>
         <source>Hide all</source>
         <translation>Hide all</translation>
     </message>
@@ -579,38 +515,38 @@
 <context>
     <name>PointsZone</name>
     <message>
-        <location filename="qml/PointsZone.qml" line="129"/>
+        <location filename="qml/PointsZone.qml" line="130"/>
         <source>Delete</source>
         <translation>Delete</translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="135"/>
+        <location filename="qml/PointsZone.qml" line="136"/>
         <source>Point </source>
         <oldsource> point deleted</oldsource>
         <translation>Point </translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="135"/>
+        <location filename="qml/PointsZone.qml" line="136"/>
         <source> deleted</source>
         <translation> deleted</translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="225"/>
+        <location filename="qml/PointsZone.qml" line="226"/>
         <source>Delete calculation points</source>
         <translation>Delete calculation points</translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="229"/>
+        <location filename="qml/PointsZone.qml" line="230"/>
         <source>Points deleted</source>
         <translation>Points deleted</translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="236"/>
+        <location filename="qml/PointsZone.qml" line="237"/>
         <source>Delete all points</source>
         <translation>Delete all points</translation>
     </message>
     <message>
-        <location filename="qml/PointsZone.qml" line="240"/>
+        <location filename="qml/PointsZone.qml" line="241"/>
         <source>All points deleted</source>
         <translation>All points deleted</translation>
     </message>
@@ -645,17 +581,17 @@
 <context>
     <name>RightPanel</name>
     <message>
-        <location filename="qml/RightPanel.qml" line="70"/>
+        <location filename="qml/RightPanel.qml" line="71"/>
         <source>Points</source>
         <translation>Points</translation>
     </message>
     <message>
-        <location filename="qml/RightPanel.qml" line="73"/>
+        <location filename="qml/RightPanel.qml" line="74"/>
         <source>Lines</source>
         <translation>Lines</translation>
     </message>
     <message>
-        <location filename="qml/RightPanel.qml" line="76"/>
+        <location filename="qml/RightPanel.qml" line="77"/>
         <source>Results</source>
         <translation>Results</translation>
     </message>
@@ -663,38 +599,38 @@
 <context>
     <name>WorkZone</name>
     <message>
-        <location filename="qml/WorkZone.qml" line="29"/>
-        <location filename="qml/WorkZone.qml" line="220"/>
+        <location filename="qml/WorkZone.qml" line="32"/>
+        <location filename="qml/WorkZone.qml" line="223"/>
         <source>Please open file</source>
         <translation>Please open file</translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="12"/>
+        <location filename="qml/WorkZone.qml" line="15"/>
         <source>Point </source>
         <translation>Point </translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="12"/>
+        <location filename="qml/WorkZone.qml" line="15"/>
         <source> selected</source>
         <translation> selected</translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="99"/>
+        <location filename="qml/WorkZone.qml" line="102"/>
         <source>Result stored in .../</source>
         <translation>Result stored in .../</translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="185"/>
+        <location filename="qml/WorkZone.qml" line="188"/>
         <source>Unsupported file format</source>
         <translation>Unsupported file format</translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="205"/>
+        <location filename="qml/WorkZone.qml" line="208"/>
         <source>File loaded</source>
         <translation>File loaded</translation>
     </message>
     <message>
-        <location filename="qml/WorkZone.qml" line="218"/>
+        <location filename="qml/WorkZone.qml" line="221"/>
         <source>File closed</source>
         <translation>File closed</translation>
     </message>
@@ -807,12 +743,12 @@ Contacts: </translation>
         <translation type="vanished">Second calibration point for pixels to millimeters translation coefficient calculation</translation>
     </message>
     <message>
-        <location filename="calculation/calculationbase.cpp" line="430"/>
+        <location filename="calculation/calculationbase.cpp" line="415"/>
         <source>Drawing done</source>
         <translation>Drawing done</translation>
     </message>
     <message>
-        <location filename="calculation/calculationbase.cpp" line="434"/>
+        <location filename="calculation/calculationbase.cpp" line="419"/>
         <source>Now drawing point: </source>
         <translation>Now drawing point: </translation>
     </message>
