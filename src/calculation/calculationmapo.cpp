@@ -2,6 +2,8 @@
 #include "geometry.h"
 #include <QGuiApplication>
 
+//TODO: Replace call of "updateCalculation" method with signal-slot connections
+
 CalculationMAPO::CalculationMAPO(IFrontendConnector& frontendConnector)
 : CalculationBase (frontendConnector)
 {
