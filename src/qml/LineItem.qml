@@ -1,4 +1,5 @@
-import QtQuick 2.11
+import QtQuick 2.12
+import QtQml 2.12
 
 //TODO: Show/hide lines
 
@@ -14,6 +15,7 @@ Item {
     property real y1: 0
     property real x2: 1
     property real y2: 1
+    width: 1
 
     property bool isSelected: false
 
@@ -41,7 +43,7 @@ Item {
         id: rect
         color: line.color
         height: calculateDistance()
-        width: 1
+        width: line.width
 
         SequentialAnimation on color {
             id: lineAnimation
@@ -72,7 +74,7 @@ Item {
             }
         }
 
-        onScaled: rect.width = 1/scaleFactor
+        onScaled: line.width = 1/scaleFactor
 
         onLinesDeselected: line.isSelected = false
     }

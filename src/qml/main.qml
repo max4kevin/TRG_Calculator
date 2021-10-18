@@ -28,7 +28,7 @@ ApplicationWindow {
     property string textColor: mainWindow.darkTheme ? "#AAAAAA" : "#222222"
     property string hTextColor: mainWindow.darkTheme ? "#FFFFFF" : "#000000"
     property string inputColor: mainWindow.darkTheme ? "#888888" : "#DDDDDD"
-    property string version: "2.2.0"
+    property string version: "2.2.1"
 
     function syncBlink() {
         isBlinkAllowed = false
@@ -138,7 +138,7 @@ ApplicationWindow {
 
         CustomButton {
             id: panelBtn
-            width: 140
+            width: 180
             height: parent.height
             anchors.right: parent.right
             text: controls.panelSwitch.checked ? qsTr("Hide work panel") : qsTr("Show work panel")

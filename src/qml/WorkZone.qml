@@ -1,5 +1,6 @@
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.12
+import QtQml 2.12
+import QtQuick.Controls 2.12
 
 Item {
     id: workZone
@@ -103,7 +104,7 @@ Item {
     Menu {
         id: pointsMenu
         delegate: MenuDelegate {}
-        background: ControlBackground {implicitWidth: 270}
+        background: ControlBackground {implicitWidth: 350}
 
         MenuDelegate {
             action: controls.pointsSwitch
@@ -428,7 +429,7 @@ Item {
                     else
                     {
                         if (!flickArea.interactive) {
-                            flickArea.flick(wheel.angleDelta.x*20, wheel.angleDelta.y*20)
+                            flickArea.flick(wheel.angleDelta.x*5, wheel.angleDelta.y*5)
                         }
                     }
                 }

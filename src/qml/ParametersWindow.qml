@@ -1,14 +1,14 @@
 import QtQuick 2.11
-import QtQuick.Controls 2.5
+import QtQuick.Controls 2.12
 import QtQuick.Window 2.12
-import QtQuick.Dialogs 1.3
+import QtQuick.Dialogs 1.2
 import Qt.labs.platform 1.0 as Labs
 
 Window {
     id: parametersWindow
     visible: false
     title: qsTr("Parameters")
-    minimumWidth: 440
+    minimumWidth: 500
     minimumHeight: 200
     maximumWidth: minimumWidth
     maximumHeight: minimumHeight

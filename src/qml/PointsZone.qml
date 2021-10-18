@@ -1,5 +1,6 @@
-import QtQuick 2.11
-import QtQuick.Controls 2.4
+import QtQuick 2.12
+import QtQml 2.12
+import QtQuick.Controls 2.12
 
 Item {
     id: pointsZone
@@ -72,7 +73,7 @@ Item {
 
         delegate: MouseArea {
             id: pointRow
-            height: 70
+            height: 90
             anchors.left: parent.left
             anchors.right: parent.right
             property bool isReady: readyStatus
