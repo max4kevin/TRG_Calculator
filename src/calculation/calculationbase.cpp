@@ -162,7 +162,7 @@ void CalculationBase::clearAll()
 //TODO: Error messages
 void CalculationBase::saveData(const QString& path, const QString& name)
 {
-    QFile file(path+name+"_data.dat");
+    QFile file(path+name+"_data.csv");
     if (!file.open(QIODevice::WriteOnly | QFile::Text))
     {
         qDebug() << "File open error";
@@ -178,7 +178,7 @@ void CalculationBase::saveData(const QString& path, const QString& name)
     out.setCodec("Windows-1251");
     for (ResultsTable::Iterator it = resultsTable_.begin(); it != resultsTable_.end(); ++it)
     {
-        out << it.key() << "	" << it->value << "	" << it->referenceValue << endl;
+        out << it.key() << "," << it->value << "," << it->referenceValue << endl;
     }
     out.flush();
     qDebug() << "File saved";
