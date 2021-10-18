@@ -8,6 +8,7 @@
 #define MAPO_CODE 0xBAF0
 
 //TODO: Resending text fields to frontend after language switch
+//TODO: logging!
 
 BackEnd::BackEnd(QQmlApplicationEngine &engine)
     : QQuickImageProvider(QQuickImageProvider::Image), engine_(&engine), calculationMethodMAPO_(*this), settings_(QCoreApplication::applicationDirPath()+"/config.ini", QSettings::IniFormat)
@@ -66,7 +67,7 @@ QImage BackEnd::requestImage(const QString &/*id*/, QSize *size, const QSize &/*
 
 void BackEnd::loadData()
 {
-    clearTables();
+    emit clearTables();
     actualCalculationMethod_->loadResultsTable();
     actualCalculationMethod_->loadPointsTable();
 }
@@ -74,7 +75,7 @@ void BackEnd::loadData()
 void BackEnd::reset()
 {
     calculationMethodMAPO_.reset();
-    clearTables();
+    emit clearTables();
     //TODO: reseting other methods
 }
 
@@ -147,7 +148,8 @@ void BackEnd::openFile(const QString& filePath)
             {
                 file.close();
                 qDebug() << "Incorrect trg file: trg code failed " << code;
-                return error(QCoreApplication::translate("main", "Incorrect file"));
+                emit error(QCoreApplication::translate("main", "Incorrect file"));
+                return;
             }
             stream >> code;
             qDebug() << "File version: " << code;
@@ -161,7 +163,8 @@ void BackEnd::openFile(const QString& filePath)
             {
                 file.close();
                 qDebug() << "Incorrect trg file: method code failed " << code;
-                return error(QCoreApplication::translate("main", "Incorrect file"));
+                emit error(QCoreApplication::translate("main", "Incorrect file"));
+                return;
             }
             //reading points and image
             QVector<Point> points;
@@ -185,7 +188,7 @@ void BackEnd::openFile(const QString& filePath)
                 return;
             }
             image_ = image;
-            fileLoaded();
+            emit fileLoaded();
             loadData();
             actualCalculationMethod_->loadPoints(points);
             file.close();
@@ -201,7 +204,7 @@ void BackEnd::openFile(const QString& filePath)
         reset();
 
         image_ = QImage(fileString);
-        fileLoaded();
+        emit fileLoaded();
         loadData();
     }
 
@@ -298,7 +301,7 @@ void BackEnd::invertImage()
     if (!image_.isNull())
     {
         image_.invertPixels();
-        imageUpdated();
+        emit imageUpdated();
     }
 }
 
@@ -352,40 +355,40 @@ bool BackEnd::isDirectoryValid(const QString &directory)
 
 void BackEnd::addPoint(const QString &pointName, bool status, const QString &description)
 {
-    pointAdded(pointName, status, description);
+    emit pointAdded(pointName, status, description);
 }
 
 void BackEnd::updatePoint(const QString& pointName, const QString& color, qreal x, qreal y, bool isTilted, bool isEntilted, bool isVisible, bool status)
 {
-    pointUpdated(pointName, color, x, y, isTilted, isEntilted, isVisible, status);
+    emit  pointUpdated(pointName, color, x, y, isTilted, isEntilted, isVisible, status);
 }
 
 void BackEnd::connectPoints(const QString& pointName1, const QString& pointName2, const QString& color)
 {
-    pointsConnected(pointName1, pointName2, color);
+    emit pointsConnected(pointName1, pointName2, color);
 }
 
 void BackEnd::addResult(const QString &resultName, const QString &resultReference, const QString& description)
 {
-    resultAdded(resultName, resultReference, description);
+    emit resultAdded(resultName, resultReference, description);
 }
 
 void BackEnd::updateResult(const QString& resultName, const QString& resultValue, const QString& resultReference)
 {
-    resultUpdated(resultName, resultValue, resultReference);
+    emit resultUpdated(resultName, resultValue, resultReference);
 }
 
 void BackEnd::sendMsg(const QString& msg)
 {
-    newMsg(msg);
+    emit newMsg(msg);
 }
 
 void BackEnd::changeUndoState(bool isEnabled)
 {
-    undoStateChanged(isEnabled);
+    emit undoStateChanged(isEnabled);
 }
 
 void BackEnd::changeRedoState(bool isEnabled)
 {
-    redoStateChanged(isEnabled);
+    emit redoStateChanged(isEnabled);
 }
