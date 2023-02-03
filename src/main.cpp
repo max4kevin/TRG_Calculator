@@ -6,7 +6,7 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QCoreApplication::setAttribute(Qt::AA_UseOpenGLES);
+//    QCoreApplication::setAttribute(Qt::AA_UseOpenGLES);
     QGuiApplication app(argc, argv);
     app.setOrganizationName("Kirill Maximov");
     app.setOrganizationDomain("none");

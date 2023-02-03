@@ -28,7 +28,7 @@ ApplicationWindow {
     property string textColor: mainWindow.darkTheme ? "#AAAAAA" : "#222222"
     property string hTextColor: mainWindow.darkTheme ? "#FFFFFF" : "#000000"
     property string inputColor: mainWindow.darkTheme ? "#888888" : "#DDDDDD"
-    property string version: "2.2.1"
+    property string version: "2.3.0"
 
     function syncBlink() {
         isBlinkAllowed = false
