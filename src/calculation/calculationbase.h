@@ -1,7 +1,6 @@
 #ifndef CALCULATIONBASE_H
 #define CALCULATIONBASE_H
 
-#include <QHash>
 #include <QVector>
 #include <QPointF>
 #include <QDebug>
@@ -66,13 +65,15 @@ class CalculationBase
 {
     public:
         //TODO: Setting point colour
-        explicit CalculationBase(IFrontendConnector& frontendConnector);
+        explicit CalculationBase(IFrontendConnector& frontendConnector, const QString &name);
         virtual ~CalculationBase();
         virtual void updateCalculation(const QString& lastPointName) = 0;
         void reset();
         void loadResultsTable();
         void loadPointsTable();
 //        void loadLastCoordinates();
+        void loadFrontendPoints();
+        void deleteFrontendPoints();
         void writeCoordinates(qreal x, qreal y);
         void writeCoordinates(const QString& pointName, qreal x, qreal y);
         void removePoint(const QString& pointName);
@@ -87,7 +88,9 @@ class CalculationBase
         static void setCalibrationLength(qreal length);
         static qreal getCalibrationLength();
 
-    protected:
+        const QString &name() const;
+
+protected:
         void checkPointsConnection(const QString& checkPoint, const QString& pName1, const QString& pName2);
         void checkCalibration(const QString& checkPoint);
         virtual void checkAngle(const QString& checkPoint, const QString& dataName, const QString& pName1, const QString& pName2, const QString& pName3);
@@ -96,6 +99,9 @@ class CalculationBase
         virtual void checkProjection(const QString& checkPoint, const QString& dataName, const QString& pName1, const QString& pName2, const QString& pName3, const QString& pName4);
         virtual void checkCross(const QString& checkPoint, const QString& pointName, const QString& pName1, const QString& pName2, const QString& pName3, const QString& pName4);
         virtual void checkPerpendicular(const QString& checkPoint, const QString& pointName, const QString& pName0, const QString& pName1, const QString& pName2);
+        void checkBisect(const QString& checkPoint, const QString& pointName, const QString& pName1, const QString& pName2, const QString& pName3);
+        void checkMiddlePoint(const QString& checkPoint, const QString& pointName, const QString& pName1, const QString& pName2);
+        void checkAddPerpendicular(const QString& checkPoint, const QString& pointName, const QString& pName1, const QString& pName2);
         void updateResult(const QString& resultName);
         void updatePoint(const QString& pointName);
         qreal getCalibrationValue();
@@ -112,6 +118,7 @@ class CalculationBase
         void recalculateIt();
 
         IFrontendConnector& frontendConnector_;
+        const QString name_;
         qreal calibrationValue_ = 1; //mm/px
         WorkPoints::Iterator workPointsIt_;
         PointsHistory undoHistory_;

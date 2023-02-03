@@ -94,7 +94,7 @@ Item {
         mouseArea.scaled(scale)
         imageTRG.grabToImage(function(result) {
             var path = backEnd.getFilePath()
-            result.saveToFile(path+backEnd.getFileName()+"_result.png")
+            result.saveToFile(path+backEnd.getFileName()+"_"+backEnd.getConfig("method")+"_result.png")
             mouseArea.scaled(imageTRG.scale)
             path = path.slice(0,path.length-1)
             message.send(qsTr("Result stored in .../")+path.split("/").pop())

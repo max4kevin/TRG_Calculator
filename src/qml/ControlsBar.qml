@@ -5,11 +5,8 @@ import QtQuick.Controls 2.12
 MenuBar {
     height: menuBarHeight
     property alias isDark: themeBtn.checked
-//    property alias isLinesEnabled: switchShowLines.checked
-//    property alias isNamesEnabled: switchShowPointsNames.checked
 
     property alias pointsSwitch: switchShowPointsNames
-//    property alias linesSwitch: switchShowLines
     property alias invertSwitch: switchInvert
     property alias panelSwitch: switchPanel
 
@@ -122,6 +119,7 @@ MenuBar {
             title: qsTr("Calculation method")
             delegate: MenuDelegate {
                 id: menuItem
+                width: 200
                 indicator: Item {
                     anchors.verticalCenter: parent.verticalCenter
                     implicitHeight: 20
@@ -142,7 +140,7 @@ MenuBar {
 
             function setMethod(method) {
                 for (var i = 0; i < count; ++i) {
-                    if (itemAt(i).text !== method) {
+                    if (itemAt(i).action.name !== method) {
                         itemAt(i).checked = false
                     }
                 }
@@ -153,21 +151,36 @@ MenuBar {
             Component.onCompleted: {
                 var method = backEnd.getConfig("method")
                 for (var i = 0; i < count; ++i) {
-                    if (itemAt(i).text === method) {
+                    if (itemAt(i).action.name === method) {
                         itemAt(i).checked = true
                         return
                     }
                 }
             }
 
+            Connections {
+                target: backEnd
+                onMethodChanged: {
+                    for (var i = 0; i < methodsBtn.count; ++i) {
+                        if (methodsBtn.itemAt(i).action.name === method) {
+                            methodsBtn.itemAt(i).checked = true
+                        }
+                        else {
+                            methodsBtn.itemAt(i).checked = false
+                        }
+                    }
+                }
+            }
+
             Action {
                 id: mapoBtn
-                text: "MAPO"
+                text: qsTr("MAPO")
                 checkable: true
-                checked: true
+                checked: false
+                property string name: "MAPO"
                 onTriggered: {
                     if (checked) {
-                         methodsBtn.setMethod(text)
+                         methodsBtn.setMethod(name)
                     }
                     else {
                         checked = true
@@ -175,7 +188,23 @@ MenuBar {
                 }
             }
 
-//            Action {
+            Action {
+                id: jraBtn
+                text: qsTr("JRA")
+                checkable: true
+                checked: false
+                property string name: "JRA"
+                onTriggered: {
+                    if (checked) {
+                         methodsBtn.setMethod(name)
+                    }
+                    else {
+                        checked = true
+                    }
+                }
+            }
+
+            //            Action {
 //                id: faceBtn
 //                text: "SOME_METHOD"
 //                checkable: true

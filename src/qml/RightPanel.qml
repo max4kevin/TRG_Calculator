@@ -7,7 +7,7 @@ Rectangle {
     color: mainWindow.backgroundColor
     clip: true
     width: /*expandedWidth*/ 0
-    property real expandedWidth: 450
+    property real expandedWidth: 480
     property real animationDuration: 100
     property real spacingValue: 10
     property real spacing: width > spacingValue ? spacingValue : 0
@@ -64,6 +64,7 @@ Rectangle {
         contentHeight: height
         currentIndex: 0
         anchors.top: separator.bottom
+        wheelEnabled: false
         onCurrentIndexChanged: swipeView.setCurrentIndex(currentIndex)
         background: Rectangle {color: mainWindow.backgroundColor}
 

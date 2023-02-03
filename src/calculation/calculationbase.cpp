@@ -4,8 +4,10 @@
 #include <QFile>
 #include <QGuiApplication>
 
-CalculationBase::CalculationBase(IFrontendConnector& frontendConnector)
-    :frontendConnector_(frontendConnector), workPointsIt_(workPoints_.begin())
+CalculationBase::CalculationBase(IFrontendConnector& frontendConnector, const QString &name)
+    : frontendConnector_(frontendConnector)
+    , name_(name)
+    , workPointsIt_(workPoints_.begin())
 {
     Point tempPoint = {QPoint(0, 0), false, false, false, true, CALIB_COLOR};
 
@@ -37,6 +39,31 @@ void CalculationBase::loadPointsTable()
         frontendConnector_.addPoint(it.point.key(), it.point.value().isReady, QCoreApplication::translate("Calculation", it.description));
     }
     recalculateIt(); //For actual msg
+}
+
+void CalculationBase::loadFrontendPoints()
+{
+    qDebug() << "Loading points";
+    for (auto &it : workPoints_)
+    {
+        updatePoint(it.point.key());
+    }
+    //Separate cycle to prevent errors because of frontend nonexisting points
+    for (auto &it : workPoints_)
+    {
+        updateCalculation(it.point.key());
+    }
+}
+
+//FIXME: Crutch
+void CalculationBase::deleteFrontendPoints()
+{
+    qDebug() << "Deleting points";
+    for (auto &key : points_.keys())
+    {
+        frontendConnector_.updatePoint(key, "", 0, 0, false, false, false, false);
+        qDebug() << "Deleting point" << key;
+    }
 }
 
 void CalculationBase::reset()
@@ -162,7 +189,7 @@ void CalculationBase::clearAll()
 //TODO: Error messages
 void CalculationBase::saveData(const QString& path, const QString& name)
 {
-    QFile file(path+name+"_data.csv");
+    QFile file(path+name+"_"+name_+"_data.csv");
     if (!file.open(QIODevice::WriteOnly | QFile::Text))
     {
         qDebug() << "File open error";
@@ -176,9 +203,9 @@ void CalculationBase::saveData(const QString& path, const QString& name)
     }
     QTextStream out(&file);
     out.setCodec("Windows-1251");
-    for (ResultsTable::Iterator it = resultsTable_.begin(); it != resultsTable_.end(); ++it)
+    for (auto &result: results_)
     {
-        out << it.key() << "," << it->value << "," << it->referenceValue << endl;
+        out << result.key() << "," << result->value << "," << result->referenceValue << Qt::endl;
     }
     out.flush();
     qDebug() << "File saved";
@@ -317,12 +344,66 @@ void CalculationBase::checkCross(const QString& checkPoint, const QString &point
 
 void CalculationBase::checkPerpendicular(const QString& checkPoint, const QString &pointName, const QString &pName0, const QString &pName1, const QString &pName2)
 {
-    if (checkPoint == pName1 || checkPoint == pName2)
+    if (checkPoint == pName0 || checkPoint == pName1 || checkPoint == pName2)
     {
         if ( points_[pName0].isReady && points_[pName1].isReady && points_[pName2].isReady )
         {
             geometry::Line line1(points_[pName1].coordinates, points_[pName2].coordinates);
             points_[pointName].coordinates = geometry::getPerpendicularBase(points_[pName0].coordinates, line1);
+            points_[pointName].isReady = true;
+        }
+        else
+        {
+            points_[pointName].isReady = false;
+        }
+        updatePoint(pointName);
+        updateCalculation(pointName);
+    }
+}
+
+void CalculationBase::checkBisect(const QString& checkPoint, const QString &pointName, const QString &pName1, const QString &pName2, const QString &pName3)
+{
+    if (checkPoint == pName1 || checkPoint == pName2 || checkPoint == pName3)
+    {
+        if ( points_[pName1].isReady && points_[pName2].isReady && points_[pName3].isReady )
+        {
+            points_[pointName].coordinates = geometry::getBisectorBase(points_[pName1].coordinates, points_[pName2].coordinates, points_[pName3].coordinates);
+            points_[pointName].isReady = true;
+        }
+        else
+        {
+            points_[pointName].isReady = false;
+        }
+        updatePoint(pointName);
+        updateCalculation(pointName);
+    }
+}
+
+void CalculationBase::checkMiddlePoint(const QString& checkPoint, const QString &pointName, const QString &pName1, const QString &pName2)
+{
+    if (checkPoint == pName1 || checkPoint == pName2)
+    {
+        if ( points_[pName1].isReady && points_[pName2].isReady)
+        {
+            points_[pointName].coordinates = geometry::getMiddlePoint(points_[pName1].coordinates, points_[pName2].coordinates);
+            points_[pointName].isReady = true;
+        }
+        else
+        {
+            points_[pointName].isReady = false;
+        }
+        updatePoint(pointName);
+        updateCalculation(pointName);
+    }
+}
+
+void CalculationBase::checkAddPerpendicular(const QString& checkPoint, const QString &pointName, const QString &pName1, const QString &pName2)
+{
+    if (checkPoint == pName1 || checkPoint == pName2)
+    {
+        if ( points_[pName1].isReady && points_[pName2].isReady)
+        {
+            points_[pointName].coordinates = geometry::getPerpendicularPoint(points_[pName1].coordinates, points_[pName2].coordinates);
             points_[pointName].isReady = true;
         }
         else
@@ -418,4 +499,9 @@ void CalculationBase::recalculateIt()
     {
         frontendConnector_.sendMsg(QCoreApplication::translate("main", "Now drawing point: ") + workPointsIt_->point.key());
     }
+}
+
+const QString &CalculationBase::name() const
+{
+    return name_;
 }

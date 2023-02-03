@@ -18,6 +18,7 @@ SOURCES += \
     backend.cpp \
     calculation/calculationbase.cpp \
     calculation/calculationmapo.cpp \
+    calculation/calculationjra.cpp \
     geometry.cpp
 
 RESOURCES += resources.qrc
@@ -39,6 +40,7 @@ HEADERS += \
     backend.h \
     calculation/calculationbase.h \
     calculation/calculationmapo.h \
+    calculation/calculationjra.h \
     geometry.h \
     resources.rc
 

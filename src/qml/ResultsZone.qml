@@ -17,33 +17,52 @@ Item {
             width: parent.width
             anchors.verticalCenter: parent.verticalCenter
             spacing: 0
+            height: parent.height
 
             Text {
-                width: parent.width/3
+                width: parent.width*3/5
+                height: parent.height
                 horizontalAlignment:  Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 color: mainWindow.textColor
                 clip: true
                 font.bold: true
                 text: qsTr("Description")
-                wrapMode: Text.WordWrap
+//                wrapMode: Text.WordWrap
+            }
+
+            Rectangle {
+                width: 1
+                height: parent.height
+                color: mainWindow.controlColor
             }
 
             Text {
-                width: parent.width/3
+                width: parent.width/5
+                height: parent.height
                 horizontalAlignment:  Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 color: mainWindow.textColor
                 clip: true
                 font.bold: true
                 text: qsTr("Value")
             }
 
+            Rectangle {
+                width: 1
+                height: parent.height
+                color: mainWindow.controlColor
+            }
+
             Text {
-                width: parent.width/3
+                width: parent.width/5
+                height: parent.height
                 horizontalAlignment:  Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 color: mainWindow.textColor
                 clip: true
                 font.bold: true
-                text: qsTr("Reference value")
+                text: qsTr("Reference")
             }
         }
     }
@@ -53,9 +72,9 @@ Item {
         width: parent.width
 //        anchors.topMargin: rightPanel.spacing
         anchors.top: resultTitle.bottom
-        anchors.bottom: parent.bottom
+        anchors.bottom: storeResultsBtn.top
         orientation: Qt.Vertical
-        spacing: rightPanel.spacingValue
+        spacing: 0
         clip: true
         boundsBehavior: Flickable.StopAtBounds
 
@@ -63,31 +82,50 @@ Item {
             id: resultLine
             anchors.left: parent.left
             anchors.right: parent.right
+            height: 30
             spacing: 0
             property string name: name
 
             Text {
                 id: descriptionText
-                width: parent.width/3
+                width: parent.width*3/5
+                height: parent.height
+                verticalAlignment: Text.AlignVCenter
                 leftPadding: rightPanel.spacing
                 clip: true
                 color: mainWindow.textColor
                 text: description
             }
 
+            Rectangle {
+                width: 1
+                height: parent.height
+                color: mainWindow.controlColor
+            }
+
             Text {
                 id: valueText
-                width: parent.width/3
+                width: parent.width/5
+                height: parent.height
                 horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 clip: true
                 color: mainWindow.textColor
                 text: value
             }
 
+            Rectangle {
+                width: 1
+                height: parent.height
+                color: mainWindow.controlColor
+            }
+
             Text {
                 id: referenceText
-                width: parent.width/3
+                width: parent.width/5
+                height: parent.height
                 horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
                 clip: true
                 color: mainWindow.textColor
                 text: reference

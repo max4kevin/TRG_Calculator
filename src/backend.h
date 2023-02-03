@@ -8,6 +8,7 @@
 #include <QTranslator>
 #include <QSettings>
 #include "calculation/calculationmapo.h"
+#include "calculation/calculationjra.h"
 
 //TODO: Saving all methods in one file if there some points?
 
@@ -108,6 +109,7 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
         void resultAdded(const QString& resultName, const QString& resultReference, const QString& description);
         void resultUpdated(const QString& resultName, const QString& resultValue, const QString& resultReference);
         void newMsg(const QString& msg);
+        void methodChanged(const QString& method);
         void fileLoaded();
         void imageUpdated();
         void clearTables();
@@ -121,6 +123,7 @@ class BackEnd : public QObject, public QQuickImageProvider, public IFrontendConn
         QQmlApplicationEngine* const engine_;
         QTranslator qtTranslator_;
         CalculationMAPO  calculationMethodMAPO_;
+        CalculationJRA  calculationMethodJRA_;
         CalculationBase* actualCalculationMethod_;
         QImage image_;
         QString filePath_;

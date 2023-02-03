@@ -5,7 +5,7 @@
 //TODO: Replace call of "updateCalculation" method with signal-slot connections
 
 CalculationMAPO::CalculationMAPO(IFrontendConnector& frontendConnector)
-: CalculationBase (frontendConnector)
+: CalculationBase (frontendConnector, "MAPO")
 {
     Point tempPoint = {QPoint(0, 0), false, true, true, true, REGULAR_COLOR};
 

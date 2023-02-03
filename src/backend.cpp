@@ -6,12 +6,17 @@
 #define TRG_CODE 0xDEAF
 #define VERSION_CODE 0x0001
 #define MAPO_CODE 0xBAF0
+#define JRA_CODE 0xD3AA
 
 //TODO: Resending text fields to frontend after language switch
 //TODO: logging!
 
 BackEnd::BackEnd(QQmlApplicationEngine &engine)
-    : QQuickImageProvider(QQuickImageProvider::Image), engine_(&engine), calculationMethodMAPO_(*this), settings_(QCoreApplication::applicationDirPath()+"/config.ini", QSettings::IniFormat)
+    : QQuickImageProvider(QQuickImageProvider::Image)
+    , engine_(&engine)
+    , calculationMethodMAPO_(*this)
+    , calculationMethodJRA_(*this)
+    , settings_(QCoreApplication::applicationDirPath()+"/config.ini", QSettings::IniFormat)
 {
     qDebug() << "Config filepath:" << settings_.fileName();
     settings_.beginGroup("Settings");
@@ -38,14 +43,14 @@ BackEnd::BackEnd(QQmlApplicationEngine &engine)
     }
 
     QString method = settings_.value("method").toString();
-//    if (method == "ANOTHER")
-//    {
-//        actualCalculationMethod_ = &calculationMethodANOTHER_;
-//    }
-//    else
-//    {
+    if (method == calculationMethodJRA_.name())
+    {
+        actualCalculationMethod_ = &calculationMethodJRA_;
+    }
+    else
+    {
         actualCalculationMethod_ = &calculationMethodMAPO_;
-//    }
+    }
     CalculationBase::setCalibrationLength(settings_.value("calibLength").toDouble());
 
     qtTranslator_.load(QLatin1String("QtLanguage_")+settings_.value("lang").toString(), QLatin1String(":/"));
@@ -75,6 +80,7 @@ void BackEnd::loadData()
 void BackEnd::reset()
 {
     calculationMethodMAPO_.reset();
+    calculationMethodJRA_.reset();
     emit clearTables();
     //TODO: reseting other methods
 }
@@ -155,9 +161,11 @@ void BackEnd::openFile(const QString& filePath)
             qDebug() << "File version: " << code;
 
             stream >> code;
-            if (code == MAPO_CODE)
-            {
-                //switch to MAPO method
+            if (code == MAPO_CODE) {
+                actualCalculationMethod_ = &calculationMethodMAPO_;
+            }
+            else if (code == JRA_CODE) {
+                actualCalculationMethod_ = &calculationMethodJRA_;
             } //TODO: else if - another methods
             else
             {
@@ -187,6 +195,9 @@ void BackEnd::openFile(const QString& filePath)
                 file.close();
                 return;
             }
+
+            emit methodChanged(actualCalculationMethod_->name());
+
             image_ = image;
             emit fileLoaded();
             loadData();
@@ -234,6 +245,9 @@ void BackEnd::saveFile(const QString& filePath)
     if (actualCalculationMethod_ == &calculationMethodMAPO_)
     {
          code = MAPO_CODE;
+    }
+    else if (actualCalculationMethod_ == &calculationMethodJRA_) {
+        code = JRA_CODE;
     }
     else
     {
@@ -321,16 +335,22 @@ void BackEnd::setLanguage(const QString &lang)
 
 void BackEnd::setMethod(const QString &method)
 {
-    if (method == "FACE")
+    actualCalculationMethod_->deleteFrontendPoints();
+    if (method == calculationMethodJRA_.name())
     {
-//        actualCalculationMethod_ = &calculationMethodFACE_;
+        actualCalculationMethod_ = &calculationMethodJRA_;
     }
     else
     {
         actualCalculationMethod_ = &calculationMethodMAPO_;
     }
-    loadData();
     setConfig("method", method);
+    if (!image_.isNull())
+    {
+        //TODO: Copy calibration points to another method?
+        loadData();
+        actualCalculationMethod_->loadFrontendPoints();
+    }
 }
 
 void BackEnd::setConfig(const QString &key, const QString &value)
